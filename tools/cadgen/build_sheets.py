@@ -231,12 +231,15 @@ def main(argv=None) -> int:
     ap.add_argument("--register", required=True)
     ap.add_argument("--standards", required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--include-notes-details", action="store_true", help="Also generate sheets 003-007 from the Eurocode General Notes & Standard Details library")
+    ap.add_argument("--overrides", help="Optional notes_overrides.yaml for project-specific General Notes tables/clauses")
     ap.add_argument("--no-pdf", action="store_true")
     ns = ap.parse_args(argv)
     db = yaml.safe_load(open(ns.design_basis, encoding="utf-8"))
     with open(ns.register, newline="", encoding="utf-8-sig") as fh:
         rows = list(csv.DictReader(fh))
-    layers = c.load_layers(pathlib.Path(ns.standards))
+    std_dir = pathlib.Path(ns.standards)
+    layers = c.load_layers(std_dir)
     out = pathlib.Path(ns.out)
     out.mkdir(parents=True, exist_ok=True)
     by_no = {r["sheet_number"].rsplit("-", 1)[1]: r for r in rows}
@@ -244,6 +247,10 @@ def main(argv=None) -> int:
     try:
         made.append(build_cover(db, by_no["001"], layers, out))
         made.append(build_list(db, by_no["002"], rows, layers, out))
+        if ns.include_notes_details:
+            import build_notes_and_details as bnd
+            ov = yaml.safe_load(open(ns.overrides, encoding="utf-8")) if ns.overrides and pathlib.Path(ns.overrides).exists() else None
+            made.extend(bnd.build_all_notes_and_details(db, rows, layers, out, std_dir, ov))
     except (MissingInput, KeyError) as e:
         print(f"BUILD STOPPED: {e}", file=sys.stderr)
         return 1
