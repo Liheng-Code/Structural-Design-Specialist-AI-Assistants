@@ -1,0 +1,124 @@
+# EN 1992-1-1:2004 - CEN recommended values. SKELETON drafted by Claude on 16-OCT-2026.
+# All values are null and UNVERIFIED: an engineer enters and verifies each value (and checks each source_ref)
+# before any check that uses it can report anything other than NOT EVALUATED.
+# Parameter list covers the M2 scope (Development Plan v2); extend as modules are added.
+file_version: 1
+standard: EN 1992-1-1
+edition: "2004"
+national_annex: CEN_RECOMMENDED
+country: null
+na_reference: null
+effective_date: null
+parameters:
+  gamma_c.persistent:
+    description: Partial factor for concrete, persistent and transient design situations
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: Table 2.1N
+    status: UNVERIFIED
+  gamma_s.persistent:
+    description: Partial factor for reinforcing steel, persistent and transient design situations
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: Table 2.1N
+    status: UNVERIFIED
+  gamma_s.prestressing.persistent:
+    description: Partial factor for prestressing steel, persistent and transient design situations
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: Table 2.1N
+    status: UNVERIFIED
+  gamma_p.fav:
+    description: Partial factor for prestress, favourable effect (ULS)
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: 2.4.2.2(1)
+    status: UNVERIFIED
+  gamma_p.unfav:
+    description: Partial factor for prestress, unfavourable effect (ULS)
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: 2.4.2.2(2)
+    status: UNVERIFIED
+  alpha_cc:
+    description: Coefficient for long-term effects on compressive strength
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: 3.1.6(1)P
+    status: UNVERIFIED
+  alpha_ct:
+    description: Coefficient for long-term effects on tensile strength
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: 3.1.6(2)P
+    status: UNVERIFIED
+  prestress.k1_max_stress_fpk:
+    description: Maximum stress applied to tendon during stressing, factor on fpk
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: 5.10.2.1(1)P
+    status: UNVERIFIED
+  prestress.k2_max_stress_fp01k:
+    description: Maximum stress applied to tendon during stressing, factor on fp0.1k
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: 5.10.2.1(1)P
+    status: UNVERIFIED
+  prestress.k7_initial_stress_fpk:
+    description: Stress in tendon immediately after tensioning or transfer, factor on fpk
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: 5.10.3(2)
+    status: UNVERIFIED
+  prestress.k8_initial_stress_fp01k:
+    description: Stress in tendon immediately after tensioning or transfer, factor on fp0.1k
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: 5.10.3(2)
+    status: UNVERIFIED
+  sls.k1_compression_characteristic:
+    description: Concrete compressive stress limit under characteristic combination, factor on fck
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: 7.2(2)
+    status: UNVERIFIED
+  sls.k2_compression_quasi_permanent:
+    description: Concrete compressive stress limit under quasi-permanent loads for linear creep, factor on fck
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: 7.2(3)
+    status: UNVERIFIED
+  sls.k5_prestress_steel_stress:
+    description: Mean stress limit in prestressing steel under characteristic combination, factor on fpk
+    kind: dimensionless
+    unit: dimensionless
+    value: null
+    ndp: true
+    source_ref: 7.2(5)
+    status: UNVERIFIED

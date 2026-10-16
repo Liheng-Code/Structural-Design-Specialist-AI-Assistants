@@ -15,13 +15,17 @@ tools/xlsxgen/             build_anchorage_workbook.py, verify_workbook.py (XLSX
 tools/qa/                  package_qa.py (whole-package QA -> issue-register.csv + qa_report.md)
 tools/etabs/               etabs_import.py (table export XLSX/CSV), etabs_db_import.py (SQLite .db model export) (ETABS/SAFE table export -> normalised CSV + checks + provenance)
 calc_lib/                  reusable calculation logic + run scripts (separate from formatting)
+calc_lib/core/             PT designer foundations (M0): units (pint), check status, code registry loader, shared schemas (pydantic)
+config/code_registry/      versioned design-code parameters (ADR-004); skeleton only, all values empty and UNVERIFIED
+docs/                      Development Plan v2, Architecture v2, decision records (docs/adr/)
+webapp/                    local web app mockup (FastAPI + Next.js): projects, drawing import, AI assistant; see webapp/README.md
 skills-to-install/         copy into .claude/skills/ (see INSTALL.txt)
 tests/                     unittest suite
 ```
 ## Setup
 On the user's PC: double-click `setup_on_this_pc.bat` (installs the 5 skills into `.claude\skills` and writes `probe_result.json`).
 
-Python 3.9+, `pip install pyyaml python-docx openpyxl ezdxf matplotlib pillow numpy`; LibreOffice (`soffice`) for PDF/XLSX recalculation. Run `python tools/cadgen/probe_cad.py` on the PC that has AutoCAD/ETABS to record what is installed. Run tests: `python -m unittest discover -s tests -v` (147 tests; 13 need LibreOffice, 24 need the 05_Drafting-Styles folder).
+Python 3.9+, `pip install pyyaml python-docx openpyxl ezdxf matplotlib pillow numpy pint pydantic` (plus `mypy ruff types-PyYAML` for checks: `python -m mypy`, `python -m ruff check calc_lib/core tests/test_core.py`); LibreOffice (`soffice`) for PDF/XLSX recalculation. Run `python tools/cadgen/probe_cad.py` on the PC that has AutoCAD/ETABS to record what is installed. Run tests: `python -m unittest discover -s tests -v` (202 tests; 13 need LibreOffice, 24 need the 05_Drafting-Styles folder).
 
 ## Use
 1. New project: copy `design-basis/PROJECT_TEMPLATE.yaml`; fill known values only; validate it.
@@ -39,6 +43,7 @@ Python 3.9+, `pip install pyyaml python-docx openpyxl ezdxf matplotlib pillow nu
 | 6 DXF/DWG/PDF | DXF + preview PDF built for cover (001) and drawing list (002), with validator and 24 tests. NO DWG (no AutoCAD/ODA here). PDF is a script-rendered preview, not an AutoCAD plot with the company CTB. Sheets 003-204 not generated |
 | 7 ETABS/SAFE import | importer built (XLSX/CSV table exports, unit normalisation, completeness/mapping/superposition/equilibrium checks, SHA-256 provenance) and tested with 20 tests on a SYNTHETIC fixture. The export layout is ASSUMED and NOT verified against a real ETABS/SAFE export; no ETABS here. Not run on any real model |
 | 8 Cross-document QA automation | `tools/qa/package_qa.py` built: 13 check groups across design basis, register, DOCX/XLSX/DXF/PDF, results tie-out, ETABS import; 35 acceptance tests incl. deliberately incomplete, inconsistent and unsupported-claim packages. Consistency gate only; engineering correctness not judged; DWG, AutoCAD plots, and any sheet without a file are NOT checked |
+| PT designer M0 (Dev Plan v2) | Built 16-OCT-2026, awaiting engineer review gate: `calc_lib/core` units/status/registry/schemas, registry skeleton, 34 tests, mypy strict + ruff clean. Internal base units provisional (ADR-007 open). No engineering values entered |
 
 ## Known limitations
 - PRJ-2026-003 design basis is transcribed from drawings; unverified, editions/generations blank, 8 open items.

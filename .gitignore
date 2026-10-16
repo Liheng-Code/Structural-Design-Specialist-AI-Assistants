@@ -14,3 +14,10 @@ desktop.ini
 
 # Local tooling output
 probe_result.json
+
+# Web app (local data holds the API key and uploaded files - never commit)
+webapp/data/
+webapp/web/node_modules/
+webapp/web/.next/
+webapp/web/next-env.d.ts
+webapp/web/tsconfig.tsbuildinfo

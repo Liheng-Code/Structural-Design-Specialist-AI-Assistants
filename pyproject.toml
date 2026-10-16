@@ -1,0 +1,29 @@
+# Tool configuration only (the repo is not packaged). See docs/adr/ADR-011-quality-gates.md.
+# Type and lint checks cover the engineering core; existing tools are brought in as they are touched.
+#   python -m mypy
+#   python -m ruff check calc_lib/core tests/test_core.py
+
+[tool.mypy]
+files = ["calc_lib/core"]
+python_version = "3.10"          # oldest version mypy can target; the code itself stays 3.9-compatible
+explicit_package_bases = true
+mypy_path = "."
+strict = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["pint", "pint.*"]
+ignore_missing_imports = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "RUF"]
+ignore = ["UP007", "UP045", "UP006", "UP035", "RUF001", "RUF002", "RUF003"]
