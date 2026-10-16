@@ -1,0 +1,27 @@
+# Specification content. Clauses marked status: seed were read from the issued drawings (SD-004/005) and must be verified.
+# Clauses citing [DB: id] are taken from the design basis. Nothing here is a company-approved specification text.
+doc:
+  type: specification
+  number: WH-STR-SP-001
+  title: Structural Specification (seed draft)
+  status_note: "Seed draft generated from the issued WH-STR-SD R00 notes and the design basis. Specification standard 07 is not yet authored; format is PROPOSED."
+sections:
+  - title: General requirements
+    blocks:
+      - {type: clause, text: "The structure shall be designed to the Eurocodes listed below using CEN recommended parameter values; local authority requirements shall apply where more onerous.", source: "DB: national_annex; SD-003 B"}
+      - {type: db_standards}
+      - {type: clause, text: "Concrete work shall be executed to EN 13670.", source: "SD-004 notes", status: seed}
+      - {type: clause, text: "Steelwork fabrication and erection shall be to EN 1090-2, execution class EXC2.", source: "SD-005 C", status: seed}
+  - title: Materials
+    blocks:
+      - {type: db_materials}
+      - {type: clause, text: "Reinforcement shall be deformed bars with characteristic yield strength fyk = 390 MPa.", source: "DB: M-REBAR"}
+      - {type: clause, text: "Structural steel plates and welded sections shall be S355JR to EN 10025-2.", source: "DB: M-STEEL-MAIN"}
+  - title: Workmanship
+    blocks:
+      - {type: clause, text: "Concrete shall be compacted with poker vibrators and wet cured for a minimum of 7 days (EN 13670 curing class 2).", source: "SD-004 E", status: seed}
+      - {type: clause, text: "No reinforcing bar shall be rebent on site except as permitted by EN 13670.", source: "SD-004 D", status: seed}
+      - {type: clause, text: "No steel erection shall start until the stump columns have achieved 70 % of fck and the anchor bolts have been surveyed.", source: "SD-004 E", status: seed}
+  - title: Quality control
+    blocks:
+      - {type: clause, text: "Concrete compression testing shall be one set of three cubes per pour or per 50 m3, tested at 7 and 28 days to EN 12390.", source: "SD-004 E", status: seed}

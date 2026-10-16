@@ -1,0 +1,3 @@
+Layer Name,Colour,Linetype,Lineweight,Description,Plot
+S-PT-TENDON,3,Continuous,0.25,Post-tensioning tendon lines in plan,Yes
+S-CONC-DROP,4,Continuous,0.25,Drop panels and thickened slab bands (outline),Yes

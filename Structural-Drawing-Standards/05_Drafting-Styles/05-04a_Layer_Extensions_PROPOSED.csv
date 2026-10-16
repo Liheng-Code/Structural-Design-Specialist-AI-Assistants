@@ -1,0 +1,6 @@
+Layer Name,Colour,Linetype,Lineweight,Description,Plot
+S-TBLK-BORDER,7,Continuous,0.50,Sheet border,Yes
+S-TBLK-LINE,7,Continuous,0.25,Title block lines,Yes
+S-TBLK-TEXT,7,Continuous,0.18,Title block text and attributes,Yes
+S-ANNO-TABLE,7,Continuous,0.18,Table lines,Yes
+S-VIEW-ISO,7,Continuous,0.25,Isometric / schematic views,Yes

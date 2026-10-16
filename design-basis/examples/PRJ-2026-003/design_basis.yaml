@@ -1,0 +1,98 @@
+# Design basis - PRJ-2026-003 Warehouse (Steam Boiler)
+# STATUS: DRAFT - transcribed by Claude from drawing sheet WH-STR-SD-003/004/005 (R00, 13-OCT-2026).
+# Every value below is what the DRAWING states. None has been independently verified.
+# Items marked 'assumed' / 'to_confirm' reproduce the drawing's own "ASSUMPTIONS TO BE CONFIRMED" (SD-003 section F).
+project:
+  code: PJR-2026-003            # user confirmed PJR prefix 14-OCT-2026; issued R00 PDF shows 'PRJ-2026-003' - correct at next revision
+  name: WAREHOUSE (STEAM BOILER)
+  description: 15.0 m x 25.0 m steel portal frame warehouse on RC stump columns and precast pile caps
+  stage: FOR APPROVAL
+  client: Mr. XXX                 # client name is a placeholder on the drawings
+  drawing_prefix: WH-STR
+  revision: R00
+  issue_date: 13-OCT-2026
+  structure_types: [steel, rc, foundations]
+approval:
+  status: DRAFT
+  prepared_by: P.LIHENG
+  checked_by: null
+  approved_by: null
+  approved_date: null
+mixed_generation_justification: "User decision (P.Liheng, 14-OCT-2026): 1st and 2nd generation Eurocode parts may be combined on this project. The generation of each part must still be recorded per standard entry; compatibility of each combination is for the engineer to confirm."
+geometry:                          # SD-003 section A notes 3-4 (read from the issued drawing); used for the cover-page isometric
+  source: "WH-STR-SD-003 section A, notes 3 and 4"
+  span_m: 15.0
+  length_m: 25.0
+  frames: 5
+  frame_spacing_m: 6.25
+  eave_level_m: 12.000
+  ridge_level_m: 12.656
+  roof_slope_deg: 5
+  ffl_m: 0.000
+standards:                         # codes per SD-003 section B; editions NOT stated on the drawing
+  - {id: EN 1990,       generation: null, edition: null, used_for: Basis of structural design}
+  - {id: EN 1991-1-1,   generation: null, edition: null, used_for: "Self-weight, imposed loads"}
+  - {id: EN 1991-1-3,   generation: null, edition: null, used_for: Snow}
+  - {id: EN 1991-1-4,   generation: null, edition: null, used_for: Wind}
+  - {id: EN 1992-1-1,   generation: null, edition: null, used_for: Concrete structures (RC)}
+  - {id: EN 1993-1-1,   generation: null, edition: null, used_for: Steel - general rules}
+  - {id: EN 1993-1-3,   generation: null, edition: null, used_for: Cold-formed members (purlins/girts)}
+  - {id: EN 1993-1-5,   generation: null, edition: null, used_for: Plated structural elements}
+  - {id: EN 1993-1-8,   generation: null, edition: null, used_for: Joints}
+  - {id: EN 1997-1,     generation: null, edition: null, used_for: Geotechnical design}
+national_annex:
+  mode: CEN_RECOMMENDED
+  country: Cambodia
+  references: []
+  basis_note: "Per SD-003: CEN recommended values used (no National Annex for Cambodia); local authority requirements apply where more onerous. Confirmed by user (P.Liheng) 14-OCT-2026."
+regulatory:
+  - Local authority requirements where more onerous than CEN recommended values (SD-003 section B)
+design_assumptions:
+  design_working_life_years: 50          # SD-003 section C: 50 years (cat. 4) per EN 1990 T2.1
+  consequence_class: CC2                  # KFI = 1.0
+  units: {length: m, section: mm, force: kN, stress: MPa, pressure: kN/m2}
+materials:                                # SD-004 / SD-005 tables; source = drawing sheet
+  - {id: M-CONC-STUMP, element: Stump columns / stiffener columns, spec: C30/37 XC1/XC4, status: confirmed, source: SD-004 A}
+  - {id: M-CONC-PILE,  element: Pile caps / tie beams / ground beams, spec: C30/37 XC2, status: confirmed, source: SD-004 A}
+  - {id: M-REBAR,      element: Reinforcement, spec: "fyk = 390 MPa deformed bars, grade 390", status: confirmed, source: SD-004 A}
+  - {id: M-STEEL-MAIN, element: Plates / welded sections / hot-rolled, spec: S355JR (EN 10025-2), status: confirmed, source: SD-005 A}
+  - {id: M-BOLTS,      element: Structural bolts, spec: Class 8.8 / 10.9 (EN 14399-3 HRPV preloaded where noted), status: confirmed, source: SD-005 A}
+loads:                                    # SD-003 section C
+  - {id: L-WIND-VB,   description: Basic wind speed vb, value: 33.0, unit: m/s, status: confirmed, source: GIVEN (SD-003 C)}
+  - {id: L-TERRAIN,   description: Terrain category, value: II (z0 = 0.05 m), status: assumed, source: ASSUMED (SD-003 C)}
+  - {id: L-ROOF-IMP,  description: "Roof imposed (cat. H, slope < 15 deg)", value: 0.40, unit: kN/m2, status: confirmed, source: EN 1991-1-1 6.3.4}
+  - {id: L-ROOF-DL,   description: Roof dead load (panel + purlin + brace + MEP), value: 0.50, unit: kN/m2, status: confirmed, source: EN 1991-1-1}
+  - {id: L-SEISMIC,   description: Seismic, value: negligible (Phnom Penh), status: assumed, source: LOW SEISMICITY (SD-003 C)}
+  - {id: L-BOILER,    description: Thermal / boiler loads, value: not included, status: to_confirm, source: TO BE ADVISED (SD-003 C)}
+combinations:
+  - {id: C-ULS, description: "ULS/STR EQ 6.10: 1.35 G + 1.5 Q + 1.5 W; 1.0 G + 1.5 W (uplift)", status: confirmed, source: EN 1990}
+  - {id: C-SLS, description: SLS characteristic G + Q; G + W,           status: confirmed, source: EN 1990}
+analysis_provenance:
+  method: hand/spreadsheet design summary as reported on SD-003 section E (PF1 results)
+  software: null                         # no ETABS/SAFE model recorded - add if one exists
+  model_file: null
+open_items:                               # SD-003 section F "ASSUMPTIONS TO BE CONFIRMED"
+  - id: F1
+    status: open
+    description: "Foundation - precast square driven piles 300x300, L=7.0 m; soil investigation and pile load tests required"
+  - id: F2
+    status: open
+    description: "Boiler / piping / crane / hoist and any platform loads not included"
+  - id: F3
+    status: open
+    description: "Openings (doors, louvres, flue) not shown"
+  - id: F4
+    status: open
+    description: "Terrain category II and no shielding, site altitude < 100 m"
+  - id: F5
+    status: open
+    description: "Longitudinal (grid A/B) wind sway by braced bays - confirm"
+  - id: F6
+    status: open
+    description: "Purlins/girts cold-formed - supplier verification for loads in SD-108"
+  - id: F7
+    status: open
+    description: "Client name is a placeholder"
+  - id: F8
+    status: open
+    description: "Eave sway limit h/100 = 120 mm - confirm with cladding supplier"

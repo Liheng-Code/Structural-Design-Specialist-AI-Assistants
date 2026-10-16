@@ -1,0 +1,11 @@
+Layer Name,Colour,Linetype,Lineweight,Description,Plot
+S-ANNO-TEXT,7,Continuous,0.18,General notes & text,Yes
+S-ANNO-DIMS,7,Continuous,0.18,Dimensions,Yes
+S-ANNO-LEADER,7,Continuous,0.18,Leaders,Yes
+S-GRID,1,Centre,0.25,Grid lines,Yes
+S-STEEL-OUTLINE,7,Continuous,0.50,Structural steel outlines,Yes
+S-CONC-OUTLINE,7,Continuous,0.50,Concrete outlines,Yes
+S-HATCH-CONC,8,Continuous,0.18,Concrete hatch,Yes
+S-HATCH-STEEL,7,Continuous,0.18,Steel hatch,Yes
+S-SECT-CUT,1,Phantom,0.35,Section cutting plane,Yes
+Defpoints,7,Continuous,Default,Non-plotting,No

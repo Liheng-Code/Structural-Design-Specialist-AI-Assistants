@@ -1,0 +1,471 @@
+[
+  {
+    "sheet": "WH-STR-SD-001",
+    "file": "WH-STR-SD-001_R00.dxf",
+    "entities_in": 82,
+    "entities_kept": 48,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "TITLE->S-ANNO-TEXT": 4,
+      "TITLE->S-ANNO-TABLE": 2,
+      "THIN->S-DETAIL-THIN": 9,
+      "STEEL->S-STEEL-OUTLINE": 27,
+      "RC->S-CONC-OUTLINE": 6
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 3,
+    "project_code_text_corrected_PRJ_to_PJR": 1,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "AS-SHOWN",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-002",
+    "file": "WH-STR-SD-002_R00.dxf",
+    "entities_in": 235,
+    "entities_kept": 201,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "TITLE->S-ANNO-TEXT": 101,
+      "TITLE->S-ANNO-TABLE": 100
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 101,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "AS-SHOWN",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-003",
+    "file": "WH-STR-SD-003_R00.dxf",
+    "entities_in": 330,
+    "entities_kept": 296,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "TEXT->S-ANNO-TEXT": 97,
+      "TITLE->S-ANNO-TABLE": 99,
+      "TITLE->S-ANNO-TEXT": 100
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 106,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "AS-SHOWN",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003",
+      "DRAWING_NAME": "GENERAL NOTE PART-01 (GENERAL / DESIGN BASIS & LOADING)"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-004",
+    "file": "WH-STR-SD-004_R00.dxf",
+    "entities_in": 303,
+    "entities_kept": 269,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "TEXT->S-ANNO-TEXT": 88,
+      "TITLE->S-ANNO-TABLE": 88,
+      "TITLE->S-ANNO-TEXT": 93
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 100,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 5,
+    "scale_read": "AS-SHOWN",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-005",
+    "file": "WH-STR-SD-005_R00.dxf",
+    "entities_in": 227,
+    "entities_kept": 193,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "TEXT->S-ANNO-TEXT": 71,
+      "TITLE->S-ANNO-TABLE": 58,
+      "TITLE->S-ANNO-TEXT": 64
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 70,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 9,
+    "scale_read": "AS-SHOWN",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-006",
+    "file": "WH-STR-SD-006_R00.dxf",
+    "entities_in": 144,
+    "entities_kept": 110,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "TEXT->S-ANNO-TEXT": 50,
+      "REBAR->S-REBAR": 12,
+      "TITLE->S-ANNO-TABLE": 20,
+      "TITLE->S-ANNO-TEXT": 20,
+      "DIM->S-ANNO-DIMS": 6,
+      "RC->S-CONC-OUTLINE": 2
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 6,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "AS-SHOWN",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-007",
+    "file": "WH-STR-SD-007_R00.dxf",
+    "entities_in": 173,
+    "entities_kept": 139,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "TEXT->S-ANNO-TEXT": 35,
+      "TITLE->S-ANNO-TABLE": 48,
+      "TITLE->S-ANNO-TEXT": 48,
+      "STEEL->S-STEEL-OUTLINE": 8
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 5,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "AS-SHOWN",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-101",
+    "file": "WH-STR-SD-101_R00.dxf",
+    "entities_in": 415,
+    "entities_kept": 381,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "GRID->S-GRID": 40,
+      "DIM->S-ANNO-DIMS": 72,
+      "RC->S-CONC-OUTLINE": 140,
+      "TEXT->S-ANNO-TEXT": 64,
+      "THIN->S-DETAIL-THIN": 1,
+      "TITLE->S-ANNO-TABLE": 32,
+      "TITLE->S-ANNO-TEXT": 32
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 77,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 1,
+    "text_overlaps_after": 1,
+    "scale_read": "1:100",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-102",
+    "file": "WH-STR-SD-102_R00.dxf",
+    "entities_in": 295,
+    "entities_kept": 261,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "GRID->S-GRID": 40,
+      "DIM->S-ANNO-DIMS": 60,
+      "RC->S-CONC-OUTLINE": 21,
+      "HATCH->S-HATCH-CONC": 21,
+      "NOTE->S-ANNO-TEXT": 20,
+      "BRICK->S-MASONRY": 8,
+      "TEXT->S-ANNO-TEXT": 48,
+      "THIN->S-DETAIL-THIN": 1,
+      "TITLE->S-ANNO-TABLE": 21,
+      "TITLE->S-ANNO-TEXT": 21
+    },
+    "linetype_undefined_set_bylayer": 8,
+    "text_resized_up": 57,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "1:100",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-103",
+    "file": "WH-STR-SD-103_R00.dxf",
+    "entities_in": 329,
+    "entities_kept": 295,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "GRID->S-GRID": 40,
+      "DIM->S-ANNO-DIMS": 60,
+      "THIN->S-DETAIL-THIN": 30,
+      "RC->S-CONC-OUTLINE": 8,
+      "STEEL->S-STEEL-OUTLINE": 22,
+      "BRACE->S-STEEL-BRACE": 8,
+      "TEXT->S-ANNO-TEXT": 67,
+      "TITLE->S-ANNO-TABLE": 30,
+      "TITLE->S-ANNO-TEXT": 30
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 68,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 1,
+    "text_overlaps_after": 4,
+    "scale_read": "1:100",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-104",
+    "file": "WH-STR-SD-104_R00.dxf",
+    "entities_in": 269,
+    "entities_kept": 235,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "STEEL->S-STEEL-OUTLINE": 42,
+      "RC->S-CONC-OUTLINE": 16,
+      "THIN->S-DETAIL-THIN": 8,
+      "SOIL->S-SOIL": 4,
+      "BRICK->S-MASONRY": 3,
+      "HIDDEN->S-HIDDEN": 1,
+      "GRID->S-GRID": 12,
+      "DIM->S-ANNO-DIMS": 72,
+      "TEXT->S-ANNO-TEXT": 77
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 31,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "1:75",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-105",
+    "file": "WH-STR-SD-105_R00.dxf",
+    "entities_in": 297,
+    "entities_kept": 263,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "RC->S-CONC-OUTLINE": 14,
+      "HIDDEN->S-HIDDEN": 16,
+      "STEEL->S-STEEL-OUTLINE": 22,
+      "BRICK->S-MASONRY": 8,
+      "THIN->S-DETAIL-THIN": 24,
+      "DIM->S-ANNO-DIMS": 108,
+      "GRID->S-GRID": 24,
+      "TEXT->S-ANNO-TEXT": 44,
+      "NOTE->S-ANNO-TEXT": 3
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 36,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "1:100",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-106",
+    "file": "WH-STR-SD-106_R00.dxf",
+    "entities_in": 356,
+    "entities_kept": 322,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "RC->S-CONC-OUTLINE": 36,
+      "HIDDEN->S-HIDDEN": 20,
+      "STEEL->S-STEEL-OUTLINE": 26,
+      "BRICK->S-MASONRY": 32,
+      "THIN->S-DETAIL-THIN": 20,
+      "BRACE->S-STEEL-BRACE": 8,
+      "DIM->S-ANNO-DIMS": 102,
+      "GRID->S-GRID": 40,
+      "TEXT->S-ANNO-TEXT": 38
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 35,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "1:200",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-107",
+    "file": "WH-STR-SD-107_R00.dxf",
+    "entities_in": 258,
+    "entities_kept": 224,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "STEEL->S-STEEL-OUTLINE": 87,
+      "THIN->S-DETAIL-THIN": 8,
+      "DIM->S-ANNO-DIMS": 48,
+      "TEXT->S-ANNO-TEXT": 78,
+      "RC->S-CONC-OUTLINE": 1,
+      "HIDDEN->S-HIDDEN": 1,
+      "HATCH->S-HATCH-CONC": 1
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 13,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "1:20 / 1:10",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-108",
+    "file": "WH-STR-SD-108_R00.dxf",
+    "entities_in": 172,
+    "entities_kept": 138,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "NOTE->S-ANNO-TEXT": 2,
+      "STEEL->S-STEEL-OUTLINE": 36,
+      "DIM->S-ANNO-DIMS": 12,
+      "TEXT->S-ANNO-TEXT": 75,
+      "THIN->S-DETAIL-THIN": 7,
+      "RC->S-CONC-OUTLINE": 2,
+      "HATCH->S-HATCH-CONC": 1,
+      "BRACE->S-STEEL-BRACE": 2,
+      "HIDDEN->S-HIDDEN": 1
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 8,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "1:5 / 1:10",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-201",
+    "file": "WH-STR-SD-201_R00.dxf",
+    "entities_in": 366,
+    "entities_kept": 332,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "RC->S-CONC-OUTLINE": 18,
+      "REBAR->S-REBAR": 125,
+      "DIM->S-ANNO-DIMS": 72,
+      "TEXT->S-ANNO-TEXT": 65,
+      "THIN->S-DETAIL-THIN": 10,
+      "HIDDEN->S-HIDDEN": 2,
+      "TITLE->S-ANNO-TABLE": 20,
+      "TITLE->S-ANNO-TEXT": 20
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 39,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 1,
+    "text_overlaps_after": 1,
+    "scale_read": "1:25 / 1:20 / 1:10",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003",
+      "DRAWING_NAME": "PILE CAP PCP1, PCP2 & PRECAST PILE REBAR DETAIL"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-202",
+    "file": "WH-STR-SD-202_R00.dxf",
+    "entities_in": 238,
+    "entities_kept": 204,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "RC->S-CONC-OUTLINE": 10,
+      "HATCH->S-HATCH-CONC": 1,
+      "STEEL->S-STEEL-OUTLINE": 35,
+      "REBAR->S-REBAR": 37,
+      "DIM->S-ANNO-DIMS": 60,
+      "TEXT->S-ANNO-TEXT": 56,
+      "THIN->S-DETAIL-THIN": 5
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 17,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "1:10",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003",
+      "DRAWING_NAME": "STUMP COLUMN PC1 PC3 REBAR DETAIL"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-203",
+    "file": "WH-STR-SD-203_R00.dxf",
+    "entities_in": 210,
+    "entities_kept": 176,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "RC->S-CONC-OUTLINE": 14,
+      "SOIL->S-SOIL": 3,
+      "BRICK->S-MASONRY": 4,
+      "THIN->S-DETAIL-THIN": 6,
+      "REBAR->S-REBAR": 20,
+      "DIM->S-ANNO-DIMS": 75,
+      "TEXT->S-ANNO-TEXT": 54
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 16,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "1:20 / 1:10",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  },
+  {
+    "sheet": "WH-STR-SD-204",
+    "file": "WH-STR-SD-204_R00.dxf",
+    "entities_in": 197,
+    "entities_kept": 163,
+    "title_strip_dropped": 34,
+    "layer_moves": {
+      "RC->S-CONC-OUTLINE": 25,
+      "THIN->S-DETAIL-THIN": 19,
+      "DIM->S-ANNO-DIMS": 48,
+      "TEXT->S-ANNO-TEXT": 62,
+      "SOIL->S-SOIL": 2,
+      "REBAR->S-REBAR": 6,
+      "HIDDEN->S-HIDDEN": 1
+    },
+    "linetype_undefined_set_bylayer": 0,
+    "text_resized_up": 15,
+    "project_code_text_corrected_PRJ_to_PJR": 0,
+    "text_overlaps_before": 0,
+    "text_overlaps_after": 0,
+    "scale_read": "1:200 / 1:10",
+    "old_title_block_values_not_matching_register_or_design_basis": {
+      "PROJ_REFERENCE": "PJR-2026-003"
+    }
+  }
+]

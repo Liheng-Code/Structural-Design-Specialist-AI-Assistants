@@ -1,0 +1,31 @@
+{
+  "file": "design-basis/examples/PRJ-2026-003/output/cad/WH-STR-SD-001_R00.dxf",
+  "ok": true,
+  "errors": [],
+  "warnings": [
+    "layer S-TBLK-BORDER comes from the PROPOSED extension 05-04a (not yet approved)",
+    "layer S-TBLK-LINE comes from the PROPOSED extension 05-04a (not yet approved)",
+    "layer S-TBLK-TEXT comes from the PROPOSED extension 05-04a (not yet approved)",
+    "layer S-VIEW-ISO comes from the PROPOSED extension 05-04a (not yet approved)"
+  ],
+  "entities": 75,
+  "layers_used": [
+    "S-ANNO-LEADER",
+    "S-ANNO-TEXT",
+    "S-TBLK-BORDER",
+    "S-TBLK-LINE",
+    "S-TBLK-TEXT",
+    "S-VIEW-ISO"
+  ],
+  "title_block": {
+    "PROJ_REFERENCE": "PJR-2026-003",
+    "DRAWING_NAME": "STRUCTURAL COVER PAGE",
+    "REVISION": "R00",
+    "DRAWN_BY": "P.LIHENG",
+    "DRAWING_NUMBER": "WH-STR-SD-001",
+    "DRAWING_STAGE": "FOR APPROVAL",
+    "CLIENT": "Mr. XXX",
+    "SCALE": "AS-SHOWN",
+    "ISSUE_DATE": "13-OCT-2026"
+  }
+}

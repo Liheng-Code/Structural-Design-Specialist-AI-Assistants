@@ -1,0 +1,7 @@
+Layer Name,Colour,Linetype,Lineweight,Description,Plot
+S-REBAR,1,Continuous,0.35,Reinforcement bars (from existing layer REBAR),Yes
+S-STEEL-BRACE,6,Continuous,0.35,Bracing members (from existing layer BRACE),Yes
+S-MASONRY,30,Continuous,0.25,Masonry / brickwork (from existing layer BRICK),Yes
+S-SOIL,8,Continuous,0.18,Soil / ground lines (from existing layer SOIL),Yes
+S-DETAIL-THIN,8,Continuous,0.18,Thin detail and construction lines (from existing layer THIN),Yes
+S-HIDDEN,8,Dashed,0.18,Hidden / below-ground outlines (from existing layer HIDDEN),Yes

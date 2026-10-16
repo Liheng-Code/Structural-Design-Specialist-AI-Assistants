@@ -1,0 +1,24 @@
+doc:
+  type: calculation_report
+  number: WH-STR-CR-001
+  title: Calculation Report - Anchorage and Lap Lengths
+  status_note: "Scope: this report covers ONE check only (EN 1992-1-1 bond/anchorage lengths) and reconciles it with sheet WH-STR-SD-004. It is not a complete structural design calculation. Report standard 10 is not yet authored; format is PROPOSED."
+sections:
+  - title: Scope
+    blocks:
+      - {type: paragraph, text: "Anchorage and basic lap lengths for C30/37 concrete with fyk = 390 MPa are calculated to EN 1992-1-1 and compared with the table in section C of drawing WH-STR-SD-004 (R00)."}
+  - title: Design codes and National Annex
+    blocks:
+      - {type: db_standards}
+  - title: Materials
+    blocks:
+      - {type: db_materials}
+  - title: Anchorage and lap lengths
+    blocks:
+      - {type: calc, ref: CALC-ANCH-001}
+  - title: Conclusions and limitations
+    blocks:
+      - {type: paragraph, text: "The anchorage and lap lengths on SD-004 reproduce from the EN 1992-1-1 expressions on the drawing's own basis (fbd = 3.04 MPa), within the tolerance stated in the reconciliation. They are slightly shorter (about 1 to 1.6 %, see the reconciliation table) than values from the tabulated fctk,0.05 = 2.0 MPa; the engineer should decide which basis governs."}
+      - {type: paragraph, text: "The mandrel-diameter row of SD-004 as issued (R00) gave 80 and 100 mm for 20 mm and 25 mm bars, which conflicts with EN 1992-1-1 8.3(1) and with the sheet's own note (7 phi above 16 mm = 140 and 175 mm). The corrected values are used in this calculation and have been applied to the sheet file; the engineer should confirm the sheet revision that carries the correction."}
+      - {type: paragraph, text: "Workbook WH-STR-WB-001_R00.xlsx implements the same check with live formulas. Its results were tied out to this report's results file (CALC-ANCH-001) by tools/xlsxgen/verify_workbook.py, and it carries 8 hand-calculated checks."}
+      - {type: paragraph, text: "Only basic required lengths are checked (alpha1-alpha5 = 1.0, no lb,min). The check was cross-checked against the issued drawing and unit tests; it has not been reviewed by an authorised engineer."}

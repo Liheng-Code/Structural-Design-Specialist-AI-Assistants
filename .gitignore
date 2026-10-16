@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# OS / editor
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Local tooling output
+probe_result.json

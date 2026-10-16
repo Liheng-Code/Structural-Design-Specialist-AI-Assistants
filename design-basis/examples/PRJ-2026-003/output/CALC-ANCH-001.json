@@ -1,0 +1,250 @@
+{
+  "id": "CALC-ANCH-001",
+  "title": "Anchorage and lap lengths, C30/37 with fyk = 390 MPa",
+  "clause": "EN 1992-1-1 3.1.6, 8.4.2, 8.4.3",
+  "inputs": [
+    {
+      "symbol": "concrete class",
+      "value": "C30/37",
+      "unit": "-",
+      "source": "design basis M-CONC-PILE (SD-004 section A)"
+    },
+    {
+      "symbol": "fyk",
+      "value": 390.0,
+      "unit": "MPa",
+      "source": "design basis M-REBAR (SD-004 section A)"
+    },
+    {
+      "symbol": "gamma_c",
+      "value": 1.5,
+      "unit": "-",
+      "source": "EN 1992-1-1 Table 2.1N (CEN recommended)"
+    },
+    {
+      "symbol": "gamma_s",
+      "value": 1.15,
+      "unit": "-",
+      "source": "EN 1992-1-1 Table 2.1N (CEN recommended)"
+    },
+    {
+      "symbol": "alpha_ct",
+      "value": 1.0,
+      "unit": "-",
+      "source": "EN 1992-1-1 3.1.6(2)P (CEN recommended)"
+    },
+    {
+      "symbol": "fctk,0.05",
+      "value": 2.0,
+      "unit": "MPa",
+      "source": "EN 1992-1-1 Table 3.1"
+    }
+  ],
+  "steps": [
+    {
+      "label": "Design tensile strength",
+      "formula": "fctd = alpha_ct * fctk,0.05 / gamma_c",
+      "substitution": "1.0 * 2.0 / 1.5",
+      "result": 1.333,
+      "unit": "MPa"
+    },
+    {
+      "label": "Bond stress, good conditions",
+      "formula": "fbd = 2.25 * eta1 * eta2 * fctd (eta1=1.0, eta2=1.0)",
+      "substitution": "2.25 * 1.0 * 1.0 * 1.333",
+      "result": 3.0,
+      "unit": "MPa"
+    },
+    {
+      "label": "Bond stress, poor conditions",
+      "formula": "fbd = 2.25 * eta1 * eta2 * fctd (eta1=0.7, eta2=1.0)",
+      "substitution": "2.25 * 0.7 * 1.0 * 1.333",
+      "result": 2.1,
+      "unit": "MPa"
+    },
+    {
+      "label": "Design steel stress",
+      "formula": "sigma_sd = fyd = fyk / gamma_s",
+      "substitution": "390 / 1.15",
+      "result": 339.1,
+      "unit": "MPa"
+    }
+  ],
+  "bars_mm": [
+    10,
+    12,
+    16,
+    20,
+    25
+  ],
+  "results": {
+    "lb_rqd_good": [
+      282.6,
+      339.1,
+      452.2,
+      565.2,
+      706.5
+    ],
+    "lb_rqd_poor": [
+      403.7,
+      484.5,
+      646.0,
+      807.5,
+      1009.3
+    ],
+    "lap_basic_good": [
+      423.9,
+      508.7,
+      678.3,
+      847.8,
+      1059.8
+    ]
+  },
+  "scope_limits": "Basic required anchorage length only (alpha1-alpha5 = 1.0, lb,min not applied); lap = alpha6 * lb,rqd with alpha6 = 1.5. Straight bars.",
+  "verification": {
+    "method": "Reconciled with the SD-004 table (see reconciliation) and unit tests against hand values in tests/test_phase4.py",
+    "status": "CROSS-CHECKED against issued drawing; not independently reviewed by an engineer"
+  },
+  "reconciliation": {
+    "label": "SD-004 section C table (WH-STR-SD-004 as corrected: mandrel 20 mm = 140, 25 mm = 175)",
+    "fbd_good_alt": 3.045,
+    "note": "Drawing basis: fctk,0.05 = 0.7*fctm = 2.03 MPa -> fbd = 3.04 MPa.",
+    "rows": [
+      {
+        "row": "lbd good bond",
+        "drawing": [
+          280,
+          335,
+          445,
+          560,
+          700
+        ],
+        "calc_table_value": [
+          283,
+          339,
+          452,
+          565,
+          707
+        ],
+        "calc_drawing_basis": [
+          278,
+          334,
+          445,
+          557,
+          696
+        ],
+        "dev_drawing_basis": [
+          2,
+          1,
+          0,
+          3,
+          4
+        ],
+        "dev_table_value": [
+          -3,
+          -4,
+          -7,
+          -5,
+          -7
+        ]
+      },
+      {
+        "row": "lbd poor bond",
+        "drawing": [
+          400,
+          480,
+          640,
+          800,
+          1000
+        ],
+        "calc_table_value": [
+          404,
+          484,
+          646,
+          807,
+          1009
+        ],
+        "calc_drawing_basis": [
+          398,
+          477,
+          636,
+          796,
+          994
+        ],
+        "dev_drawing_basis": [
+          2,
+          3,
+          4,
+          4,
+          6
+        ],
+        "dev_table_value": [
+          -4,
+          -4,
+          -6,
+          -7,
+          -9
+        ]
+      },
+      {
+        "row": "lap l0 good (<=50% lapped)",
+        "drawing": [
+          420,
+          505,
+          670,
+          840,
+          1050
+        ],
+        "calc_table_value": [
+          424,
+          509,
+          678,
+          848,
+          1060
+        ],
+        "calc_drawing_basis": [
+          418,
+          501,
+          668,
+          835,
+          1044
+        ],
+        "dev_drawing_basis": [
+          2,
+          4,
+          2,
+          5,
+          6
+        ],
+        "dev_table_value": [
+          -4,
+          -4,
+          -8,
+          -8,
+          -10
+        ]
+      }
+    ],
+    "tolerance": "larger of 5 mm or 1 %",
+    "all_within_tolerance_drawing_basis": true,
+    "max_rel_dev_table_value_pct": 1.55,
+    "max_dev_table_value_mm": 10,
+    "mandrel": {
+      "drawing": [
+        40,
+        48,
+        64,
+        140,
+        175
+      ],
+      "en_1992_8_3": [
+        40,
+        48,
+        64,
+        140,
+        175
+      ],
+      "mismatch_bars": []
+    }
+  }
+}

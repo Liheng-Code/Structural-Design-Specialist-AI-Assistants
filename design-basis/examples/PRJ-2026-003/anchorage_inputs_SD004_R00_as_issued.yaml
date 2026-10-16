@@ -1,0 +1,21 @@
+# AS-ISSUED SD-004 R00 values, kept unchanged as the record of the original drawing (mandrel row 80/100 is wrong). Used by the tests; do not edit.
+id: CALC-ANCH-001
+title: Anchorage and lap lengths, C30/37 with fyk = 390 MPa
+concrete_class: C30/37
+fyk: 390
+bars: [10, 12, 16, 20, 25]
+design_basis_refs: [M-CONC-PILE, M-REBAR]
+sources:
+  concrete: "design basis M-CONC-PILE (SD-004 section A)"
+  fyk: "design basis M-REBAR (SD-004 section A)"
+compare_with:
+  label: "SD-004 section C table (WH-STR-SD-004 R00)"
+  # SD-004 states fbd = 3.04 MPa, which corresponds to fctk,0.05 = 0.7 * fctm = 0.7 * 2.9 = 2.03 MPa
+  # (EN 1992-1-1 Table 3.1 prints the rounded value 2.0 MPa). Both are read from the drawing / EN; neither is assumed.
+  fctk005_override: 2.03
+  note: "Drawing basis: fctk,0.05 = 0.7*fctm = 2.03 MPa -> fbd = 3.04 MPa."
+  rows:
+    good:     [280, 335, 445, 560, 700]
+    poor:     [400, 480, 640, 800, 1000]
+    lap_good: [420, 505, 670, 840, 1050]
+    mandrel:  [40, 48, 64, 80, 100]

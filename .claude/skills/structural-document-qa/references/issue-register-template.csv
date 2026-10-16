@@ -1,0 +1,2 @@
+issue_id,severity,document,location,finding,evidence,corrective_action,owner,review_status,closed_date
+QA-001,Major,WH-STR-SD-003,Section C,Example: design life stated differently in spec,"SD-003 says 50 yr; SP-001 says 25 yr",Align to design basis value after engineer confirms,,Open,
