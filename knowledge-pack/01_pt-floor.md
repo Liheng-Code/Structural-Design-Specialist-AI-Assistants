@@ -1,6 +1,6 @@
 # Discipline 1 - Post-tensioned floors (bonded PT slabs and band beams)
 
-Knowledge pack generated 2026-10-17 from commit `b41e123`.
+Knowledge pack generated 2026-10-17 from commit `6cba6d9`.
 
 > Generated from the project repository. This is reference material for search and recall, not an approved standard or a calculation result. Each section names its source file; check that file's status header (APPROVED / PROPOSED / DRAFT / SKELETON). Nothing here is engineer-approved unless the source file says so. NotebookLM answers are AI summaries of this text (gap G29).
 
@@ -12,6 +12,9 @@ Knowledge pack generated 2026-10-17 from commit `b41e123`.
 - `disciplines/pt-floor/knowledge/PT-Detailing-Arrangement-Profile-SKILL.md`
 - `disciplines/pt-floor/knowledge/README.md`
 - `.claude/skills/structural-pt-drawing/SKILL.md`
+- `.claude/skills/pt-slab-structural-design/SKILL.md`
+- `.claude/skills/pt-slab-structural-design/references/user-prompt.md`
+- `docs/PRODUCT_ROADMAP_PT_PLATFORM.md`
 - `.claude/skills/structural-pt-drawing/references/pt-drawing-package.md`
 - `.claude/skills/structural-pt-drawing/references/pt-plan-data.md`
 - `.claude/skills/structural-pt-drawing/references/pt-profile-data.md`
@@ -36,6 +39,7 @@ Scope: **bonded** post-tensioned concrete slabs and band beams to EN 1992-1-1. U
 |---|---|---|
 | Entry skill | `.claude/skills/pt-floor-design/` | Routes PT work to the tools below |
 | PT drawings (notes PT-001, tendon plan PT-101, profiles PT-102, schedule) | `.claude/skills/structural-pt-drawing/`, `tools/cadgen/pt_notes.py`, `pt_plan.py`, `pt_profiles.py` | Built; DXF + preview PDF; draws data, computes nothing |
+| Full PT slab package skill (10 sheets from a draft layout) | `.claude/skills/pt-slab-structural-design/` | Instruction level; its numeric defaults are not design-basis values (gap G30) |
 | PT basis template and validator | `design-basis/PT_BASIS_TEMPLATE.yaml`, `tools/cadgen/validate_pt_basis.py` | Built |
 | PT screening checks (stress, balanced load, strip solver) | `calc_lib/pt/ec2_pt_screen.py`, tests in `tests/test_ec2_pt_screen.py` | Indicative screening only, not a design |
 | PT designer roadmap | `docs/Development Plan v2.md`, `docs/Architecture v2.md`, `docs/adr/` | M0 built, awaiting engineer review gate |
@@ -78,6 +82,7 @@ Read first: `disciplines/pt-floor/README.md` (what exists and what is missing) a
 | Preliminary scheme from a plan | Follow `disciplines/pt-floor/knowledge/PT-Design-Assistant-SKILL.md` |
 | Tendon arrangement / profile rules | `disciplines/pt-floor/knowledge/PT-Detailing-Arrangement-Profile-SKILL.md` |
 | PT drawings (PT-001 notes, PT-101 plan, PT-102 profiles, schedule) | Skill `structural-pt-drawing` |
+| Full 10-sheet PT slab package from a draft layout (body layout, beam / drop-panel / slab reinforcement, tendon plan and profiles) | Skill `pt-slab-structural-design`. Its "defaults" section lists numbers (materials, partial factors, friction, wobble): treat every one as ASSUMED / TBC unless the design basis records it (gap G30). Bonded only |
 | Screening checks (stresses at transfer/service, balanced load) | `calc_lib/pt/ec2_pt_screen.py`; pattern in `disciplines/pt-floor/examples/2F-PT/runs/`. Label every result INDICATIVE |
 | Calculation note / workbook | Skill `structural-calculation-report` |
 | Specification | Skill `structural-specification` |
@@ -3202,6 +3207,232 @@ Then ALWAYS: run `python tools/cadgen/validate_dxf.py <sheet.dxf> --standards ..
 
 #### QA
 Use `references/qa-checklist.md`. After producing sheets, hand the package to `structural-document-qa`.
+
+---
+
+## Source: `.claude/skills/pt-slab-structural-design/SKILL.md`
+
+---
+name: pt-slab-structural-design
+description: Produce complete post-tensioned (PT) floor slab structural drawing packages to Eurocode 2 (EN 1992-1-1) when a user supplies a draft floor layout. Triggers on PT slab, post-tension, tendon layout, drop panel, Eurocode flat slab design, or requests to generate full PT drawing sets from a sketch or draft plan.
+---
+
+### PT Slab Structural Design (Eurocode 2 Standard)
+
+#### Overview
+
+Generate a complete, consistent set of construction drawings for post-tensioned flat slabs following the structure, detailing conventions, title-block style and sheet organisation of the reference 8F Hattha Bank package, but fully updated to **EN 1992-1-1 (Eurocode 2)** + relevant National Annex practice.
+
+Always read the project design-basis YAML first (if present) and the company standards in `Structural-Drawing-Standards/`.
+
+#### When to Activate
+
+- User provides a draft floor plan (columns, spans, openings, proposed thicknesses, drop panels).
+- User asks for PT slab design, tendon layout, beam/drop-panel reinforcement, or full structural package.
+- User says “follow the standard PT package” or “prepare drawings like the previous one”.
+
+#### Required Output Package (10 sheets, A3 landscape)
+
+Always produce these sheets in this order and numbering scheme:
+
+1. **Concrete Body Layout** – plan showing slab thicknesses (hatched), drop panels, beams, openings, sleeves, grid, overall dimensions.
+2. **Beam Reinforcement Details** – cross-sections of all edge/internal beams with stirrups, main bars, clear cover, lap notes.
+3. **Drop Panel Reinforcement Details 1** – plan + sections for type-1/2 drop panels + punching shear reinforcement call-outs.
+4. **Drop Panel Reinforcement Details 2** – remaining drop-panel types.
+5. **Drop Panel Reinforcement Details 3** – shear reinforcement details (links, stirrups around columns).
+6. **Slab / Ring Reinforcement Details** – top & bottom mesh / bars, ring beams, typical sections, TF details.
+7. **Tendon Layout Plan** – full plan with tendon IDs, number of strands, stressing ends, design notes block.
+8–10. **Tendon Profile Details** – elevation profiles (A/B) for every tendon group with chainage and height from soffit to duct bottom.
+
+#### Eurocode 2 Material & Design Defaults (lock these unless user overrides or design-basis specifies otherwise)
+
+**Concrete**
+- Preferred class: C32/40 or C35/45 (cylinder/cube).
+- Minimum for PT floors: C30/37.
+- γ_c = 1.50, α_cc = 1.0 (or NA value).
+
+**Reinforcement**
+- Characteristic yield f_yk = 500 MPa (B500B / B500C).
+- γ_s = 1.15 → f_yd = 435 MPa.
+- Clear cover: calculate per EN 1992-1-1 §4.4 + exposure class (default XC1 internal → c_nom ≥ 15–20 mm + Δc_dev, but never less than bar diameter or 20 mm for PT ducts).
+
+**Prestressing steel**
+- 7-wire low-relaxation strand, Class 2 (EN 10138).
+- Typical: 12.9 mm or 15.7 mm, f_pk = 1860 MPa, f_p0.1k ≈ 0.88–0.90 f_pk.
+- Jacking stress limits: σ_p,max ≤ min(0.80 f_pk ; 0.90 f_p0.1k).
+- After losses: use values consistent with EN 1992-1-1 §5.10.
+
+**Friction & losses (default design parameters)**
+- μ = 0.19 (bonded) or 0.06–0.12 (unbonded – confirm system).
+- k = 0.001–0.005 /m (wobble).
+- Anchorage set / draw-in: 6–8 mm typical.
+- Long-term losses: creep, shrinkage, relaxation per EC2 Annexes.
+
+**Load combinations**
+- ULS / SLS per EN 1990 + EN 1991 (project-specific National Annex).
+- Prestress secondary effects: include with factor 1.0 at SLS; favourable/unfavourable factors at ULS as per EC2.
+
+**Punching shear**
+- Follow EN 1992-1-1 §6.4.
+- Always show additional punching reinforcement (links or studs) with clear call-out (“Additional punching shear reinforcement – see detail”).
+
+#### Drawing Conventions
+
+- Follow company title-block, layers, text styles and annotation rules from `Structural-Drawing-Standards/`.
+- Legend hatches: PT slab thicknesses, drop panels, beams, openings, sleeves.
+- Beam labels: RB (rib/edge), BB (band beam).
+- Tendon symbols: number of strands, stressing ends, fixed ends, profile height measured from slab soffit to underside of duct.
+- Notes block on tendon layout sheet must include:
+  - Design codes (EN 1992-1-1, EN 1990, EN 1991, EN 10138)
+  - Material properties table
+  - Strand properties
+  - Friction parameters
+  - Cover rules
+  - Tendon symbol legend
+
+#### Workflow
+
+1. **Receive draft** – extract spans, column positions, openings, proposed thicknesses, any client constraints.
+2. **Check & rationalise** – verify span/depth ratios, drop-panel sizes for punching, beam depths, cover, minimum reinforcement.
+3. **Select materials** – apply Eurocode defaults above (or values from design-basis YAML).
+4. **Produce drawings** – generate the 10-sheet package following the exact sheet order and detailing style of the reference.
+5. **Document assumptions** – list all NDPs, friction values, exposure class, fire resistance, and any departures from the standard package.
+6. Flag any missing information as “TBC”. Never invent numerical results.
+
+#### Honesty rules (same as other skills in this repository)
+
+- Never invent engineering values, clause references or PASS results.
+- Mark unconfirmed values “TBC”.
+- Distinguish calculated, assumed and user-entered values.
+- Do not claim a drawing is “approved” or “ready for construction” — engineer sign-off is human.
+
+---
+
+## Source: `.claude/skills/pt-slab-structural-design/references/user-prompt.md`
+
+### Recommended User Prompt for PT Slab Skill
+
+Copy and adapt the prompt below when requesting a full PT slab drawing package.
+
+---
+
+```
+Use the skill `pt-slab-structural-design`.
+
+I am providing a draft floor structural layout for a post-tensioned (PT) slab. 
+Please review it against Eurocode 2 (EN 1992-1-1) and prepare the complete standard drawing package following the established 10-sheet format.
+
+##### Project context
+- Project code / name: [fill in]
+- Floor level: [e.g. 8F / Level 8]
+- Design basis file (if available): [path or paste key data]
+- National Annex (if any): [e.g. UK NA / generic EC2 / Cambodia]
+
+##### Draft layout (provide one of the following)
+- Attach drawing / PDF / image of the draft floor plan, **or**
+- Describe / list:
+  - Grid lines and overall dimensions
+  - Column positions and sizes
+  - Proposed slab thickness(es)
+  - Drop panel locations and sizes
+  - Beam sizes and locations (if any)
+  - Openings / sleeves
+  - Any special constraints (fire rating, exposure class, tendon system preference, etc.)
+
+##### Required deliverable
+Produce the full standard package in this exact order:
+
+1. Concrete Body Layout
+2. Beam Reinforcement Details
+3. Drop Panel Reinforcement Details 1
+4. Drop Panel Reinforcement Details 2
+5. Drop Panel Reinforcement Details 3
+6. Slab / Ring Reinforcement Details
+7. Tendon Layout Plan (with full Eurocode design notes)
+8–10. Tendon Profile Details
+
+Follow the company drawing standards, title-block format, layer conventions and Eurocode material defaults already defined in this repository.  
+Flag any missing information as “TBC” and do not invent values.  
+List all assumptions (concrete class, strand type, friction parameters, cover, exposure class, etc.) clearly.
+```
+
+---
+
+## Source: `docs/PRODUCT_ROADMAP_PT_PLATFORM.md`
+
+### Product Roadmap — Bonded PT Band Beam & Slab Platform
+
+#### Current Status (October 2026)
+
+This repository currently provides a **skill-based structural documentation system** focused on:
+
+- Consistent drawing packages
+- Design-basis YAML
+- Calculation report generation
+- QA and document control
+- Eurocode-aligned rules
+
+The new skill `pt-slab-structural-design` extends this system so that AI can produce a complete 10-sheet post-tensioned slab drawing package to Eurocode 2 when given a draft layout.
+
+#### Two Parallel Tracks
+
+##### Track A — Knowledge & AI Skill Layer (Active now)
+
+Goal: Make AI produce high-quality, consistent, Eurocode-compliant PT drawings and calculation notes.
+
+Completed / in progress:
+- Company drawing standards
+- Design-basis YAML system
+- Multiple Claude skills (documentation, drawing, calculation report, QA, specification)
+- `pt-slab-structural-design` skill (added 2026-10-16)
+- Initial deterministic calculation modules in `calc_lib` (anchorage, etc.)
+
+Near-term priorities:
+1. Expand `calc_lib` with deterministic PT modules (losses, initial sizing, simple stress/deflection checks).
+2. Improve drawing generation for PT-specific sheets.
+3. Add more benchmark examples.
+4. Keep skills and standards version-controlled and shared across machines via this repository.
+
+##### Track B — Full Product Platform (Long-term vision)
+
+A complete web application for bonded PT band-beam and slab design is described in the Master Implementation Prompt (stored separately by the project owner).
+
+That vision includes:
+- CAD import (DXF/DWG) and geometry recognition
+- Finite-element analysis
+- Deterministic PT design engine (profiles, losses, SLS/ULS)
+- Reinforcement design and clash checking
+- Coordinated drawing, report and specification generation
+- Claude orchestration with strict tool boundaries
+- Full revision control, audit trail and engineering approval workflow
+
+This is a multi-year product effort requiring a team of structural engineers and software engineers, independent verification of the analysis and design engines, and careful licensing of any FEA components.
+
+**Do not treat the Master Implementation Prompt as an immediate implementation plan.**  
+Use it as the official long-term product specification.  
+Only begin Milestone M0–M1 of that plan when team capacity, funding and a clear verification strategy are in place.
+
+#### Guiding Principle
+
+The system must remain an **engineering calculation and documentation platform**, not merely an AI drawing generator.
+
+- Deterministic, testable calculations for all numerical results.
+- AI is used to orchestrate tools, interpret instructions, explain results and draft documentation.
+- AI must never invent numerical results, override failed checks, or issue unverified construction drawings.
+
+#### How to Use This Repository Today
+
+1. Clone the repository.
+2. Install the skills (see `setup_on_this_pc.bat` / `skills-to-install`).
+3. For a new PT slab project:
+   - Create / fill a design-basis YAML.
+   - Use the prompt in `.claude/skills/pt-slab-structural-design/references/user-prompt.md`.
+   - Request the full 10-sheet package.
+4. Always finish with the existing QA skill and human engineering review.
+
+---
+
+*Last updated: 2026-10-16*
 
 ---
 

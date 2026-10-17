@@ -18,6 +18,7 @@ Read first: `disciplines/pt-floor/README.md` (what exists and what is missing) a
 | Preliminary scheme from a plan | Follow `disciplines/pt-floor/knowledge/PT-Design-Assistant-SKILL.md` |
 | Tendon arrangement / profile rules | `disciplines/pt-floor/knowledge/PT-Detailing-Arrangement-Profile-SKILL.md` |
 | PT drawings (PT-001 notes, PT-101 plan, PT-102 profiles, schedule) | Skill `structural-pt-drawing` |
+| Full 10-sheet PT slab package from a draft layout (body layout, beam / drop-panel / slab reinforcement, tendon plan and profiles) | Skill `pt-slab-structural-design`. Its "defaults" section lists numbers (materials, partial factors, friction, wobble): treat every one as ASSUMED / TBC unless the design basis records it (gap G30). Bonded only |
 | Screening checks (stresses at transfer/service, balanced load) | `calc_lib/pt/ec2_pt_screen.py`; pattern in `disciplines/pt-floor/examples/2F-PT/runs/`. Label every result INDICATIVE |
 | Calculation note / workbook | Skill `structural-calculation-report` |
 | Specification | Skill `structural-specification` |

@@ -14,7 +14,7 @@ AI access (Claude, local Ollama, other assistants), GitHub and NotebookLM: [docs
 ```
 AGENTS.md                  rules + commands for any AI assistant (CLAUDE.md points here)
 disciplines/               pt-floor/, steel/, rc-works/ (README, knowledge/, examples/) + manifest.yaml (files per discipline)
-.claude/skills/            3 discipline entry skills + 6 shared production skills (SKILL.md + references/)
+.claude/skills/            3 discipline entry skills, 6 shared production skills, pt-slab-structural-design (PT package from a draft layout)
 tools/ai/                  mcp_server.py (local read-only MCP server), ask_local.py (Ollama), project_access.py
 tools/knowledge/           build_knowledge_pack.py -> knowledge-pack/ (NotebookLM sources)
 knowledge-pack/            generated Markdown sources for NotebookLM (rebuild after changes)
@@ -31,7 +31,7 @@ calc_lib/                  reusable calculation logic + run scripts (separate fr
 calc_lib/core/             engineering core (M0): units (pint), check status, code registry loader, shared schemas (pydantic)
 calc_lib/pt|steel|rc/      discipline calculation modules (pt: ec2_pt_screen; rc: ec2_anchorage; steel: empty)
 config/code_registry/      versioned design-code parameters (ADR-004); skeleton only, all values empty and UNVERIFIED
-docs/                      Development Plan v2, Architecture v2, decision records (docs/adr/)
+docs/                      Development Plan v2, Architecture v2, PRODUCT_ROADMAP_PT_PLATFORM.md, AI_ACCESS.md, decision records (docs/adr/)
 webapp/                    local web app mockup (FastAPI + Next.js): projects, drawing import, AI assistant; see webapp/README.md
 tests/                     unittest suite
 ```
@@ -43,7 +43,8 @@ Python 3.9+, `pip install pyyaml python-docx openpyxl ezdxf matplotlib pillow nu
 ## Use
 1. New project: copy `design-basis/PROJECT_TEMPLATE.yaml`; fill known values only; validate it.
 2. Ask Claude Code to use `structural-documentation` for a package, or a production skill directly. Finish with `structural-document-qa`.
-3. Register check: `python tools/doc_control/check_register.py <register.csv> --design-basis <db.yaml>`.
+3. For a full PT slab drawing package: use the skill `pt-slab-structural-design` with the prompt in `.claude/skills/pt-slab-structural-design/references/user-prompt.md`.
+4. Register check: `python tools/doc_control/check_register.py <register.csv> --design-basis <db.yaml>`.
 
 ## Status of phases
 | Phase | State |
@@ -57,6 +58,9 @@ Python 3.9+, `pip install pyyaml python-docx openpyxl ezdxf matplotlib pillow nu
 | 7 ETABS/SAFE import | importer built (XLSX/CSV table exports, unit normalisation, completeness/mapping/superposition/equilibrium checks, SHA-256 provenance) and tested with 20 tests on a SYNTHETIC fixture. The export layout is ASSUMED and NOT verified against a real ETABS/SAFE export; no ETABS here. Not run on any real model |
 | 8 Cross-document QA automation | `tools/qa/package_qa.py` built: 13 check groups across design basis, register, DOCX/XLSX/DXF/PDF, results tie-out, ETABS import; 35 acceptance tests incl. deliberately incomplete, inconsistent and unsupported-claim packages. Consistency gate only; engineering correctness not judged; DWG, AutoCAD plots, and any sheet without a file are NOT checked |
 | PT designer M0 (Dev Plan v2) | Built 16-OCT-2026, awaiting engineer review gate: `calc_lib/core` units/status/registry/schemas, registry skeleton, 34 tests, mypy strict + ruff clean. Internal base units provisional (ADR-007 open). No engineering values entered |
+
+## Long-term Product Vision
+See `docs/PRODUCT_ROADMAP_PT_PLATFORM.md` for the relationship between the current skill system and the future full bonded-PT design platform.
 
 ## Known limitations
 - PRJ-2026-003 design basis is transcribed from drawings; unverified, editions/generations blank, 8 open items.

@@ -1,6 +1,6 @@
 # Discipline 2 - Steel structures
 
-Knowledge pack generated 2026-10-17 from commit `b41e123`.
+Knowledge pack generated 2026-10-17 from commit `6cba6d9`.
 
 > Generated from the project repository. This is reference material for search and recall, not an approved standard or a calculation result. Each section names its source file; check that file's status header (APPROVED / PROPOSED / DRAFT / SKELETON). Nothing here is engineer-approved unless the source file says so. NotebookLM answers are AI summaries of this text (gap G29).
 

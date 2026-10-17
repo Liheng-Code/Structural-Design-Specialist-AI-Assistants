@@ -8,6 +8,7 @@ Scope: **bonded** post-tensioned concrete slabs and band beams to EN 1992-1-1. U
 |---|---|---|
 | Entry skill | `.claude/skills/pt-floor-design/` | Routes PT work to the tools below |
 | PT drawings (notes PT-001, tendon plan PT-101, profiles PT-102, schedule) | `.claude/skills/structural-pt-drawing/`, `tools/cadgen/pt_notes.py`, `pt_plan.py`, `pt_profiles.py` | Built; DXF + preview PDF; draws data, computes nothing |
+| Full PT slab package skill (10 sheets from a draft layout) | `.claude/skills/pt-slab-structural-design/` | Instruction level; its numeric defaults are not design-basis values (gap G30) |
 | PT basis template and validator | `design-basis/PT_BASIS_TEMPLATE.yaml`, `tools/cadgen/validate_pt_basis.py` | Built |
 | PT screening checks (stress, balanced load, strip solver) | `calc_lib/pt/ec2_pt_screen.py`, tests in `tests/test_ec2_pt_screen.py` | Indicative screening only, not a design |
 | PT designer roadmap | `docs/Development Plan v2.md`, `docs/Architecture v2.md`, `docs/adr/` | M0 built, awaiting engineer review gate |

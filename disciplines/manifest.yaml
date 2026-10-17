@@ -36,6 +36,9 @@ disciplines:
       - .claude/skills/pt-floor-design/SKILL.md
       - disciplines/pt-floor/knowledge/*.md
       - .claude/skills/structural-pt-drawing/SKILL.md
+      - .claude/skills/pt-slab-structural-design/SKILL.md
+      - .claude/skills/pt-slab-structural-design/references/*.md
+      - docs/PRODUCT_ROADMAP_PT_PLATFORM.md
       - .claude/skills/structural-pt-drawing/references/*.md
       - Structural-Drawing-Standards/04_General-Notes-and-Details/04-02_PT_General_Notes.md
       - design-basis/PT_BASIS_TEMPLATE.yaml
