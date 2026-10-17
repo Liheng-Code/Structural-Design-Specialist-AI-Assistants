@@ -21,3 +21,7 @@ webapp/web/node_modules/
 webapp/web/.next/
 webapp/web/next-env.d.ts
 webapp/web/tsconfig.tsbuildinfo
+
+# Linter / type-checker caches
+.mypy_cache/
+.ruff_cache/

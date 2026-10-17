@@ -27,13 +27,13 @@ Unchanged from v1 and binding on every milestone: v1 Part 1 "Fundamental enginee
 | Document register control | `tools/doc_control/check_register.py` | Built, tested |
 | DXF sheets + preview PDF | `tools/cadgen/build_sheets.py`, `build_notes_and_details.py`, `validate_dxf.py` | Cover, list, notes/details built. Not DWG, not a CTB plot |
 | PT tendon plan + profile sheets | `tools/cadgen/pt_plan.py`, `pt_profiles.py`, `pt_notes.py` | Draws what the data gives; computes nothing |
-| DXF plan to PT data | `redraft_2F_PT/convert_plan_to_pt_data.py` | Project-specific prototype |
+| DXF plan to PT data | `disciplines/pt-floor/examples/2F-PT/redraft/convert_plan_to_pt_data.py` | Project-specific prototype |
 | Calc report + spec DOCX/PDF | `tools/docgen/build_document.py` | Built; one calculation (EC2 anchorage) |
-| Calculation library | `calc_lib/ec2_anchorage.py` | One check |
+| Calculation library | `calc_lib/rc/ec2_anchorage.py` | One check |
 | Excel workbooks | `tools/xlsxgen/` | Anchorage workbook only |
 | ETABS/SAFE result import | `tools/etabs/etabs_import.py`, `etabs_db_import.py` | Built; tested on a SYNTHETIC export only |
 | Package QA | `tools/qa/package_qa.py` | Consistency gate, not engineering correctness |
-| Skills | `.claude/skills/`, `skills-to-install/structural-pt-drawing/` | Instruction level |
+| Skills | `.claude/skills/` (incl. `structural-pt-drawing`) | Instruction level |
 
 ## 3. Architecture decisions
 
@@ -87,7 +87,7 @@ Implement each as a separate module in `calc_lib/pt/`, each with hand-calculated
 9. Deflection: short and long term, with the method and its limits stated.
 10. ULS flexure with bonded tendon stress.
 11. ULS shear (beam) and punching shear including the prestress contribution.
-12. Anchorage-zone bursting and spalling (reuse and extend `calc_lib/ec2_anchorage.py`).
+12. Anchorage-zone bursting and spalling (reuse and extend `calc_lib/rc/ec2_anchorage.py`).
 
 Clause references above are to EN 1992-1-1:2004. Confirm them against the edition recorded in the design basis and the code registry; the 2nd-generation EN 1992-1-1:2023 numbering differs.
 
@@ -110,7 +110,7 @@ Rules: every parameter comes from the design basis, the PT basis, approved syste
 - **Gate:** package QA passes on the benchmark floor; the engineer reviews the draft package.
 
 ### M5 - CAD import and geometry review
-- Generalise `redraft_2F_PT/convert_plan_to_pt_data.py` into a DXF importer following Architecture v2 diagram 2.
+- Generalise `disciplines/pt-floor/examples/2F-PT/redraft/convert_plan_to_pt_data.py` into a DXF importer following Architecture v2 diagram 2.
 - DWG: support it only once a converter is installed and tested on the user's PC (see `probe_result.json` and the `convert_*_dwg.bat` scripts); otherwise ask for a DXF.
 - Geometry validation (v1 Part 5, Module B); review/correction output saved as a checksummed snapshot.
 - Output: a `GeometryModel` that can produce the SAFE model input or check it against the imported SAFE geometry.

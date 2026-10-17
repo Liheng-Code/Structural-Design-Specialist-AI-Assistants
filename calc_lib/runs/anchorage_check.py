@@ -18,7 +18,7 @@ import sys
 import yaml
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
-from calc_lib import ec2_anchorage as a  # noqa: E402
+from calc_lib.rc import ec2_anchorage as a  # noqa: E402
 
 
 TOL_MM, TOL_REL = 5, 0.01  # drawing values are rounded on no single increment; accept the larger of 5 mm or 1 %, report actual deviation

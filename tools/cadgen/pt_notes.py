@@ -31,7 +31,7 @@ import common as c  # noqa: E402
 
 TBC = "TBC"
 PH = re.compile(r"\{([A-Za-z0-9_.]+)\}")
-DEFAULT_TEMPLATE = pathlib.Path(__file__).resolve().parents[2] / "skills-to-install" / "structural-pt-drawing" / "assets" / "pt_general_notes.yaml"
+DEFAULT_TEMPLATE = pathlib.Path(__file__).resolve().parents[2] / ".claude" / "skills" / "structural-pt-drawing" / "assets" / "pt_general_notes.yaml"
 
 COLS = [(12.0, 205.0), (215.0, 408.0)]       # two text columns on A3 (border 7..413)
 Y_TOP, Y_BOT = 259.0, 11.0                    # below the title-block strip, above the border

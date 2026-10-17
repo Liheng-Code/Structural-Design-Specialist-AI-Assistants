@@ -12,7 +12,7 @@ from openpyxl import load_workbook
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "tools" / "xlsxgen"))
-from calc_lib import ec2_anchorage as a  # noqa: E402
+from calc_lib.rc import ec2_anchorage as a  # noqa: E402
 import build_anchorage_workbook as bw  # noqa: E402
 import verify_workbook as vw  # noqa: E402
 

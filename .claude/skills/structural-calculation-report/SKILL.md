@@ -6,7 +6,7 @@ description: Produce structural calculation reports (DOCX/PDF) and Excel calcula
 # Structural Calculation Report
 
 ## Status
-`10_Structural-Calculation-Reports/` has NOT been authored yet. Use `references/report-format.md` (PROPOSED) until it exists. The DOCX/PDF report generator and one tested calculation (`calc_lib/ec2_anchorage.py`) exist (Phase 4). Excel workbook generation (Phase 5) exists for the anchorage check; ETABS/SAFE table import exists (`tools/etabs/etabs_import.py`, Phase 7) but is tested only on a synthetic fixture and its export layout is unverified against a real file; manual work must still follow the integrity rules below.
+`10_Structural-Calculation-Reports/` has NOT been authored yet. Use `references/report-format.md` (PROPOSED) until it exists. The DOCX/PDF report generator and one tested calculation (`calc_lib/rc/ec2_anchorage.py`) exist (Phase 4). Excel workbook generation (Phase 5) exists for the anchorage check; ETABS/SAFE table import exists (`tools/etabs/etabs_import.py`, Phase 7) but is tested only on a synthetic fixture and its export layout is unverified against a real file; manual work must still follow the integrity rules below.
 
 ## Non-negotiable integrity rules
 - **Never fabricate** forces, displacements, material properties, load combinations, code clauses, or PASS results. Missing input -> stop that check and list it as an open item; do not substitute a plausible number.

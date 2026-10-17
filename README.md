@@ -1,10 +1,23 @@
-# Structural Documentation Skill System
+# Structural Design Specialist AI Assistants
 
-Phases 1-3 done, Phase 4 partly done (see table). Phases 5-8 are not built.
+A local, AI-assisted structural design and documentation system with three disciplines on one shared core:
+
+| # | Discipline | Folder | Entry skill | State |
+|---|---|---|---|---|
+| 1 | Post-tensioned floors (bonded PT slabs, band beams) | [disciplines/pt-floor/](disciplines/pt-floor/README.md) | `pt-floor-design` | PT drawings, screening checks, 2F PT example |
+| 2 | Steel structures | [disciplines/steel/](disciplines/steel/README.md) | `steel-design` | Skeleton (gap G27) |
+| 3 | Reinforced concrete works | [disciplines/rc-works/](disciplines/rc-works/README.md) | `rc-design` | Anchorage/lap check only (gap G28) |
+
+AI access (Claude, local Ollama, other assistants), GitHub and NotebookLM: [docs/AI_ACCESS.md](docs/AI_ACCESS.md). Rules for every AI: [AGENTS.md](AGENTS.md).
 
 ## Layout
 ```
-.claude/skills/            5 skills (SKILL.md + references/)
+AGENTS.md                  rules + commands for any AI assistant (CLAUDE.md points here)
+disciplines/               pt-floor/, steel/, rc-works/ (README, knowledge/, examples/) + manifest.yaml (files per discipline)
+.claude/skills/            3 discipline entry skills + 6 shared production skills (SKILL.md + references/)
+tools/ai/                  mcp_server.py (local read-only MCP server), ask_local.py (Ollama), project_access.py
+tools/knowledge/           build_knowledge_pack.py -> knowledge-pack/ (NotebookLM sources)
+knowledge-pack/            generated Markdown sources for NotebookLM (rebuild after changes)
 Structural-Drawing-Standards/   company standards (existing 05; 01-04 approved 14-OCT-2026; gap register)
 design-basis/              PROJECT_TEMPLATE.yaml, examples/PRJ-2026-003/
 tools/design_basis/        validate_design_basis.py
@@ -15,17 +28,17 @@ tools/xlsxgen/             build_anchorage_workbook.py, verify_workbook.py (XLSX
 tools/qa/                  package_qa.py (whole-package QA -> issue-register.csv + qa_report.md)
 tools/etabs/               etabs_import.py (table export XLSX/CSV), etabs_db_import.py (SQLite .db model export) (ETABS/SAFE table export -> normalised CSV + checks + provenance)
 calc_lib/                  reusable calculation logic + run scripts (separate from formatting)
-calc_lib/core/             PT designer foundations (M0): units (pint), check status, code registry loader, shared schemas (pydantic)
+calc_lib/core/             engineering core (M0): units (pint), check status, code registry loader, shared schemas (pydantic)
+calc_lib/pt|steel|rc/      discipline calculation modules (pt: ec2_pt_screen; rc: ec2_anchorage; steel: empty)
 config/code_registry/      versioned design-code parameters (ADR-004); skeleton only, all values empty and UNVERIFIED
 docs/                      Development Plan v2, Architecture v2, decision records (docs/adr/)
 webapp/                    local web app mockup (FastAPI + Next.js): projects, drawing import, AI assistant; see webapp/README.md
-skills-to-install/         copy into .claude/skills/ (see INSTALL.txt)
 tests/                     unittest suite
 ```
 ## Setup
-On the user's PC: double-click `setup_on_this_pc.bat` (installs the 5 skills into `.claude\skills` and writes `probe_result.json`).
+On the user's PC: double-click `setup_on_this_pc.bat` (installs Python libraries, builds the knowledge pack and writes `probe_result.json`). Skills are already in `.claude\skills`.
 
-Python 3.9+, `pip install pyyaml python-docx openpyxl ezdxf matplotlib pillow numpy pint pydantic` (plus `mypy ruff types-PyYAML` for checks: `python -m mypy`, `python -m ruff check calc_lib/core tests/test_core.py`); LibreOffice (`soffice`) for PDF/XLSX recalculation. Run `python tools/cadgen/probe_cad.py` on the PC that has AutoCAD/ETABS to record what is installed. Run tests: `python -m unittest discover -s tests -v` (202 tests; 13 need LibreOffice, 24 need the 05_Drafting-Styles folder).
+Python 3.9+, `pip install pyyaml python-docx openpyxl ezdxf matplotlib pillow numpy pint pydantic mcp` (2F PT example scripts also need `shapely`, `pymupdf`) (plus `mypy ruff types-PyYAML` for checks: `python -m mypy`, `python -m ruff check calc_lib/core tests/test_core.py`); LibreOffice (`soffice`) for PDF/XLSX recalculation. Run `python tools/cadgen/probe_cad.py` on the PC that has AutoCAD/ETABS to record what is installed. Run tests: `python -m unittest discover -s tests -v` (202 tests; 13 need LibreOffice, 24 need the 05_Drafting-Styles folder).
 
 ## Use
 1. New project: copy `design-basis/PROJECT_TEMPLATE.yaml`; fill known values only; validate it.

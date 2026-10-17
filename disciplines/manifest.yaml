@@ -1,0 +1,61 @@
+# Which repo files belong to the shared core and to each discipline.
+# Read by: tools/ai/project_access.py (MCP server, local Ollama assistant) and tools/knowledge/build_knowledge_pack.py (NotebookLM).
+# Paths are relative to the repo root; glob patterns are allowed. Every pattern must match at least one file (tested).
+core:
+  title: Platform core (shared by all disciplines)
+  pack: 00_platform-core.md
+  files:
+    - AGENTS.md
+    - disciplines/README.md
+    - Structural-Drawing-Standards/00_Company_Standards_Overview.md
+    - Structural-Drawing-Standards/00_Standards_Gap_Register.md
+    - Structural-Drawing-Standards/0[1-6]_*/*.md
+    - Structural-Drawing-Standards/04_General-Notes-and-Details/04-02_Eurocode_General_Notes_Library.yaml
+    - design-basis/PROJECT_TEMPLATE.yaml
+    - config/code_registry/README.md
+    - .claude/skills/structural-documentation/SKILL.md
+    - .claude/skills/structural-documentation/references/*.md
+    - .claude/skills/structural-drawing/SKILL.md
+    - .claude/skills/structural-drawing/references/*.md
+    - .claude/skills/structural-specification/SKILL.md
+    - .claude/skills/structural-specification/references/*.md
+    - .claude/skills/structural-calculation-report/SKILL.md
+    - .claude/skills/structural-calculation-report/references/*.md
+    - .claude/skills/structural-document-qa/SKILL.md
+    - .claude/skills/structural-document-qa/references/*.md
+    - docs/adr/README.md
+
+disciplines:
+  pt-floor:
+    title: Discipline 1 - Post-tensioned floors (bonded PT slabs and band beams)
+    skill: pt-floor-design
+    calc_package: calc_lib/pt
+    pack: 01_pt-floor.md
+    files:
+      - disciplines/pt-floor/README.md
+      - .claude/skills/pt-floor-design/SKILL.md
+      - disciplines/pt-floor/knowledge/*.md
+      - .claude/skills/structural-pt-drawing/SKILL.md
+      - .claude/skills/structural-pt-drawing/references/*.md
+      - Structural-Drawing-Standards/04_General-Notes-and-Details/04-02_PT_General_Notes.md
+      - design-basis/PT_BASIS_TEMPLATE.yaml
+      - docs/Development Plan v2.md
+      - docs/Architecture v2.md
+  steel:
+    title: Discipline 2 - Steel structures
+    skill: steel-design
+    calc_package: calc_lib/steel
+    pack: 02_steel.md
+    files:
+      - disciplines/steel/README.md
+      - .claude/skills/steel-design/SKILL.md
+      - disciplines/steel/knowledge/*.md
+  rc-works:
+    title: Discipline 3 - Reinforced concrete works
+    skill: rc-design
+    calc_package: calc_lib/rc
+    pack: 03_rc-works.md
+    files:
+      - disciplines/rc-works/README.md
+      - .claude/skills/rc-design/SKILL.md
+      - disciplines/rc-works/knowledge/*.md

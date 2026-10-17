@@ -4,7 +4,7 @@
 Usage:
   python tools/cadgen/pt_profiles.py --data <pt_profile_data.json> --standards Structural-Drawing-Standards --out <dir> [--no-pdf]
 
-Data file (schema: skills-to-install/structural-pt-drawing/references/pt-profile-data.md), per tendon mark:
+Data file (schema: .claude/skills/structural-pt-drawing/references/pt-profile-data.md), per tendon mark:
   stations : [{u: chainage cm, sp: spacing from previous station cm, h: tendon height above soffit cm}, ...]
   section  : {soffit: [[u0, u1, z_cm], ...], top: [[u0, u1, z_cm], ...]}     (steps in the section)
   curve    : [[u, z_cm], ...]   optional; when absent the curve is the polyline soffit(u) + h through the stations

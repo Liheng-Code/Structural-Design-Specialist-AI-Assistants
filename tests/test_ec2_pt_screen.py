@@ -1,6 +1,6 @@
 import sys, pathlib, math, unittest
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / "calc_lib"))
-import ec2_pt_screen as E
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
+from calc_lib.pt import ec2_pt_screen as E  # noqa: E402
 
 
 class T(unittest.TestCase):

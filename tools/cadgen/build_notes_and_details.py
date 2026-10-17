@@ -32,7 +32,7 @@ sys.path.insert(0, str(ROOT))
 import build_sheets as bs  # noqa: E402
 import common as c  # noqa: E402
 import validate_dxf as vd  # noqa: E402
-from calc_lib import ec2_anchorage as ec2  # noqa: E402
+from calc_lib.rc import ec2_anchorage as ec2  # noqa: E402
 
 DEFAULT_LIB_PATH = ROOT / "Structural-Drawing-Standards" / "04_General-Notes-and-Details" / "04-02_Eurocode_General_Notes_Library.yaml"
 
@@ -154,7 +154,7 @@ def compute_ec2_anchorage_table(
     bars: list[int] | None = None,
     fctk005_override: float | None = 2.03,
 ) -> dict:
-    """Compute EN 1992-1-1 section 8.4 / 8.7 anchorage, lap and mandrel rows using calc_lib/ec2_anchorage.py."""
+    """Compute EN 1992-1-1 section 8.4 / 8.7 anchorage, lap and mandrel rows using calc_lib/rc/ec2_anchorage.py."""
     bars = bars or [10, 12, 16, 20, 25]
     sigma_sd = ec2.fyd(fyk)
     good_row, poor_row, lap_good_row, lap_poor_row, mandrel_row = [], [], [], [], []
@@ -530,7 +530,7 @@ def build_004(db: dict, row: dict, layers: dict, out: pathlib.Path, lib: dict, o
     y1 = draw_table(msp, col1_x, y1 + 1.5, [144.0, 42.0], ["ELEMENT", "Cnom (mm)"], cov_rows, center_cols={1}, row_h=4.6)
     y1 = draw_paragraph_lines(msp, [s4["cover_note"]], col1_x, y1 - 1.5, col1_w) - 1.5
 
-    # C. ANCHORAGE & LAP LENGTHS (computed live from calc_lib/ec2_anchorage.py)
+    # C. ANCHORAGE & LAP LENGTHS (computed live from calc_lib/rc/ec2_anchorage.py)
     ac_cfg = (overrides or {}).get("anchorage_calc") or {}
     c_class = ac_cfg.get("concrete_class") or (mat_vars["rc_foundation_class"] if mat_vars["rc_foundation_class"] != "TBC" else "C30/37")
     fyk_val = float(ac_cfg.get("fyk") or (mat_vars["rebar_fyk"] if mat_vars["rebar_fyk"] != "TBC" else 390))
@@ -649,7 +649,7 @@ def build_006(db: dict, row: dict, layers: dict, out: pathlib.Path, lib: dict, o
     bs.place_titleblock(msp, bs.sheet_values(db, row, row["sheet_name"], "N.T.S."))
 
     s6 = lib["sheet_006"]
-    # Compute DB16 lap length dynamically from calc_lib/ec2_anchorage.py (560 mm lbd / 670 mm lap for C30/37, fyk=390)
+    # Compute DB16 lap length dynamically from calc_lib/rc/ec2_anchorage.py (560 mm lbd / 670 mm lap for C30/37, fyk=390)
     ac_cfg = (overrides or {}).get("anchorage_calc") or {}
     mat_vars = extract_db_materials(db)
     c_class = ac_cfg.get("concrete_class") or (mat_vars["rc_foundation_class"] if mat_vars["rc_foundation_class"] != "TBC" else "C30/37")

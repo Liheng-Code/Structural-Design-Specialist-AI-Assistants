@@ -1,5 +1,5 @@
 # Project-specific overrides for General Notes (SD-003..005) on PJR-2026-003
-# Transcribed from WH-STR-SD-003..005 R00; anchorage/lap/mandrel table on SD-004 is computed live from calc_lib/ec2_anchorage.py.
+# Transcribed from WH-STR-SD-003..005 R00; anchorage/lap/mandrel table on SD-004 is computed live from calc_lib/rc/ec2_anchorage.py.
 
 anchorage_calc:
   concrete_class: C30/37

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "structural-project": {
+      "command": "py",
+      "args": ["-3", "tools/ai/mcp_server.py"]
+    }
+  }
+}

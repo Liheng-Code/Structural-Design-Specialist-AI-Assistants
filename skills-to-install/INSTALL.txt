@@ -1,7 +1,0 @@
-Claude could not write into the protected .claude folder. Copy these 5 skill folders to .claude\skills\ :
-
-  PowerShell (run in D:\Structural Design Specialist AI Assistants):
-    New-Item -ItemType Directory -Force .claude\skills | Out-Null
-    Copy-Item -Recurse -Force skills-to-install\structural-* .claude\skills\
-
-Then delete the skills-to-install folder (or keep it as a backup).

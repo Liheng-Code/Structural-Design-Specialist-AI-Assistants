@@ -10,10 +10,11 @@ You coordinate; the other skills produce. Never produce a deliverable here that 
 ## Workflow
 1. **Locate the project design basis** in `design-basis/<PROJECT-CODE>.yaml`. If none exists, copy `design-basis/PROJECT_TEMPLATE.yaml`, fill only what the user has stated, leave the rest `null`, and tell the user what is missing. Do not guess codes, editions, National Annex, loads or materials.
 2. **Validate it:** `python tools/design_basis/validate_design_basis.py design-basis/<file>.yaml`. Report ERRORs (block approval/issue) and WARNINGs (unresolved items) in plain language.
-3. **Choose skills** from `references/deliverable-matrix.md` for what was asked. Do not generate documents that were not requested.
-4. **Maintain the document register** (`design-basis/<code>/document_register.csv`) and check it: `python tools/doc_control/check_register.py <register.csv> --design-basis <design_basis.yaml>`.
-5. **Hand off** to the production skill with: project code, drawing prefix, stage, revision, issue date, and the open items affecting that deliverable.
-6. **Before any issue**, run `structural-document-qa`. Final issue requires authorised engineering review (see `references/document-control.md`). You may prepare "FOR REVIEW" packages; you may not mark anything APPROVED yourself.
+3. **Identify the discipline** and load its entry skill for the design rules: `pt-floor-design` (bonded PT floors), `steel-design` (steel structures) or `rc-design` (reinforced concrete works). See `disciplines/README.md`. A package can span several disciplines; each keeps its own rules, all share one design basis and register.
+4. **Choose skills** from `references/deliverable-matrix.md` for what was asked. Do not generate documents that were not requested.
+5. **Maintain the document register** (`design-basis/<code>/document_register.csv`) and check it: `python tools/doc_control/check_register.py <register.csv> --design-basis <design_basis.yaml>`.
+6. **Hand off** to the production skill with: project code, drawing prefix, stage, revision, issue date, and the open items affecting that deliverable.
+7. **Before any issue**, run `structural-document-qa`. Final issue requires authorised engineering review (see `references/document-control.md`). You may prepare "FOR REVIEW" packages; you may not mark anything APPROVED yourself.
 
 ## Rules
 - Company standards live in `Structural-Drawing-Standards/` and are authoritative. Read them; do not copy them into skills.

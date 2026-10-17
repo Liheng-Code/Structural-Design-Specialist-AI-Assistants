@@ -78,7 +78,7 @@ PROF_DATA = json.load(open(EX / "pt_profile_data_2F.json", encoding="utf-8"))
 
 class PlanGenerator(unittest.TestCase):
     def test_2f_plan_matches_existing_redraft(self):
-        ref = ROOT / "redraft_2F_PT" / "2F_PT_Layout_Plan_REDRAFT.dxf"
+        ref = ROOT / "disciplines" / "pt-floor" / "examples" / "2F-PT" / "redraft" / "2F_PT_Layout_Plan_REDRAFT.dxf"
         if not ref.exists():
             self.skipTest("existing 2F plan DXF not present")
         with tempfile.TemporaryDirectory() as d:
@@ -116,7 +116,7 @@ class PlanGenerator(unittest.TestCase):
 
 class ProfileGenerator(unittest.TestCase):
     def test_2f_profiles_match_existing_redraft(self):
-        refs = {"X": ROOT / "redraft_2F_PT" / "profiles" / "2F_PT_Profiles_X_REDRAFT.dxf", "Y": ROOT / "redraft_2F_PT" / "profiles" / "2F_PT_Profiles_Y_REDRAFT.dxf"}
+        refs = {"X": ROOT / "disciplines" / "pt-floor" / "examples" / "2F-PT" / "redraft" / "profiles" / "2F_PT_Profiles_X_REDRAFT.dxf", "Y": ROOT / "disciplines" / "pt-floor" / "examples" / "2F-PT" / "redraft" / "profiles" / "2F_PT_Profiles_Y_REDRAFT.dxf"}
         if not all(p.exists() for p in refs.values()):
             self.skipTest("existing 2F profile DXFs not present")
         with tempfile.TemporaryDirectory() as o:

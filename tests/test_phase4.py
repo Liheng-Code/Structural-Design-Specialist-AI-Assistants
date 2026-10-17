@@ -14,7 +14,7 @@ from docx import Document
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "tools" / "docgen"))
-from calc_lib import ec2_anchorage as a  # noqa: E402
+from calc_lib.rc import ec2_anchorage as a  # noqa: E402
 import build_document as bd  # noqa: E402
 
 EX = ROOT / "design-basis" / "examples" / "PRJ-2026-003"

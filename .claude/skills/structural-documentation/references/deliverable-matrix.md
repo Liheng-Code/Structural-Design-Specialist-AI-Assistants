@@ -3,11 +3,19 @@
 | Request | Production skill | Output formats | Status of tooling |
 |---|---|---|---|
 | Drawing set / sheet / cover / drawing list / general notes | `structural-drawing` | DXF, DWG (only with native CAD), PDF | Phase 6: DXF + preview PDF built for sheets 001/002 only; no DWG |
+| PT drawings: general notes, tendon plan, tendon profiles, schedule (bonded post-tensioning) | `structural-pt-drawing` | DXF + preview PDF, CSV schedule | Built for PT-001 notes, PT-101 plan, PT-102 profiles; anchorage, band-beam and summary sheets not built; no DWG |
 | Technical specification | `structural-specification` | DOCX, PDF | Phase 4 generator built (`tools/docgen`); `07_*` standards not authored |
 | Calculation report | `structural-calculation-report` | DOCX, PDF | Phase 4 generator built; only EN 1992 anchorage check implemented; `10_*` standards not authored |
 | Calculation workbook | `structural-calculation-report` | XLSX | Phase 5 built for the anchorage check (`tools/xlsxgen`); other checks need their own builders |
 | ETABS/SAFE results import | `structural-calculation-report` | CSV/XLSX table exports | `tools/etabs/etabs_import.py` (Phase 7; tested on synthetic data only, real export format unverified) |
 | Consistency / readiness check | `structural-document-qa` | issue register CSV/MD | `tools/qa/package_qa.py` (Phase 8): cross-document consistency gate + issue register; consistency only, never an approval |
+
+## Discipline entry skills
+| Discipline | Entry skill | Notes |
+|---|---|---|
+| 1 Post-tensioned floors | `pt-floor-design` | Most developed; PT drawings + screening checks |
+| 2 Steel structures | `steel-design` | Skeleton only (gap G27) |
+| 3 Reinforced concrete works | `rc-design` | Anchorage/lap check only (gap G28) |
 
 Until a phase is built, the skill still guides the work manually, but must say that automated generation/validation is unavailable.
 

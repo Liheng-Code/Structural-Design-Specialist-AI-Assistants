@@ -4,7 +4,7 @@
 Usage:
   python tools/cadgen/pt_plan.py --data <pt_plan_data.json> --standards Structural-Drawing-Standards --out <dir> [--no-pdf]
 
-Everything project specific is in the data file (schema: skills-to-install/structural-pt-drawing/references/pt-plan-data.md):
+Everything project specific is in the data file (schema: .claude/skills/structural-pt-drawing/references/pt-plan-data.md):
 grid, columns, slab / drop-panel outlines, tendon lines, tendon marks and schedule, labels, dimensions, notes, title block.
 This script contains no project values. It never invents a value: a tendon with a missing field stops the build.
 Layers come from the approved standard (05-04, 05-04a, 05-04b) plus 05-04c if present (PROPOSED: S-PT-TENDON, S-CONC-DROP).

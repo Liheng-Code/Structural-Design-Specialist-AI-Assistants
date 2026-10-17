@@ -3,7 +3,7 @@
 # Rules:
 # - Never invent project-specific engineering values. Any project parameter missing from design_basis.yaml
 #   or project overrides is rendered explicitly as "TBC".
-# - Anchorage, lap, and mandrel tables on Sheet 004 are computed dynamically via calc_lib/ec2_anchorage.py.
+# - Anchorage, lap, and mandrel tables on Sheet 004 are computed dynamically via calc_lib/rc/ec2_anchorage.py.
 
 meta:
   id: 04-02
