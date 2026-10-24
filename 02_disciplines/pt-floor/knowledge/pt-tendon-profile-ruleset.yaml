@@ -1,0 +1,200 @@
+# PT tendon modelling & profile geometry ruleset - machine-readable form.
+# STATUS: DRAFT, UNVERIFIED. Imported 24-OCT-2026 from the user's Google Doc
+#   "Post-Tensioned Tendon Modeling & Profile Geometry Ruleset" (Drive id 1HYU3WhCLvSN3-axo9bZHnPoClLUl_aQk5BirrEeuqxw).
+# The document says it follows EN 1992-1-1:2004, ADAPT-Builder modelling guidelines and PTI standards.
+# Rule text and numbers are copied from that document; nothing was added. 'basis', 'adapt_profile_type',
+# 'related' and 'review_note' are Claude's review.
+# basis: EC2 = stated as Eurocode 2 | ACI = ACI / PTI origin | practice = software / industry guidance (not a code clause)
+# status: UNVERIFIED for every rule until an engineer accepts it (then ACCEPTED with accepted_by "Name YYYY-MM-DD").
+# adapt_profile_type: code from the ADAPT-Builder 2019 INP span legend (1 Reverse Parabola, 2 Partial Parabola, 3 Harped,
+#   4 Cant Up, 5 Cant Partial, 6 Cant Harp, 7 Cant Down, 8 Straight, 9 Ext Reverse Parabola). Note: the 2F export
+#   (05_docs/2FPT-original.inp) writes 0 and 3 in that column, so the legend mapping must be confirmed by an import test.
+# Guide: pt-tendon-profile-ruleset.md. Gap register: G34.
+ruleset_version: 1
+title: Post-Tensioned Tendon Modeling & Profile Geometry Ruleset
+status: DRAFT
+source:
+  document: Post-Tensioned Tendon Modeling & Profile Geometry Ruleset (Google Doc)
+  drive_id: 1HYU3WhCLvSN3-axo9bZHnPoClLUl_aQk5BirrEeuqxw
+  imported: 2026-10-24
+  stated_references: [EN 1992-1-1:2004, ADAPT-Builder modelling guidelines, PTI standards]
+
+rules:
+  # ---------------------------------------------------------------- 1. Principle
+  - id: PT-PRF-01
+    title: Profile governs balancing load and prestress actions
+    category: principle
+    rule: "Tendon profiles govern the equivalent balancing load w_b = 8 P a / L^2; accurate profiles are needed for the primary moment (P x e) and the secondary hyperstatic actions (M_hyp)."
+    basis: practice
+    status: UNVERIFIED
+    automatable: false
+    review_note: "Principle statement."
+
+  # ---------------------------------------------------------------- 2. Profile shape selection
+  - id: PT-PRF-02
+    title: Reversed parabola - continuous spans
+    category: profile_shape
+    applies_when: "Interior and exterior continuous floor spans"
+    adapt_profile_type: 1
+    rule: "Inflection points at X1/L = 0.10 and X3/L = 0.10 from the support centrelines; low point X2/L = 0.50 for interior spans and 0.40 for exterior end bays; smooth transition from convex over supports to concave at midspan."
+    parameters: {x1_over_l: 0.10, x3_over_l: 0.10, x2_over_l_interior: 0.50, x2_over_l_end_bay: 0.40}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    related: [PT-LAY-11]
+    review_note: "Consistent with PT-LAY-11 and the Design Template doc. The 2F ADAPT model uses X1 = X3 = 0.10 and X2 = 0.50 (end bays not checked)."
+
+  - id: PT-PRF-03
+    title: Partial parabola - banded tendons
+    category: profile_shape
+    applies_when: "Banded tendons concentrated over column lines"
+    adapt_profile_type: 2
+    rule: "Include a flat straight segment of about 1.2 m directly over the column supports to prevent rebar crowding."
+    parameters: {flat_top_length_m: 1.2}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    related: [PT-LAY-10]
+    review_note: "Same value as PT-LAY-10 (approximate)."
+
+  - id: PT-PRF-04
+    title: Cantilever up - overhangs
+    category: profile_shape
+    applies_when: "Exterior slab overhangs and cantilevers"
+    adapt_profile_type: 4
+    rule: "High point at the support: CGS = h - c_nom - phi_rebar - 0.5 phi_duct. At the free edge anchor near the slab centroidal axis, or hold high, to resist the negative moment M = -w L_cant^2 / 2."
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Free-edge anchor position is a choice ('near centroid or held high') - engineer decides per cantilever."
+
+  - id: PT-PRF-05
+    title: Cantilever down
+    category: profile_shape
+    applies_when: "Cantilevers with upward tip reactions or heavy edge beams"
+    adapt_profile_type: 7
+    rule: "Low point at the free edge, anchored near the soffit; used when downward balancing forces are required."
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Unusual case; confirm the load case that needs downward balancing."
+
+  - id: PT-PRF-06
+    title: Harped profile - transfer and point loads
+    category: profile_shape
+    applies_when: "Transfer beams, podium slabs, concentrated point loads"
+    adapt_profile_type: 3
+    rule: "Straight sloped segments with a sharp angle change under the transfer column load."
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Angle change concentrates radial force - check with PT-PRF-12 (minimum radius) and the supplier."
+
+  - id: PT-PRF-07
+    title: Straight profile - walls and restrained edges
+    category: profile_shape
+    applies_when: "Continuous shear walls and restrained slab edges"
+    adapt_profile_type: 8
+    rule: "Zero drape (a = 0), placed flat along the centroidal axis where vertical uplift is not needed."
+    parameters: {drape_mm: 0}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Gives precompression only, no balancing load."
+
+  - id: PT-PRF-08
+    title: Extended reversed parabola - unequal spans
+    category: profile_shape
+    applies_when: "Asymmetric or highly unequal adjacent spans"
+    adapt_profile_type: 9
+    rule: "Extend the parabolic curves across offset support lines to keep smooth curvature without sharp kinks."
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "No numeric criterion for 'highly unequal' - engineer to set one if this is automated."
+
+  # ---------------------------------------------------------------- 3. Control points (CGS)
+  - id: PT-PRF-09
+    title: Support high point CGS
+    category: geometry
+    rule: "Top CGS = h - c_nom - phi_rebar - 0.5 phi_duct. Standard input: CGS 25 to 35 mm below the top surface (h - 25 to h - 35 mm from the soffit)."
+    parameters: {top_cgs_below_top_mm: [25, 35]}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "INCONSISTENT with its own formula: with c_nom from EN 1992-1-1 4.4.1 (typically >= 20-25 mm), a 12-16 mm top bar and half the duct height, the CGS lands about 45-60 mm below the top, not 25-35 mm. Use the formula with project values; treat the 'standard input' range as unverified."
+
+  - id: PT-PRF-10
+    title: Midspan low point CGS
+    category: geometry
+    rule: "Bottom CGS = c_nom + 0.5 phi_duct. Standard input: CGS 20 to 30 mm above the soffit."
+    parameters: {bottom_cgs_above_soffit_mm: [20, 30]}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Same issue as PT-PRF-09: c_nom + half a flat duct (e.g. 25 + 12.5 mm) already exceeds 30 mm. Formula governs; range unverified. Bottom bars below the duct are not in the formula - confirm the layer order."
+
+  - id: PT-PRF-11
+    title: Slab thickness and soffit transitions
+    category: geometry
+    rule: "Where the soffit drops or the thickness changes in a span, the centroid shift m creates a step moment M = P x m; offset the low points so the curvature stays smooth."
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Relevant to the 2F slab (250 mm slab / 450 mm drop panels and band beams)."
+
+  # ---------------------------------------------------------------- 4. Curvature, friction, wobble
+  - id: PT-PRF-12
+    title: Minimum radius of curvature
+    category: check
+    rule: "Keep R >= 2.0 m to prevent concrete crushing or duct splitting under the radial force F_radial = P / R."
+    parameters: {r_min_m: 2.0}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Matches 'Min rad of curv 2000' in the 2F ADAPT export. Not an EN 1992-1-1 value - the PT system's ETA / supplier minimum radius governs."
+
+  - id: PT-PRF-13
+    title: Friction and wobble - bonded
+    category: parameter
+    applies_when: "Bonded, flat or round metal ducts"
+    rule: "Angular friction mu = 0.19 to 0.20 /rad; wobble K = 0.0033 rad/m."
+    parameters: {mu_per_rad: [0.19, 0.20], k_rad_per_m: 0.0033}
+    basis: EC2
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Source cites EN 1992-1-1 Cl 5.10.6, but friction losses are in 5.10.5.2 (5.10.6 is time-dependent losses) - check the reference. As I recall EN 1992-1-1 gives k generally between 0.005 and 0.01 per metre for internal tendons, so 0.0033 may be below that range - verify against the code text. ETA / supplier values govern."
+
+  - id: PT-PRF-14
+    title: Friction and wobble - unbonded
+    category: parameter
+    applies_when: "Unbonded plastic-sheathed monostrand"
+    rule: "Angular friction mu = 0.05 to 0.07 /rad; wobble K = 0.0010 to 0.0014 rad/m."
+    parameters: {mu_per_rad: [0.05, 0.07], k_rad_per_m: [0.0010, 0.0014]}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Typical supplier range. The 2F ADAPT model uses mu = 0.07 and k = 0.003 /m with all tendons flagged unbonded, while the drawing says bonded (mu 0.2): this rule set makes that mismatch explicit. ETA / supplier values govern."
+
+  # ---------------------------------------------------------------- 5. Verification triggers
+  - id: PT-PRF-15
+    title: Checks triggered by a bonded system
+    category: verification_trigger
+    applies_when: "PT basis system.type = bonded"
+    rule: "Run the Eurocode 2 frequent-combination SLS crack width check, w_k <= 0.2 mm."
+    parameters: {wk_max_mm: 0.2, combination: frequent}
+    basis: EC2
+    status: UNVERIFIED
+    automatable: true
+    review_note: "In line with EN 1992-1-1 Table 7.1N for bonded tendons, but that table also adds a decompression check for some exposure classes - confirm with the project exposure class."
+
+  - id: PT-PRF-16
+    title: Checks triggered by an unbonded system
+    category: verification_trigger
+    applies_when: "PT basis system.type = unbonded"
+    rule: "Run the quasi-permanent SLS crack width check, w_k <= 0.3 mm, and the post-cracking brittle-failure check M_Rd >= 1.15 M_cr."
+    parameters: {wk_max_mm: 0.3, combination: quasi-permanent, mrd_over_mcr_min: 1.15}
+    basis: ACI
+    status: UNVERIFIED
+    automatable: true
+    review_note: "The 0.3 mm quasi-permanent limit matches EN 1992-1-1 Table 7.1N for unbonded / RC. The 1.15 M_cr rule is ACI-style, not an EN 1992-1-1 requirement (EC2 addresses brittle failure differently, 5.10.1). Same issue as in the Design Template doc."
