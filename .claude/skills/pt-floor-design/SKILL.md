@@ -17,6 +17,7 @@ Read first: `02_disciplines/pt-floor/README.md` (what exists and what is missing
 |---|---|
 | Preliminary scheme from a plan | Follow `02_disciplines/pt-floor/knowledge/pt-design-guide.md` |
 | Tendon arrangement / profile rules | `02_disciplines/pt-floor/knowledge/pt-detailing-guide.md` |
+| Type A layout choice (banded direction), shortening, delay strips, restraint and crack mitigation | Ruleset `02_disciplines/pt-floor/knowledge/pt-master-ruleset.yaml` (guide: `pt-master-ruleset.md`). Quote rule IDs. All rules UNVERIFIED; ACI / practice rules are not Eurocode requirements (gap G33) |
 | PT drawings (PT-001 notes, PT-101 plan, PT-102 profiles, schedule) | Skill `pt-drawings` |
 | Full 10-sheet PT slab package from a draft layout (body layout, beam / drop-panel / slab reinforcement, tendon plan and profiles) | Skill `pt-slab-package`. Its "defaults" section lists numbers (materials, partial factors, friction, wobble): treat every one as ASSUMED / TBC unless the design basis records it (gap G30). Use the PT basis system type (bonded default) |
 | Screening checks (stresses at transfer/service, balanced load) | `04_tools/calc_lib/pt/ec2_pt_screen.py`; pattern in `03_projects/PJR-2F-PT/runs/`. Label every result INDICATIVE |

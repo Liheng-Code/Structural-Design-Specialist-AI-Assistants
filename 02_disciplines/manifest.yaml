@@ -35,6 +35,7 @@ disciplines:
       - 02_disciplines/pt-floor/README.md
       - .claude/skills/pt-floor-design/SKILL.md
       - 02_disciplines/pt-floor/knowledge/*.md
+      - 02_disciplines/pt-floor/knowledge/*.yaml
       - .claude/skills/pt-drawings/SKILL.md
       - .claude/skills/pt-slab-package/SKILL.md
       - .claude/skills/pt-slab-package/references/*.md

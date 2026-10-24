@@ -1,0 +1,259 @@
+# PT floor slab master ruleset - machine-readable form.
+# STATUS: DRAFT, UNVERIFIED. Imported 24-OCT-2026 from the user's Google Doc
+#   "Post-Tensioned Concrete Floor Slab Master Ruleset" (Drive id 1uswGptsC840d8DoSZPEr56YYV1UgwQgkRelrw_IJDOw).
+# The document says it is synthesised from EN 1992-1-1:2004, ACI 318 and B. Aalami technical notes TN451, TN454, TN458, B124.
+# Rule text and numbers are copied from that document; nothing was added. 'basis' and 'review_note' are Claude's review.
+# basis: EC2 = stated as Eurocode 2 | ACI = ACI 318 origin | practice = technical-note / industry guidance (not a code clause)
+# status: UNVERIFIED for every rule until an engineer accepts it (then ACCEPTED with name and date). Never APPROVED by an AI.
+# Human-readable copy: pt-master-ruleset.md (keep both in step). Gap register: G33.
+ruleset_version: 1
+title: Post-Tensioned Concrete Floor Slab Master Ruleset
+status: DRAFT
+source:
+  document: Post-Tensioned Concrete Floor Slab Master Ruleset (Google Doc)
+  drive_id: 1uswGptsC840d8DoSZPEr56YYV1UgwQgkRelrw_IJDOw
+  imported: 2026-10-24
+  stated_references: [EN 1992-1-1:2004, ACI 318, Aalami TN451, Aalami TN454, Aalami TN458, Aalami B124]
+
+rules:
+  # ---------------------------------------------------------------- 1. Type A tendon layout
+  - id: PT-LAY-01
+    title: Layout type
+    category: layout
+    rule: "Flat slabs use banded-distributed (Type A) or distributed-distributed (Type B) tendons; Type A is the usual choice for elevated floor plates (constructability, speed, fewer tendon crossings over columns)."
+    basis: practice
+    status: UNVERIFIED
+    automatable: false
+    review_note: "Preference, not a requirement. Project decides the layout type."
+
+  - id: PT-LAY-02
+    title: Flexural capacity independent of plan arrangement
+    category: layout
+    rule: "Two-way flexural capacity is governed by the total PT force per bay and the tendon drape a, not by the plan arrangement; the precompressed slab behaves as a homogeneous two-way plate, so Type A is permitted if SLS stress limits, minimum precompression and column integrity are met."
+    basis: practice
+    status: UNVERIFIED
+    automatable: false
+    review_note: "Design philosophy statement; supports Type A but is not a check in itself."
+
+  - id: PT-LAY-03
+    title: Minimum average precompression
+    category: check
+    rule: "Average precompression P/A >= 0.7 to 0.85 MPa."
+    parameters: {p_over_a_min_mpa: [0.7, 0.85]}
+    basis: ACI
+    status: UNVERIFIED
+    automatable: true
+    review_note: "ACI/PTI-origin limit, not an EN 1992-1-1 requirement. A range is given, not one value - the engineer must choose. Use as a design target only unless the project adopts it."
+
+  - id: PT-LAY-04
+    title: Banded direction - span length (primary structural rule)
+    category: layout_decision
+    priority: 2
+    applies_when: "Type A layout; columns continuous in both directions"
+    rule: "Band the tendons along the LONG span direction; distribute them along the SHORT span direction."
+    rationale: "w_b = 8 P a / L^2: long spans need more force; banding over the column lines gives maximum drape without rebar crowding. Short-span distribution meets spacing limits with low strand counts."
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Overridden by PT-LAY-05 (column continuity) and PT-LAY-06 (slab bands) - see priority."
+
+  - id: PT-LAY-05
+    title: Banded direction - column line continuity (primary geometric rule)
+    category: layout_decision
+    priority: 1
+    applies_when: "Columns aligned in one direction but offset / staggered in the other"
+    rule: "Band the tendons along the CONTINUOUS column lines, regardless of span length."
+    rationale: "Banded tendons need a straight path over the supports to give negative-moment capacity."
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Takes precedence over PT-LAY-04 (the source says 'regardless of span length')."
+
+  - id: PT-LAY-06
+    title: Banded direction - slab bands / wide shallow beams
+    category: layout_decision
+    priority: 1
+    applies_when: "Slab bands or wide shallow beams present: h <= 2 t_slab and b >= 3 h"
+    parameters: {band_depth_max_over_slab: 2.0, band_width_min_over_depth: 3.0}
+    rule: "Place the banded tendons INSIDE the slab bands / shallow beams."
+    rationale: "The thickened band gives extra depth for drape and cover."
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Source does not say how PT-LAY-05 and PT-LAY-06 rank against each other if they disagree; engineer to decide."
+
+  - id: PT-LAY-07
+    title: Distributed tendon spacing
+    category: check
+    rule: "Distributed tendon spacing s <= 8h or s <= 1.5 m."
+    parameters: {spacing_max_over_h: 8, spacing_max_m: 1.5}
+    basis: ACI
+    status: UNVERIFIED
+    automatable: true
+    review_note: "ACI 318 limit; EN 1992-1-1 has no equivalent stated here. Source writes 'or' - confirm whether the lesser of the two governs."
+
+  - id: PT-LAY-08
+    title: Column cage integrity tendons
+    category: detailing
+    rule: "At least two tendons pass directly through the column reinforcement cage in each direction (structural integrity, progressive collapse)."
+    parameters: {tendons_through_column_min_each_direction: 2}
+    basis: ACI
+    status: UNVERIFIED
+    automatable: true
+    review_note: "ACI 318 integrity rule. For Eurocode projects confirm the EN 1992-1-1 integrity provisions (bottom reinforcement through columns) separately."
+
+  - id: PT-LAY-09
+    title: Band width limit
+    category: detailing
+    rule: "Banded tendons over column lines are grouped within column width + 1.5h on each side, or L_y / 2."
+    parameters: {band_extra_each_side_over_h: 1.5}
+    basis: ACI
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Wording 'or L_y/2' is ambiguous (lesser? greater? which L_y?) - engineer to clarify before use."
+
+  - id: PT-LAY-10
+    title: Tendon profile - banded direction
+    category: detailing
+    rule: "Partial parabola with a flat top of about 1.2 m straight length directly over column supports."
+    parameters: {flat_top_length_m: 1.2}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Approximate ('~1.2 m'); depends on column size and supplier."
+
+  - id: PT-LAY-11
+    title: Tendon profile - distributed direction
+    category: detailing
+    rule: "Full reversed parabola with inflection points at 0.10 L from the supports."
+    parameters: {inflection_from_support_over_l: 0.10}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Matches the 0.1 L inflection used in the 2F ADAPT model spans (X1 = X3 = 0.1)."
+
+  - id: PT-LAY-12
+    title: Rebar matching over supports
+    category: detailing
+    rule: "Top support rebar diameter should match the adjacent tendon duct size (phi 12 or phi 16) over column supports. Bottom rebar in the banded direction is grouped within the band width; bottom rebar in the distributed direction is placed uniformly across the bay."
+    basis: practice
+    status: UNVERIFIED
+    automatable: false
+    review_note: "'Rebar diameter should match duct size' is unclear as an engineering rule (a 12-16 mm bar is not comparable to a flat duct). Engineer to restate or remove."
+
+  # ---------------------------------------------------------------- 2. Shortening, restraint, crack mitigation
+  - id: PT-SHR-01
+    title: Shortening components
+    category: method
+    rule: "Total unrestrained shortening strain = elastic + shrinkage + creep + thermal; movement a = L x strain."
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Method statement. Strain values must come from EN 1992-1-1 creep/shrinkage models or the engineer, not from this ruleset."
+
+  - id: PT-SHR-02
+    title: Unrestrained shortening baseline
+    category: estimate
+    rule: "Long-term shortening is about 10 mm per 15 m of slab length (0.75 in per 100 ft)."
+    parameters: {shortening_mm_per_15m: 10}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "CONFLICT: the 'Design Template & Technical Specification' doc (24-OCT-2026) gives 15-35 mm per 100 m; this rule gives ~67 mm per 100 m. Resolve before using either."
+
+  - id: PT-SHR-03
+    title: Restraint mechanism
+    category: principle
+    rule: "Shortening alone does not crack the slab; cracking occurs when rigid supports (foundation walls, cores, stiff columns) restrain it - part of the PT force is absorbed by the supports and net precompression can fall to about zero, causing full-depth restraint cracks."
+    basis: practice
+    status: UNVERIFIED
+    automatable: false
+    review_note: "Principle; supports the checks below."
+
+  - id: PT-SHR-04
+    title: Contiguous length thresholds
+    category: layout_decision
+    rule: "L <= 75 m: no delay strip, design slab and columns for unrestrained shortening. 75 m < L <= 114 m: provide a central delay (pour) strip. L > 114 m: provide permanent structural expansion joints."
+    parameters: {no_strip_max_m: 75, delay_strip_max_m: 114}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Guidance from technical notes (US practice). Boundary handling (<= / <) assumed as written."
+
+  - id: PT-SHR-05
+    title: Allowable restrained movement
+    category: check
+    rule: "If the computed movement relative to a stiff support exceeds 6 mm, crack mitigation (pour/delay strips, temporary or permanent release joints) is mandatory."
+    parameters: {restrained_movement_limit_mm: 6}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Technical-note threshold, not a code clause."
+
+  - id: PT-SHR-06
+    title: Delay strip open duration
+    category: estimate
+    rule: "Keep the delay strip open until remaining movement after closure <= 6 mm: required free-shortening ratio = (total shortening - 6 mm) / total shortening, read against the time-shortening curve (TN451 Fig. Q.2.7-1). Typical: upper floors 20-25 days; rigid ground / podium floors 30-40 days."
+    parameters: {upper_floors_days: [20, 25], podium_days: [30, 40]}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "CONFLICT: the Design Template doc says 28-56 days. The curve (TN451 Fig. Q.2.7-1) is not in the repo - needed before automating."
+
+  - id: PT-SHR-07
+    title: Restraint by building level
+    category: guidance
+    rule: "1st elevated floor (podium): maximum restraint - delay strips and temporary wall release joints required. 2nd: moderate (walls take ~3 mm) - central slip joint or delay strip often required. 3rd: low (~6 mm) - standard pour sequence, delay strips rarely needed. 4th and above: no significant restraint - no delay strips needed for crack mitigation."
+    parameters: {level2_wall_movement_mm: 3, level3_wall_movement_mm: 6}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Qualitative guidance; actual restraint depends on the stiffness of the supports, which should be checked per project."
+
+  - id: PT-SHR-08
+    title: Construction joints
+    category: detailing
+    rule: "Divide large slabs into pours of about 200 m2; stress long tendons with intermediate anchorages or overlapping dead ends; cast recessed shear keys in the joint to transfer vertical shear."
+    parameters: {pour_area_m2: 200}
+    basis: practice
+    status: UNVERIFIED
+    automatable: false
+    review_note: "Approximate pour size; confirm with contractor and supplier."
+
+  - id: PT-SHR-09
+    title: Temporary released connections
+    category: detailing
+    rule: "Encase wall dowels in Styrofoam or corrugated sleeves (filled with newspaper) during casting so the slab slides on a smooth troweled slip joint; clean and grout the sleeves with non-shrink grout at day 20-30."
+    parameters: {grout_day: [20, 30]}
+    basis: practice
+    status: UNVERIFIED
+    automatable: false
+    review_note: "Site detail; specification wording to be reviewed."
+
+  - id: PT-SHR-10
+    title: Permanent released connections
+    category: detailing
+    rule: "Trowel wall tops at slab corners smooth and cover with two layers of slip material (e.g. Masonite or neoprene pads) to permanently isolate the slab corner from wall restraint."
+    basis: practice
+    status: UNVERIFIED
+    automatable: false
+    review_note: "Product choice (Masonite / neoprene) for the engineer."
+
+  - id: PT-SHR-11
+    title: Restraint crack control bars
+    category: detailing
+    rule: "Place horizontal rebar mats along stiff shear walls at lower levels to distribute restraint strain into multiple fine cracks."
+    basis: practice
+    status: UNVERIFIED
+    automatable: false
+    review_note: "No quantity given - engineer to size."
+
+  - id: PT-SHR-12
+    title: Trim bars at re-entrant corners and openings
+    category: detailing
+    rule: "Place 2-phi12 or 2-phi16 diagonal trim bars at all re-entrant slab corners and openings at all floor levels."
+    parameters: {bars: 2, diameters_mm: [12, 16]}
+    basis: practice
+    status: UNVERIFIED
+    automatable: true
+    review_note: "Same rule appears in the Design Template doc (consistent)."
