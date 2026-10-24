@@ -25,8 +25,21 @@ class Notes(unittest.TestCase):
         self.assertIn("tendon.mu", r["missing"])
         self.assertIn("mu = TBC", pn.to_text(r))
 
-    def test_unbonded_is_refused(self):
+    def test_unbonded_is_accepted_and_printed(self):
         b = copy.deepcopy(BASIS); b["system"]["type"] = "unbonded"
+        r = pn.render(TEMPLATE, b)
+        self.assertEqual(r["system"], "unbonded")
+        self.assertIn("POST-TENSIONING SYSTEM SHALL BE UNBONDED.", pn.to_text(r))
+
+    def test_missing_system_defaults_to_bonded_and_is_flagged(self):
+        b = copy.deepcopy(BASIS); b["system"]["type"] = None
+        r = pn.render(TEMPLATE, b)
+        self.assertEqual(r["system"], "bonded")
+        self.assertIn("POST-TENSIONING SYSTEM SHALL BE BONDED.", pn.to_text(r))
+        self.assertTrue(any(o["id"] == "AUTO-SYS" for o in r["open_items"]))
+
+    def test_unknown_system_is_refused(self):
+        b = copy.deepcopy(BASIS); b["system"]["type"] = "partially bonded"
         with self.assertRaises(pn.PTBasisError):
             pn.render(TEMPLATE, b)
 
@@ -44,12 +57,27 @@ class Validator(unittest.TestCase):
         self.assertTrue(r["ok"], r["errors"])
         self.assertTrue(any("jacking stress" in m for m in r["info"]))
 
-    def test_unbonded_and_bs_rejected(self):
-        b = copy.deepcopy(BASIS); b["system"]["type"] = "unbonded"; b["codes"]["concrete"] = "BS 8110-1997"
+    def test_bs_rejected(self):
+        b = copy.deepcopy(BASIS); b["codes"]["concrete"] = "BS 8110-1997"
         r = vb.validate(b)
         self.assertFalse(r["ok"])
-        self.assertTrue(any("bonded" in e for e in r["errors"]))
         self.assertTrue(any("British Standard" in e for e in r["errors"]))
+
+    def test_system_types(self):
+        b = copy.deepcopy(BASIS); b["system"]["type"] = "unbonded"
+        self.assertTrue(vb.validate(b)["ok"], vb.validate(b)["errors"])
+        b["system"]["type"] = None
+        r = vb.validate(b)
+        self.assertTrue(r["ok"], r["errors"])
+        self.assertTrue(any("company default" in w for w in r["warnings"]))
+        b["system"]["type"] = "partially bonded"
+        self.assertFalse(vb.validate(b)["ok"])
+
+    def test_bonded_basis_with_unbonded_wording_is_inconsistent(self):
+        b = copy.deepcopy(BASIS); b["system"]["supplier"] = "XYZ unbonded mono-strand kit"
+        r = vb.validate(b)
+        self.assertFalse(r["ok"])
+        self.assertTrue(any("system.type is bonded" in e for e in r["errors"]))
 
     def test_jacking_over_limit_is_error(self):
         b = copy.deepcopy(BASIS); b["strand"]["jacking_force_kn"] = 160

@@ -1,6 +1,6 @@
 ---
 name: pt-floor-design
-description: Entry point for discipline 1, bonded post-tensioned floors (PT slabs and band beams) to EN 1992-1-1. Use for any PT floor request - scheme design, tendon layout, PT screening checks, PT drawings, PT calculation notes, or checking a PT design or drawing set. Routes to the PT tools and the shared production skills.
+description: Entry point for discipline 1, post-tensioned floors (PT slabs and band beams; bonded by default, unbonded allowed) to EN 1992-1-1. Use for any PT floor request - scheme design, tendon layout, PT screening checks, PT drawings, PT calculation notes, or checking a PT design or drawing set. Routes to the PT tools and the shared production skills.
 ---
 
 # PT floor design (discipline 1)
@@ -8,7 +8,7 @@ description: Entry point for discipline 1, bonded post-tensioned floors (PT slab
 Read first: `02_disciplines/pt-floor/README.md` (what exists and what is missing) and the repo `CLAUDE.md` / `AGENTS.md` rules.
 
 ## Scope
-- **Bonded** PT only. If a document says unbonded or mono-strand, stop and tell the user.
+- Bonded post-tensioning is the company default; unbonded is also allowed (EN 1992-1-1 covers both). Use what the PT basis `system.type` states; if it is not stated, assume bonded and list it as an open item. Never switch a stated system silently.
 - Eurocodes, CEN recommended values unless the design basis records a National Annex.
 - Tendon forces, strand counts, profiles and losses come from a PT analysis or the engineer. Never fill them in.
 
@@ -18,7 +18,7 @@ Read first: `02_disciplines/pt-floor/README.md` (what exists and what is missing
 | Preliminary scheme from a plan | Follow `02_disciplines/pt-floor/knowledge/pt-design-guide.md` |
 | Tendon arrangement / profile rules | `02_disciplines/pt-floor/knowledge/pt-detailing-guide.md` |
 | PT drawings (PT-001 notes, PT-101 plan, PT-102 profiles, schedule) | Skill `pt-drawings` |
-| Full 10-sheet PT slab package from a draft layout (body layout, beam / drop-panel / slab reinforcement, tendon plan and profiles) | Skill `pt-slab-package`. Its "defaults" section lists numbers (materials, partial factors, friction, wobble): treat every one as ASSUMED / TBC unless the design basis records it (gap G30). Bonded only |
+| Full 10-sheet PT slab package from a draft layout (body layout, beam / drop-panel / slab reinforcement, tendon plan and profiles) | Skill `pt-slab-package`. Its "defaults" section lists numbers (materials, partial factors, friction, wobble): treat every one as ASSUMED / TBC unless the design basis records it (gap G30). Use the PT basis system type (bonded default) |
 | Screening checks (stresses at transfer/service, balanced load) | `04_tools/calc_lib/pt/ec2_pt_screen.py`; pattern in `03_projects/PJR-2F-PT/runs/`. Label every result INDICATIVE |
 | Calculation note / workbook | Skill `structural-calculation-report` |
 | Specification | Skill `structural-specification` |

@@ -1,4 +1,4 @@
-# 04-02 PT General Notes (bonded post-tensioning, Eurocode) - PROPOSED, NOT APPROVED
+# 04-02 PT General Notes (bonded post-tensioning by default, or unbonded; Eurocode) - PROPOSED, NOT APPROVED
 
 Source: notes and legends block of the 2F PT drawing (Success Design & Build, sheet 15, Rev 01, 22-AUG-2023), two images supplied 16-OCT-2026. Design codes changed from BS to Eurocode as instructed; PT system stated as bonded as instructed. Everything else keeps the source wording and values.
 
@@ -14,9 +14,10 @@ A Design codes | B Concrete | C Reinforcement | D Strand properties | E Tendon d
 - Codes: EN 1990, EN 1991-1-1, EN 1992-1-1 (parts as listed in the PT basis). CEN recommended values unless the design basis records a National Annex.
 - A value that is not in the PT basis prints TBC and is listed in section K. The builder never fills values.
 - Source values that do not carry straight across to Eurocode stay as the source value or TBC and have an open item (see `.claude/skills/pt-drawings/references/source-conversion-log.md`).
-- Only a bonded system is accepted by the builder and the validator.
+- Bonded is the company default. Unbonded is accepted when the PT basis states `system.type: unbonded` (user decision 24-OCT-2026); the notes then print UNBONDED. A missing type prints BONDED and is listed as an assumption to confirm. The rest of the wording (ducts, grouting) was written for bonded systems; unbonded wording is not yet reviewed (gap G32).
 - The symbol graphics of source legends VI to X (rebar layers, slab step detail, duct and chair, stressing arrows, strand symbols) are written as notes, not drawn. Drawing them is open (gap G26).
 
 | Rev | Date | Description | By |
 |---|---|---|---|
 | R00 | 16-Oct-2026 | Proposed from the 2F PT notes images; Eurocode, bonded | Claude (draft) |
+| R01 | 24-Oct-2026 | Unbonded allowed, bonded kept as default (user decision); system line made a parameter | Claude (draft) |

@@ -1,4 +1,4 @@
-# PT drawing package (bonded)
+# PT drawing package (bonded default, or unbonded)
 
 Sheet numbers follow the project prefix from the design basis: `<PREFIX>-PT-<nnn>`. Stage and revision come from the design basis. For preliminary PT work the user has used stage PRELIMINARY PT DESIGN and revision P01 (see `01_standards/00-gap-register.md` G08 for the open P/R/C rule).
 

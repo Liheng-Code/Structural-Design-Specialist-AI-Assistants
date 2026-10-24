@@ -24,7 +24,7 @@ import project_access as pa
 server = Server(
     "structural-project",
     instructions=(
-        "Structural design specialist project with three disciplines: pt-floor (bonded post-tensioned floors), "
+        "Structural design specialist project with three disciplines: pt-floor (post-tensioned floors, bonded by default), "
         "steel (steel structures) and rc-works (reinforced concrete works). Start with list_disciplines, then "
         "get_discipline_context for the discipline in question, then read or search files. " + pa.RULES
     ),

@@ -1,4 +1,4 @@
-# PT general notes template - BONDED post-tensioning, Eurocode.
+# PT general notes template - bonded (company default) or unbonded post-tensioning, Eurocode.
 # Source: two-image legend/notes block of the 2F PT drawing (Success Design & Build, sheet 15), re-expressed to Eurocode.
 # Only the design codes were changed BS -> EN; every other note keeps the source wording and values (as parameters).
 # {a.b.c} is read from the project's PT basis file (03_projects/<PROJECT-CODE>/pt-basis.yaml). A missing value prints TBC and is
@@ -31,7 +31,7 @@ sections:
   - id: D
     title: STRAND PROPERTIES
     items:
-      - {kind: plain, text: "POST-TENSIONING SYSTEM SHALL BE BONDED."}
+      - {kind: plain, text: "POST-TENSIONING SYSTEM SHALL BE {system.type_label}."}
       - {kind: plain, text: "ALL STRAND SHALL COMPLY WITH {strand.standard}, LOW-RELAXATION, FOR PRESTRESSED CONCRETE."}
       - kind: table
         widths: [75, 55]

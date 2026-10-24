@@ -1,4 +1,4 @@
-# PT drawing QA checklist (bonded)
+# PT drawing QA checklist (bonded default, or unbonded)
 
 Run after generating sheets. Tick only what was actually checked. "Automatic" means a tool in this repo checks it.
 
@@ -25,7 +25,7 @@ Run after generating sheets. Tick only what was actually checked. "Automatic" me
 ## Notes (PT-001)
 - [ ] `validate_pt_basis.py` has no errors; warnings read and explained
 - [ ] Every TBC on the sheet is listed under ASSUMPTIONS TO BE CONFIRMED (automatic)
-- [ ] No BS reference and no unbonded wording (automatic in the validator)
+- [ ] No BS reference (automatic in the validator); system wording matches `system.type` (a bonded basis with unbonded / mono-strand wording is an error)
 - [ ] Values equal the project design basis and the PT supplier assessment (manual)
 
 ## Files

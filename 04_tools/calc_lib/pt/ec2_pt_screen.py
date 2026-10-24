@@ -1,4 +1,7 @@
-"""EN 1992-1-1 (CEN recommended values) SCREENING functions for a bonded PT flat slab.
+"""EN 1992-1-1 (CEN recommended values) SCREENING functions for a PT flat slab.
+
+Stress, balanced-load and punching functions apply to bonded and unbonded tendons alike. mrd_bonded_pt is for
+BONDED tendons only: the tendon stress at ULS for unbonded tendons (EN 1992-1-1 5.10.8) is not implemented (gap G32).
 
 INDICATIVE ONLY - not a sign-off.  Units: m, kN, kPa (kN/m2), MPa, mm2 as stated per function.
 Every function is deterministic; no design-basis value is invented here - the caller passes inputs

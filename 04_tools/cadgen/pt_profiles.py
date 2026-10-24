@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Data-driven PT tendon PROFILE sheets (BONDED post-tensioning): section outline + tendon curve + station labels -> A3 DXF, preview PDF, station CSV.
+"""Data-driven PT tendon PROFILE sheets (bonded or unbonded post-tensioning): section outline + tendon curve + station labels -> A3 DXF, preview PDF, station CSV.
 
 Usage:
   python 04_tools/cadgen/pt_profiles.py --data <pt_profile_data.json> --standards 01_standards --out <dir> [--no-pdf]

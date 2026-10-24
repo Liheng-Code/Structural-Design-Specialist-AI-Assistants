@@ -27,7 +27,7 @@ core:
 
 disciplines:
   pt-floor:
-    title: Discipline 1 - Post-tensioned floors (bonded PT slabs and band beams)
+    title: Discipline 1 - Post-tensioned floors (PT slabs and band beams; bonded default, unbonded allowed)
     skill: pt-floor-design
     calc_package: 04_tools/calc_lib/pt
     pack: 01_pt-floor.md

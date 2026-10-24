@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Data-driven PT tendon LAYOUT PLAN (BONDED post-tensioning) -> A3 DXF + script-rendered preview PDF + tendon schedule CSV.
+"""Data-driven PT tendon LAYOUT PLAN (bonded or unbonded post-tensioning) -> A3 DXF + script-rendered preview PDF + tendon schedule CSV.
 
 Usage:
   python 04_tools/cadgen/pt_plan.py --data <pt_plan_data.json> --standards 01_standards --out <dir> [--no-pdf]

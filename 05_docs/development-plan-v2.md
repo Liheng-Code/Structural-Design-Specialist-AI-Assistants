@@ -4,6 +4,8 @@ Status: PROPOSED (16-OCT-2026). Architecture decisions in §3 ACCEPTED by the us
 Supersedes the *structure and sequencing* of Development Plan v1 (file removed 24-OCT-2026; recover it from git history, commit 98caf82, `docs/Development Plan.md`). The engineering requirements in v1 still apply where this document cites them (for example "v1 Part 10.4").
 Architecture: [Architecture v2.md](architecture-v2.md).
 
+
+Scope update 24-OCT-2026 (user decision): unbonded PT is also supported; bonded stays the default. Where this plan says "bonded", read "bonded (default) or unbonded" unless a step is specific to bonded tendons (e.g. ULS tendon stress, gap G32).
 ---
 
 ## 1. Why v1 is being revised

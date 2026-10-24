@@ -7,7 +7,7 @@ A structural design specialist assistant with **three disciplines** on one share
 
 | # | Discipline | Folder | Entry skill | State |
 |---|---|---|---|---|
-| 1 | Post-tensioned floors (bonded PT slabs, band beams) | `02_disciplines/pt-floor/` | `.claude/skills/pt-floor-design/` | Most developed |
+| 1 | Post-tensioned floors (PT slabs, band beams; bonded default) | `02_disciplines/pt-floor/` | `.claude/skills/pt-floor-design/` | Most developed |
 | 2 | Steel structures | `02_disciplines/steel/` | `.claude/skills/steel-design/` | Skeleton (gap G27) |
 | 3 | Reinforced concrete works | `02_disciplines/rc-works/` | `.claude/skills/rc-design/` | Early (gap G28) |
 
@@ -20,7 +20,7 @@ Shared core: `01_standards/` (company standards, authoritative), `03_projects/` 
 4. `03_projects/<PROJECT-CODE>/design-basis.yaml` is the single source for project code, revision, date, stage, codes, loads and materials.
 5. Read `01_standards/00-overview.md` and `00-gap-register.md` first; check each standard's status header (APPROVED / PROPOSED). Log new gaps in the gap register instead of inventing a standard.
 6. Results built on ASSUMED inputs are INDICATIVE; checks that need an UNVERIFIED registry value are NOT EVALUATED.
-7. Bonded PT only in discipline 1. Stop if a document says unbonded.
+7. Discipline 1: bonded PT is the default; unbonded is allowed when the PT basis states it. Never switch a stated system silently.
 
 ## How to work
 - Pick the discipline, read its `README.md` and entry skill `SKILL.md`, then the shared production skill for the deliverable (`structural-drawing`, `structural-specification`, `structural-calculation-report`, `structural-document-qa`, coordinator `structural-documentation`).

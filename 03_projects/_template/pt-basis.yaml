@@ -1,4 +1,4 @@
-# PT basis template (BONDED post-tensioning). Copy to 03_projects/<PROJECT-CODE>/pt-basis.yaml and fill in.
+# PT basis template (post-tensioning: bonded = company default, or unbonded). Copy to 03_projects/<PROJECT-CODE>/pt-basis.yaml and fill in.
 # Leave unknowns as null - never guess. Unknown values print "TBC" on the PT general notes sheet and are listed as open items.
 # Validate:  python 04_tools/cadgen/validate_pt_basis.py <file> [--design-basis <project design basis yaml>]
 # Project code, revision, date, stage, client come from the project design basis, NOT from here.
@@ -6,7 +6,7 @@ pt_basis_version: 1
 project_code:                 # must equal project.code in 03_projects/<code>.yaml
 floor_label:                  # e.g. 2F
 system:
-  type: bonded                # ONLY 'bonded' is supported by the company PT standard
+  type: bonded                # 'bonded' (company default) or 'unbonded'; if left empty, bonded is assumed and flagged
   supplier:                   # PT system supplier (approved)
   eta_reference:              # European Technical Assessment of the PT kit, if any
   duct_height_mm:             # flat duct H

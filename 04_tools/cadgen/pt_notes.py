@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reusable PT general notes (BONDED post-tensioning, Eurocode) -> text/markdown and an A3 DXF sheet.
+"""Reusable PT general notes (bonded or unbonded post-tensioning; default bonded; Eurocode) -> text/markdown and an A3 DXF sheet.
 
 Usage:
   python 04_tools/cadgen/pt_notes.py --pt-basis 03_projects/<CODE>/pt-basis.yaml --standards 01_standards --out <dir>
@@ -9,7 +9,8 @@ Usage:
 Rules (same as the other generators):
 - The note wording lives in the YAML template; project values live in the PT basis file. Nothing is typed into this script.
 - A value that is missing prints TBC and is listed under "ASSUMPTIONS TO BE CONFIRMED". Nothing is guessed.
-- Only a BONDED system is accepted. The builder stops if system.type is anything else.
+- system.type is 'bonded' (company default) or 'unbonded'. If it is not set, BONDED is assumed and listed as an open item.
+  Any other value stops the builder.
 - Output is a script-written DXF (layers S-ANNO-TEXT / S-ANNO-TABLE from the approved standard) and a text copy.
   A DXF is not a DWG; nothing here is approved. Engineer sign-off is human.
 """
@@ -64,15 +65,25 @@ def fill(text: str, basis: dict, missing: set) -> str:
     return PH.sub(rep, text)
 
 
-def check_basis(basis: dict) -> None:
+SYSTEM_TYPES = ("bonded", "unbonded")
+DEFAULT_SYSTEM = "bonded"
+
+
+def check_basis(basis: dict) -> tuple[str, bool]:
+    """Return (system type, defaulted). Missing type -> company default 'bonded'; unknown type -> PTBasisError."""
     sysd = (basis or {}).get("system") or {}
-    if str(sysd.get("type", "")).strip().lower() != "bonded":
-        raise PTBasisError(f"system.type must be 'bonded' (found {sysd.get('type')!r}); the company PT standard covers bonded post-tensioning only")
+    raw = str(sysd.get("type") or "").strip().lower()
+    if not raw:
+        return DEFAULT_SYSTEM, True
+    if raw not in SYSTEM_TYPES:
+        raise PTBasisError(f"system.type must be one of {SYSTEM_TYPES} (found {sysd.get('type')!r})")
+    return raw, False
 
 
 def render(template: dict, basis: dict) -> dict:
     """Return {sections: [...], missing: [...], open_items: [...]}. Pure function: same inputs -> same output."""
-    check_basis(basis)
+    system, defaulted = check_basis(basis)
+    basis = {**basis, "system": {**(basis.get("system") or {}), "type_label": system.upper()}}
     missing: set = set()
     sections = []
     for sec in template["sections"]:
@@ -87,7 +98,10 @@ def render(template: dict, basis: dict) -> dict:
     open_items = [o for o in (basis.get("open_items") or []) if str(o.get("status", "open")).lower() == "open"]
     auto = [{"id": f"AUTO-{i + 1:02d}", "status": "open", "description": f"PARAMETER '{k}' NOT IN THE PT BASIS - SHOWN AS TBC."}
             for i, k in enumerate(sorted(missing))]
-    return {"sections": sections, "missing": sorted(missing), "open_items": open_items + auto}
+    if defaulted:
+        auto.insert(0, {"id": "AUTO-SYS", "status": "open",
+                        "description": "SYSTEM TYPE NOT STATED IN THE PT BASIS - BONDED (COMPANY DEFAULT) ASSUMED. CONFIRM."})
+    return {"sections": sections, "missing": sorted(missing), "open_items": open_items + auto, "system": system}
 
 
 def to_text(r: dict) -> str:

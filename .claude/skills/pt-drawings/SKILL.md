@@ -1,15 +1,15 @@
 ---
 name: pt-drawings
-description: Produce BONDED post-tensioning drawing sheets (PT general notes to Eurocode, tendon layout plan, tendon profiles, tendon schedule) from project data files. Use for any request to draft, redraft, revise or check PT slab / band-beam drawings, PT notes or tendon profiles.
+description: Produce post-tensioning drawing sheets (bonded by default, unbonded when the PT basis says so; PT general notes to Eurocode, tendon layout plan, tendon profiles, tendon schedule) from project data files. Use for any request to draft, redraft, revise or check PT slab / band-beam drawings, PT notes or tendon profiles.
 ---
 
-# Structural PT Drawing (bonded post-tensioning)
+# Structural PT Drawing (bonded by default, or unbonded)
 
 This skill turns PT data into company-standard PT sheets. It covers the plan, the profiles and the general notes. It does not design the tendons.
 
 ## What it will and will not do
 - Draws what the data says. It never invents a tendon force, strand count, length, elevation, friction value, anchorage size or code clause.
-- Post-tensioning is **BONDED** only. If a basis or document says unbonded or mono-strand, stop and tell the user. Do not convert silently.
+- Bonded post-tensioning is the company default; unbonded is also allowed (EN 1992-1-1 covers both). Use what the PT basis `system.type` states; if it is not stated, assume bonded and list it as an open item. Never switch a stated system silently. The unbonded note wording beyond the system line has not been reviewed (gap G32).
 - Design is to Eurocodes (CEN recommended values unless the design basis records a National Annex). British Standard references are not used.
 - Never marks anything APPROVED. The output is a DXF written by script (not a DWG) plus a script-rendered preview (not a CTB plot). Say which one you made.
 

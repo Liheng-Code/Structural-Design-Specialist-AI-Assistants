@@ -4,7 +4,7 @@ The project covers three structural disciplines. They share one core and differ 
 
 | # | Discipline | Folder | Entry skill | Design code family | State (17-OCT-2026) |
 |---|---|---|---|---|---|
-| 1 | Post-tensioned floors (bonded PT slab + band beam) | [pt-floor/](pt-floor/README.md) | `pt-floor-design` | EN 1992-1-1 (incl. prestressed concrete), EN 1990, EN 1991 | Most developed: PT drawings, screening checks, 2F PT example |
+| 1 | Post-tensioned floors (PT slab + band beam; bonded default, unbonded allowed) | [pt-floor/](pt-floor/README.md) | `pt-floor-design` | EN 1992-1-1 (incl. prestressed concrete), EN 1990, EN 1991 | Most developed: PT drawings, screening checks, 2F PT example |
 | 2 | Steel structures | [steel/](steel/README.md) | `steel-design` | EN 1993 series, EN 1090-2, EN 1990, EN 1991 | Skeleton: scope and workflow only (gap G27) |
 | 3 | Reinforced concrete works | [rc-works/](rc-works/README.md) | `rc-design` | EN 1992-1-1, EN 206, EN 13670, EN 1990, EN 1991 | Anchorage/lap check only (gap G28) |
 

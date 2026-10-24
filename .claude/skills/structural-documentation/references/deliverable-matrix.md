@@ -3,7 +3,7 @@
 | Request | Production skill | Output formats | Status of tooling |
 |---|---|---|---|
 | Drawing set / sheet / cover / drawing list / general notes | `structural-drawing` | DXF, DWG (only with native CAD), PDF | Phase 6: DXF + preview PDF built for sheets 001/002 only; no DWG |
-| PT drawings: general notes, tendon plan, tendon profiles, schedule (bonded post-tensioning) | `pt-drawings` | DXF + preview PDF, CSV schedule | Built for PT-001 notes, PT-101 plan, PT-102 profiles; anchorage, band-beam and summary sheets not built; no DWG |
+| PT drawings: general notes, tendon plan, tendon profiles, schedule (bonded default, or unbonded) | `pt-drawings` | DXF + preview PDF, CSV schedule | Built for PT-001 notes, PT-101 plan, PT-102 profiles; anchorage, band-beam and summary sheets not built; no DWG |
 | Technical specification | `structural-specification` | DOCX, PDF | Phase 4 generator built (`04_tools/docgen`); `07_*` standards not authored |
 | Calculation report | `structural-calculation-report` | DOCX, PDF | Phase 4 generator built; only EN 1992 anchorage check implemented; `10_*` standards not authored |
 | Calculation workbook | `structural-calculation-report` | XLSX | Phase 5 built for the anchorage check (`04_tools/xlsxgen`); other checks need their own builders |

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate a PT basis file (03_projects/<CODE>/pt-basis.yaml) for the BONDED PT standard.
+"""Validate a PT basis file (03_projects/<CODE>/pt-basis.yaml): bonded (company default) or unbonded PT.
 
 Usage: python 04_tools/cadgen/validate_pt_basis.py <pt_basis.yaml> [--design-basis <project design basis yaml>] [--json]
 Exit 0 = no ERRORs (WARNINGs allowed). 1 = ERRORs. 2 = file unreadable.
@@ -18,7 +18,7 @@ import sys
 import yaml
 
 BS_RE = re.compile(r"\bBS\s?(EN\s?)?\d{3,5}\b", re.I)
-REQUIRED = ["system.type", "codes.actions", "codes.concrete", "codes.national_annex_note", "concrete.class_28d", "concrete.fck_mpa",
+REQUIRED = ["codes.actions", "codes.concrete", "codes.national_annex_note", "concrete.class_28d", "concrete.fck_mpa",
             "concrete.fck_cube_28d_mpa", "concrete.max_aggregate_mm", "reinforcement.main.fyk_mpa", "reinforcement.cover_mm",
             "strand.standard", "strand.type", "strand.diameter_mm", "strand.area_mm2", "strand.fpk_mpa", "strand.jacking_force_kn",
             "tendon.mu", "tendon.k", "tendon.draw_in_mm"]
@@ -54,11 +54,17 @@ def validate(b: dict, db: dict | None = None) -> dict:
     E, W, I = [], [], []
     if not isinstance(b, dict):
         return {"ok": False, "errors": ["file is not a mapping"], "warnings": [], "info": []}
-    if str(get(b, "system.type") or "").lower() != "bonded":
-        E.append(f"system.type must be 'bonded' (found {get(b, 'system.type')!r})")
+    system = str(get(b, "system.type") or "").strip().lower()
+    if not system:
+        W.append("system.type: not set - BONDED (company default) is assumed; confirm")
+        system = "bonded"
+    elif system not in ("bonded", "unbonded"):
+        E.append(f"system.type must be 'bonded' or 'unbonded' (found {get(b, 'system.type')!r})")
+    else:
+        I.append(f"system.type: {system}" + (" (company default)" if system == "bonded" else " (not the company default - confirm)"))
     for path, s in strings({k: v for k, v in b.items() if k not in ("open_items",)}):
-        if re.search(r"unbonded|mono-?strand", s, re.I):
-            E.append(f"{path}: refers to an unbonded / mono-strand system ('{s}')")
+        if system == "bonded" and path != "system.type" and re.search(r"unbonded|mono-?strand", s, re.I):
+            E.append(f"{path}: refers to an unbonded / mono-strand system but system.type is bonded ('{s}')")
         if BS_RE.search(s):
             E.append(f"{path}: British Standard reference '{BS_RE.search(s).group(0)}' - the PT notes are Eurocode only")
     for k in REQUIRED:

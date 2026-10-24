@@ -1,6 +1,6 @@
 # Discipline 1 - Post-tensioned floors
 
-Scope: **bonded** post-tensioned concrete slabs and band beams to EN 1992-1-1. Unbonded / mono-strand systems are out of scope; stop and tell the user if a document says otherwise.
+Scope: post-tensioned concrete slabs and band beams to EN 1992-1-1. **Bonded is the company default; unbonded is also allowed** (user decision 24-OCT-2026). The PT basis `system.type` decides; if empty, bonded is assumed and flagged. Unbonded gaps: ULS tendon stress for unbonded tendons is not implemented and the unbonded note wording is not reviewed (gap G32).
 
 ## What exists
 

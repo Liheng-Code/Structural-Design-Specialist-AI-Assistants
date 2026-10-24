@@ -4,7 +4,7 @@ A local, AI-assisted structural design and documentation system with three disci
 
 | # | Discipline | Folder | Entry skill | State |
 |---|---|---|---|---|
-| 1 | Post-tensioned floors (bonded PT slabs, band beams) | [02_disciplines/pt-floor/](02_disciplines/pt-floor/README.md) | `pt-floor-design` | PT drawings, screening checks, 2F PT example |
+| 1 | Post-tensioned floors (PT slabs, band beams; bonded default, unbonded allowed) | [02_disciplines/pt-floor/](02_disciplines/pt-floor/README.md) | `pt-floor-design` | PT drawings, screening checks, 2F PT example |
 | 2 | Steel structures | [02_disciplines/steel/](02_disciplines/steel/README.md) | `steel-design` | Skeleton (gap G27) |
 | 3 | Reinforced concrete works | [02_disciplines/rc-works/](02_disciplines/rc-works/README.md) | `rc-design` | Anchorage/lap check only (gap G28) |
 
