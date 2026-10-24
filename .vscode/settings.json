@@ -1,6 +1,7 @@
 {
   "files.exclude": {
     "**/.mypy_cache": true,
-    "**/.ruff_cache": true
-  }
+    "**/.ruff_cache": true,
+    "06_knowledge-pack": true
+    }
 }
