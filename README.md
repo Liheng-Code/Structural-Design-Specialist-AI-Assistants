@@ -32,7 +32,6 @@ calc_lib/core/             engineering core (M0): units (pint), check status, co
 calc_lib/pt|steel|rc/      discipline calculation modules (pt: ec2_pt_screen; rc: ec2_anchorage; steel: empty)
 config/code_registry/      versioned design-code parameters (ADR-004); skeleton only, all values empty and UNVERIFIED
 docs/                      Development Plan v2, Architecture v2, PRODUCT_ROADMAP_PT_PLATFORM.md, AI_ACCESS.md, decision records (docs/adr/)
-webapp/                    local web app mockup (FastAPI + Next.js): projects, drawing import, AI assistant; see webapp/README.md
 tests/                     unittest suite
 ```
 ## Setup

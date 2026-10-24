@@ -25,7 +25,7 @@ Shared core: `Structural-Drawing-Standards/` (company standards, authoritative),
 ## How to work
 - Pick the discipline, read its `README.md` and entry skill `SKILL.md`, then the shared production skill for the deliverable (`structural-drawing`, `structural-specification`, `structural-calculation-report`, `structural-document-qa`, coordinator `structural-documentation`).
 - Calculation code: `calc_lib/<pt|steel|rc>/`, pure functions, units through `calc_lib/core/units.py`, every check with hand-value tests in `tests/`.
-- Do not commit `webapp/data/` (holds the API key and uploads).
+- Never commit secrets or uploads (`.env`, local `webapp/data/` from the removed web app mockup).
 
 ## Commands
 ```

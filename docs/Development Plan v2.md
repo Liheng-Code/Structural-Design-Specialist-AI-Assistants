@@ -1,7 +1,7 @@
 # Development Plan v2 - Bonded PT Band Beam & Slab Designer
 
 Status: PROPOSED (16-OCT-2026). Architecture decisions in §3 ACCEPTED by the user (16-OCT-2026). No engineering approval.
-Supersedes the *structure and sequencing* of [Development Plan.md](Development%20Plan.md) (v1). The engineering requirements in v1 still apply where this document cites them (for example "v1 Part 10.4").
+Supersedes the *structure and sequencing* of Development Plan v1 (file removed 24-OCT-2026; recover it from git history, commit 98caf82, `docs/Development Plan.md`). The engineering requirements in v1 still apply where this document cites them (for example "v1 Part 10.4").
 Architecture: [Architecture v2.md](Architecture%20v2.md).
 
 ---
@@ -117,7 +117,7 @@ Rules: every parameter comes from the design basis, the PT basis, approved syste
 - **Gate:** two real layouts import with all fatal errors caught and the corrected geometry reproducible.
 
 ### M6 - Web application, database, roles, approval workflow
-- **Early slice built 16-OCT-2026 at the user's request** (`webapp/`, local mockup): landing page, AI connection (key + model + test), projects, file import (DXF read, DWG converted with AutoCAD 2023 console, PDF view, DWF/DWFX stored), project assistant. Local SQLite/files instead of Supabase; no sign-in or roles yet. See `webapp/README.md`.
+- **Early slice built 16-OCT-2026 at the user's request** (`webapp/`, local mockup): landing page, AI connection (key + model + test), projects, file import (DXF read, DWG converted with AutoCAD 2023 console, PDF view, DWF/DWFX stored), project assistant. Local SQLite/files instead of Supabase; no sign-in or roles yet. Mockup removed from the repo 24-OCT-2026 (recover from git history, commit 98caf82, `webapp/`).
 - v1 Parts 16-18 on top of the proven core: project dashboard, workspace tabs, CAD review, results and checks screens, review and issue.
 - Database schema from v1 Part 17, plus stale-result tracking and immutable input snapshots.
 - Roles enforced on the server; approval is recorded only from a signed-in engineer with the Approver role.
