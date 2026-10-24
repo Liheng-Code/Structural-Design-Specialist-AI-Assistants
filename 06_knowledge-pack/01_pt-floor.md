@@ -1,6 +1,6 @@
 # Discipline 1 - Post-tensioned floors (PT slabs and band beams; bonded default, unbonded allowed)
 
-Knowledge pack generated 2026-10-24 from commit `9c04f47`.
+Knowledge pack generated 2026-10-24 from commit `536be67`.
 
 > Generated from the project repository. This is reference material for search and recall, not an approved standard or a calculation result. Each section names its source file; check that file's status header (APPROVED / PROPOSED / DRAFT / SKELETON). Nothing here is engineer-approved unless the source file says so. NotebookLM answers are AI summaries of this text (gap G29).
 

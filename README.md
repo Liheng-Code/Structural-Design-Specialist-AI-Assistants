@@ -20,7 +20,7 @@ Folders are numbered in reading order. Names are lowercase with hyphens; Python 
 | [03_projects/](03_projects/) | One folder per project with everything about it: design basis, register, inputs, outputs, project scripts. `_template/` holds the blank design basis and PT basis | `<PROJECT-CODE>/design-basis.yaml` |
 | [04_tools/](04_tools/) | All Python code: `cadgen/` drawings, `docgen/` reports and specs, `xlsxgen/` workbooks, `etabs/` analysis import, `qa/` package checks, `doc_control/`, `design_basis/` validators, `calc_lib/` calculations, `code_registry/` code parameters, `ai/` MCP server and Ollama helper, `knowledge/` NotebookLM pack builder, `paths.py` folder locations | `paths.py` |
 | [05_docs/](05_docs/) | Development plan, architecture, PT roadmap, AI access guide, decision records (`adr/`), `images/` | `ai-access.md` |
-| `06_knowledge-pack/` | Generated NotebookLM sources (not in git; run `python 04_tools/knowledge/build_knowledge_pack.py`) | - |
+| [06_knowledge-pack/](06_knowledge-pack/README.md) | Generated NotebookLM sources, committed to git. Rebuild with `python 04_tools/knowledge/build_knowledge_pack.py` after changing standards, skills or knowledge files, then commit | `README.md` |
 | [tests/](tests/) | Automated checks (`python -m unittest discover -s tests`) | - |
 | [.claude/skills/](.claude/skills/) | Claude skills: entry skills `pt-floor-design`, `steel-design`, `rc-design`; production skills `structural-*`; PT skills `pt-drawings`, `pt-slab-package` | `structural-documentation` |
 

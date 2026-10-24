@@ -8,4 +8,4 @@ Three disciplines on one shared core: **1 post-tensioned floors** (`02_disciplin
 - Never invent engineering values, clauses, standards or PASS results. Flag gaps. Never mark anything APPROVED; engineer sign-off is human.
 - Design to Eurocodes (CEN recommended values unless a National Annex is recorded in the design basis).
 - Checks: `python -m unittest discover -s tests`; `python 04_tools/design_basis/validate_design_basis.py <file>`.
-- After changing standards, skills or `02_disciplines/*/knowledge/`: `python 04_tools/knowledge/build_knowledge_pack.py` (NotebookLM pack).
+- After changing standards, skills or `02_disciplines/*/knowledge/`: `python 04_tools/knowledge/build_knowledge_pack.py` (NotebookLM pack, tracked in git - commit it with the change).

@@ -59,7 +59,7 @@ git add -A
 git commit -m "..."
 git push origin <branch>
 ```
-Before pushing: run the tests and rebuild the knowledge pack if knowledge, skills or standards changed. `webapp/data/` is git-ignored and must stay out of the repo.
+Before pushing: run the tests, and if knowledge, skills or standards changed, rebuild the knowledge pack and commit it with the change (`06_knowledge-pack/` is tracked in git). `webapp/data/` is git-ignored and must stay out of the repo.
 
 ## NotebookLM
 1. `python 04_tools/knowledge/build_knowledge_pack.py`
