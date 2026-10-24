@@ -1,4 +1,4 @@
-"""Unit tests for the reusable Eurocode General Notes & Standard Details library (003-007) and 06_Templates exporter."""
+"""Unit tests for the reusable Eurocode General Notes & Standard Details library (003-007) and 06-templates exporter."""
 import copy
 import csv
 import pathlib
@@ -11,14 +11,14 @@ import yaml
 from ezdxf import bbox
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "tools" / "cadgen"))
+sys.path.insert(0, str(ROOT / "04_tools" / "cadgen"))
 import build_notes_and_details as bnd  # noqa: E402
 import common as c  # noqa: E402
 import validate_dxf as vd  # noqa: E402
 
-STD = ROOT / "Structural-Drawing-Standards"
-EX = ROOT / "design-basis" / "examples" / "PRJ-2026-003"
-HAVE_STD = (STD / "05_Drafting-Styles" / "05-04_Layer_Standards.csv").exists()
+STD = ROOT / "01_standards"
+EX = ROOT / "03_projects" / "PJR-2026-003"
+HAVE_STD = (STD / "05-drafting-styles" / "05-04-layer-standards.csv").exists()
 
 
 def count_overlaps(msp, tol=0.3):
@@ -40,10 +40,10 @@ class EurocodeNotesAndDetailsTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.tmp = pathlib.Path(tempfile.mkdtemp())
-        cls.db = yaml.safe_load((EX / "design_basis.yaml").read_text(encoding="utf-8"))
-        with open(EX / "document_register.csv", newline="", encoding="utf-8-sig") as fh:
+        cls.db = yaml.safe_load((EX / "design-basis.yaml").read_text(encoding="utf-8"))
+        with open(EX / "document-register.csv", newline="", encoding="utf-8-sig") as fh:
             cls.reg = list(csv.DictReader(fh))
-        cls.ov = yaml.safe_load((EX / "notes_overrides.yaml").read_text(encoding="utf-8"))
+        cls.ov = yaml.safe_load((EX / "notes-overrides.yaml").read_text(encoding="utf-8"))
         cls.layers = c.load_layers(STD)
         cls.made = bnd.build_all_notes_and_details(cls.db, cls.reg, cls.layers, cls.tmp, STD, cls.ov)
 
@@ -80,8 +80,8 @@ class EurocodeNotesAndDetailsTests(unittest.TestCase):
                 self.assertIn("TBC", texts)
 
     def test_templates_library_blocks_and_sheets_exist(self):
-        blk_dir = STD / "06_Templates" / "blocks"
-        sht_dir = STD / "06_Templates" / "sheets"
+        blk_dir = STD / "06-templates" / "blocks"
+        sht_dir = STD / "06-templates" / "sheets"
         self.assertTrue((blk_dir / "STR_TITLEBLOCK_A3.dxf").exists())
         self.assertTrue((blk_dir / "BLK_EC2_BENDS_AND_HOOKS.dxf").exists())
         self.assertTrue((blk_dir / "BLK_EC3_BOLT_SPACING_TABLE.dxf").exists())

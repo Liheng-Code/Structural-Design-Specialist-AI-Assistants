@@ -1,4 +1,4 @@
-"""Tests for tools/cadgen/restandardise.py on a SYNTHETIC old-style sheet (not the user's real set). Needs ezdxf and the 05 standards folder."""
+"""Tests for 04_tools/cadgen/restandardise.py on a SYNTHETIC old-style sheet (not the user's real set). Needs ezdxf and the 05 standards folder."""
 import csv
 import pathlib
 import shutil
@@ -10,14 +10,14 @@ import ezdxf
 import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "tools" / "cadgen"))
+sys.path.insert(0, str(ROOT / "04_tools" / "cadgen"))
 import common as c  # noqa: E402
 import restandardise as rs  # noqa: E402
 import validate_dxf as vd  # noqa: E402
 
-STD = ROOT / "Structural-Drawing-Standards"
-EX = ROOT / "design-basis" / "examples" / "PRJ-2026-003"
-HAVE = (STD / "05_Drafting-Styles" / "05-04_Layer_Standards.csv").exists()
+STD = ROOT / "01_standards"
+EX = ROOT / "03_projects" / "PJR-2026-003"
+HAVE = (STD / "05-drafting-styles" / "05-04-layer-standards.csv").exists()
 
 
 def old_sheet(path, name="WH-STR-SD-104", unmapped=False, small=True):
@@ -44,8 +44,8 @@ def old_sheet(path, name="WH-STR-SD-104", unmapped=False, small=True):
 class Restd(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.db = yaml.safe_load((EX / "design_basis.yaml").read_text(encoding="utf-8"))
-        with open(EX / "document_register.csv", newline="", encoding="utf-8") as fh:
+        cls.db = yaml.safe_load((EX / "design-basis.yaml").read_text(encoding="utf-8"))
+        with open(EX / "document-register.csv", newline="", encoding="utf-8") as fh:
             cls.reg = list(csv.DictReader(fh))
         cls.layers = c.load_layers(STD)
 

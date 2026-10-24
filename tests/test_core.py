@@ -13,7 +13,7 @@ import yaml
 from pydantic import ValidationError
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "04_tools"))
 from calc_lib.core import schemas as s  # noqa: E402
 from calc_lib.core import units  # noqa: E402
 from calc_lib.core.registry import CodeRegistry, RegistryError  # noqa: E402
@@ -211,7 +211,7 @@ class Registry(unittest.TestCase):
             CodeRegistry.load(self.dir)
 
     def test_repo_registry_loads(self):
-        reg = CodeRegistry.load(ROOT / "config" / "code_registry")
+        reg = CodeRegistry.load(ROOT / "04_tools" / "code_registry")
         view = reg.select("EN 1992-1-1", "2004", "CEN_RECOMMENDED")
         self.assertTrue(view.version.startswith("EN 1992-1-1:2004 CEN"))
 

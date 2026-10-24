@@ -2,7 +2,7 @@
 
 | Contract | Fields |
 |---|---|
-| project / design basis | see `design-basis/PROJECT_TEMPLATE.yaml` |
+| project / design basis | see `03_projects/_template/design-basis.yaml` |
 | member | member_id, type, section, material_id, length_m, grid_ref, drawing_ref |
 | material | id, element, spec, fck_or_fy, unit, status, source |
 | load | id, description, value, unit, status, source |

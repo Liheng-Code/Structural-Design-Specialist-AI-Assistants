@@ -20,7 +20,7 @@
 - [ ] ETABS/SAFE provenance recorded, equilibrium check done
 
 ## D. Drawings
-- [ ] Layers/text/lines per `05_Drafting-Styles`; text >= 2.0 mm; lineweights >= 0.18 mm
+- [ ] Layers/text/lines per `05-drafting-styles`; text >= 2.0 mm; lineweights >= 0.18 mm
 - [ ] Section/detail bubble references resolve to existing sheets
 - [ ] File type claims honest (DXF vs DWG vs preview)
 

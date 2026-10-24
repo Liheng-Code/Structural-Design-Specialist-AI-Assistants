@@ -3,12 +3,12 @@ import copy, pathlib, sys, tempfile, unittest
 import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "tools" / "cadgen"))
+sys.path.insert(0, str(ROOT / "04_tools" / "cadgen"))
 import pt_notes as pn, validate_pt_basis as vb  # noqa: E402
 
-BASIS = yaml.safe_load(open(ROOT / "design-basis" / "examples" / "PJR-2F-PT" / "pt_basis_2F.pt.yaml", encoding="utf-8"))
+BASIS = yaml.safe_load(open(ROOT / "03_projects" / "PJR-2F-PT" / "pt-basis.yaml", encoding="utf-8"))
 TEMPLATE = yaml.safe_load(open(pn.DEFAULT_TEMPLATE, encoding="utf-8"))
-STD = ROOT / "Structural-Drawing-Standards"
+STD = ROOT / "01_standards"
 
 
 class Notes(unittest.TestCase):
@@ -71,14 +71,14 @@ sys.path.insert(0, str(ROOT / "tests"))
 from dxf_signature import signature, diff  # noqa: E402
 import pt_plan as pp, pt_profiles as pf  # noqa: E402
 
-EX = ROOT / "design-basis" / "examples" / "PJR-2F-PT"
-PLAN_DATA = json.load(open(EX / "pt_plan_data_2F.json", encoding="utf-8"))
-PROF_DATA = json.load(open(EX / "pt_profile_data_2F.json", encoding="utf-8"))
+EX = ROOT / "03_projects" / "PJR-2F-PT"
+PLAN_DATA = json.load(open(EX / "pt-plan-data.json", encoding="utf-8"))
+PROF_DATA = json.load(open(EX / "pt-profile-data.json", encoding="utf-8"))
 
 
 class PlanGenerator(unittest.TestCase):
     def test_2f_plan_matches_existing_redraft(self):
-        ref = ROOT / "disciplines" / "pt-floor" / "examples" / "2F-PT" / "redraft" / "2F_PT_Layout_Plan_REDRAFT.dxf"
+        ref = ROOT / "03_projects" / "PJR-2F-PT" / "redraft" / "2F_PT_Layout_Plan_REDRAFT.dxf"
         if not ref.exists():
             self.skipTest("existing 2F plan DXF not present")
         with tempfile.TemporaryDirectory() as d:
@@ -116,11 +116,11 @@ class PlanGenerator(unittest.TestCase):
 
 class ProfileGenerator(unittest.TestCase):
     def test_2f_profiles_match_existing_redraft(self):
-        refs = {"X": ROOT / "disciplines" / "pt-floor" / "examples" / "2F-PT" / "redraft" / "profiles" / "2F_PT_Profiles_X_REDRAFT.dxf", "Y": ROOT / "disciplines" / "pt-floor" / "examples" / "2F-PT" / "redraft" / "profiles" / "2F_PT_Profiles_Y_REDRAFT.dxf"}
+        refs = {"X": ROOT / "03_projects" / "PJR-2F-PT" / "redraft" / "profiles" / "2F_PT_Profiles_X_REDRAFT.dxf", "Y": ROOT / "03_projects" / "PJR-2F-PT" / "redraft" / "profiles" / "2F_PT_Profiles_Y_REDRAFT.dxf"}
         if not all(p.exists() for p in refs.values()):
             self.skipTest("existing 2F profile DXFs not present")
         with tempfile.TemporaryDirectory() as o:
-            self.assertEqual(pf.main(["--data", str(EX / "pt_profile_data_2F.json"), "--standards", str(STD), "--out", o, "--no-pdf"]), 0)
+            self.assertEqual(pf.main(["--data", str(EX / "pt-profile-data.json"), "--standards", str(STD), "--out", o, "--no-pdf"]), 0)
             for k, ref in refs.items():
                 df = diff(signature(ref), signature(pathlib.Path(o) / f"{PROF_DATA['file_prefix']}_{k}.dxf"))
                 self.assertEqual((df["only_old"], df["only_new"]), ([], []), k)

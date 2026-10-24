@@ -1,0 +1,30 @@
+{
+  "file": "03_projects/PJR-2026-003/output/cad/WH-STR-SD-002_R00.dxf",
+  "ok": true,
+  "errors": [],
+  "warnings": [
+    "layer S-ANNO-TABLE comes from the PROPOSED extension 05-04a (not yet approved)",
+    "layer S-TBLK-BORDER comes from the PROPOSED extension 05-04a (not yet approved)",
+    "layer S-TBLK-LINE comes from the PROPOSED extension 05-04a (not yet approved)",
+    "layer S-TBLK-TEXT comes from the PROPOSED extension 05-04a (not yet approved)"
+  ],
+  "entities": 161,
+  "layers_used": [
+    "S-ANNO-TABLE",
+    "S-ANNO-TEXT",
+    "S-TBLK-BORDER",
+    "S-TBLK-LINE",
+    "S-TBLK-TEXT"
+  ],
+  "title_block": {
+    "PROJ_REFERENCE": "PJR-2026-003",
+    "DRAWING_NAME": "STRUCTURAL DRAWING LIST",
+    "REVISION": "R00",
+    "DRAWN_BY": "P.LIHENG",
+    "DRAWING_NUMBER": "WH-STR-SD-002",
+    "DRAWING_STAGE": "FOR APPROVAL",
+    "CLIENT": "Mr. XXX",
+    "SCALE": "AS-SHOWN",
+    "ISSUE_DATE": "13-OCT-2026"
+  }
+}

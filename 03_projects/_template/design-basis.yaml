@@ -1,0 +1,36 @@
+# Design-basis template. Copy to 03_projects/<PROJECT-CODE>/design-basis.yaml and fill in.
+# Leave unknowns as null - never guess. Validate:  python 04_tools/design_basis/validate_design_basis.py <file>
+project:
+  code:               # AAA-YYYY-NNN  e.g. PRJ-2026-003
+  name:
+  description:
+  stage:              # e.g. FOR APPROVAL / SHOP DRAWING / PRELIMINARY PT DESIGN
+  client:
+  drawing_prefix:     # XX-STR  e.g. WH-STR
+  revision:           # R00 / P01 / C01
+  issue_date:         # DD-MMM-YYYY
+  structure_types: []     # steel | rc | pt | composite | timber | masonry | foundations | seismic
+approval:
+  status: DRAFT       # DRAFT | FOR_REVIEW | APPROVED
+  prepared_by:
+  checked_by:
+  approved_by:        # authorised engineer (PE/RE) - required for APPROVED
+  approved_date:
+standards:            # one entry per Eurocode part actually used
+  - {id: EN 1990, generation: null, edition: null, used_for: Basis of design}
+national_annex:
+  mode: UNRESOLVED    # NA | CEN_RECOMMENDED | UNRESOLVED
+  country:
+  references: []      # exact NA document references when mode = NA
+  basis_note:         # required when mode = CEN_RECOMMENDED
+regulatory: []
+# mixed_generation_justification:   # required if 1st and 2nd generation parts are mixed
+design_assumptions:
+  design_working_life_years:
+  consequence_class:
+  units: {length: m, section: mm, force: kN, stress: MPa, pressure: kN/m2}
+materials: []         # {id, element, spec, status: confirmed|assumed|to_confirm, source}
+loads: []             # {id, description, value, unit, status, source}
+combinations: []      # {id, description, status, source}
+analysis_provenance:  # software, version, model_file, model_hash, run_date, export_files[]
+open_items: []        # {id, status: open|closed, description}

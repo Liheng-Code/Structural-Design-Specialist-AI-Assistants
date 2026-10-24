@@ -1,5 +1,5 @@
 import sys, pathlib, math, unittest
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / "04_tools"))
 from calc_lib.pt import ec2_pt_screen as E  # noqa: E402
 
 

@@ -5,7 +5,7 @@ description: Entry point for discipline 2, structural steelwork (frames, beams, 
 
 # Steel structure design (discipline 2)
 
-Read first: `disciplines/steel/README.md` and `disciplines/steel/knowledge/steel-design-workflow.md`, plus the repo `CLAUDE.md` / `AGENTS.md` rules.
+Read first: `02_disciplines/steel/README.md` and `02_disciplines/steel/knowledge/steel-design-workflow.md`, plus the repo `CLAUDE.md` / `AGENTS.md` rules.
 
 ## State
 SKELETON. No steel calculation module, code-registry file, steel drawing standard or example exists (gap G27). Say so in every answer that relies on automation.
@@ -13,16 +13,16 @@ SKELETON. No steel calculation module, code-registry file, steel drawing standar
 ## Route the request
 | Request | Do this |
 |---|---|
-| Design approach / what to check | Follow `disciplines/steel/knowledge/steel-design-workflow.md` |
-| Analysis results (ETABS/SAFE export) | `tools/etabs/etabs_import.py` via skill `structural-calculation-report` |
-| Member or connection check | No module yet. Either the engineer supplies a verified calculation, or build a new module in `calc_lib/steel/` with hand-value tests (see below) |
+| Design approach / what to check | Follow `02_disciplines/steel/knowledge/steel-design-workflow.md` |
+| Analysis results (ETABS/SAFE export) | `04_tools/etabs/etabs_import.py` via skill `structural-calculation-report` |
+| Member or connection check | No module yet. Either the engineer supplies a verified calculation, or build a new module in `04_tools/calc_lib/steel/` with hand-value tests (see below) |
 | GA / connection drawings | Skill `structural-drawing` (no steel layers or notes standard yet: propose them, mark PROPOSED, log a gap) |
 | Steelwork specification | Skill `structural-specification` |
 | Package check | Skill `structural-document-qa` |
 
 ## Building a steel check
-1. Parameters (partial factors, imperfection factors, limits) go in `config/code_registry/EN1993-<part>_<edition>_CEN.yaml` with `value: null`, `status: UNVERIFIED`. An engineer enters and verifies them.
-2. Code in `calc_lib/steel/<check>.py`: pure functions, units via `calc_lib/core/units.py`, status via `calc_lib/core/status.py`.
+1. Parameters (partial factors, imperfection factors, limits) go in `04_tools/code_registry/EN1993-<part>_<edition>_CEN.yaml` with `value: null`, `status: UNVERIFIED`. An engineer enters and verifies them.
+2. Code in `04_tools/calc_lib/steel/<check>.py`: pure functions, units via `04_tools/calc_lib/core/units.py`, status via `04_tools/calc_lib/core/status.py`.
 3. Tests in `tests/test_steel_<check>.py` against hand calculations the engineer supplies or checks.
 
 ## Rules

@@ -1,6 +1,6 @@
 # ETABS / SAFE result import
 
-Supported route (Phase 7, `tools/etabs/etabs_import.py`): ETABS/SAFE "Export tables to Excel/CSV" files. Direct API use only after the installed version and API are verified on the user's machine (not yet checked).
+Supported route (Phase 7, `04_tools/etabs/etabs_import.py`): ETABS/SAFE "Export tables to Excel/CSV" files. Direct API use only after the installed version and API are verified on the user's machine (not yet checked).
 
 ## Steps
 1. Record provenance: software + version, model file name and modified date, units in the export, analysis run date, who exported.
@@ -10,12 +10,12 @@ Supported route (Phase 7, `tools/etabs/etabs_import.py`): ETABS/SAFE "Export tab
 5. Sanity-check results independently (global equilibrium: sum of reactions vs applied load; spot hand calc). **A successful import is not evidence the model is correct** - report the equilibrium check result and flag modelling assumptions.
 6. Store imported tables unchanged under `analysis/<code>/raw/`; derived tables separate.
 
-## Route chosen by the user: SQLite `.db` export (tools/etabs/etabs_db_import.py)
-Run: `python tools/etabs/etabs_db_import.py <model.db> --out analysis/<code> --model-id <id> [--members members.csv] [--expected expected_cases.yaml] [--design-basis db.yaml]`.
+## Route chosen by the user: SQLite `.db` export (04_tools/etabs/etabs_db_import.py)
+Run: `python 04_tools/etabs/etabs_db_import.py <model.db> --out analysis/<code> --model-id <id> [--members members.csv] [--expected expected_cases.yaml] [--design-basis db.yaml]`.
 Seen in one real file (ETABS 22.1.0): tables named like ETABS database tables + `_ModelInfo` (ModelFile, DataUnits, IncludesResults, ExportedAt) + `_Tables` (per-table status). That file has `IncludesResults = No`: it is a MODEL DEFINITION, so there are no reactions/forces and the equilibrium/superposition checks cannot run; `ready_for_calculations` is always false for it. Units are read from `DataUnits` (N_mm_C -> lengths to m); a different `Program_Control.CurrUnits` is warned, not assumed. Checks M1-M11: metadata, units, results present, exporter table status, referential integrity (sections, materials, joints, load names, stories), duplicates, supports, expected cases and combination factors, member mapping, model design codes vs design basis. Results-table layout of this exporter is unknown - never guess it; ask for a file with IncludesResults = Yes. SAFE .db files have not been seen. The source .db is opened read-only and copied unchanged with SHA-256.
 
-## Tool: tools/etabs/etabs_import.py
-Run: `python tools/etabs/etabs_import.py <export> --out <dir> --model-id <id> [--model-file --run-date --software --members --expected --hand-totals --assume-units]`.
+## Tool: 04_tools/etabs/etabs_import.py
+Run: `python 04_tools/etabs/etabs_import.py <export> --out <dir> --model-id <id> [--model-file --run-date --software --members --expected --hand-totals --assume-units]`.
 Writes `raw/` (unchanged copies + SHA-256), `analysis_results.csv`, `joint_reactions.csv`, `base_reactions.csv` (kN, m), `import_log.json`, `import_report.md`, and `analysis_provenance.proposed.yaml` (proposal only; never applied to the design basis automatically).
 
 **Assumed export layout (UNVERIFIED against a real file):** each sheet / CSV block = row 1 `TABLE:  <name>`, row 2 column headers, row 3 units, then data. Supported tables: Joint Reactions, Base Reactions, Element Forces - Columns/Beams/Braces/Frames, Load Combinations, Program Control. Anything else is reported as UNSUPPORTED and not imported. A real ETABS/SAFE version may name tables or columns differently; the importer then rejects or reports - it never guesses.

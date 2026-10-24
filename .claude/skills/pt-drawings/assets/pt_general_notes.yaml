@@ -1,0 +1,86 @@
+# PT general notes template - BONDED post-tensioning, Eurocode.
+# Source: two-image legend/notes block of the 2F PT drawing (Success Design & Build, sheet 15), re-expressed to Eurocode.
+# Only the design codes were changed BS -> EN; every other note keeps the source wording and values (as parameters).
+# {a.b.c} is read from the project's PT basis file (03_projects/<PROJECT-CODE>/pt-basis.yaml). A missing value prints TBC and is
+# listed under ASSUMPTIONS TO BE CONFIRMED - the builder never fills a value in.
+# kind: num (numbered) | dash (bullet) | plain.  Tables: widths in mm.
+sections:
+  - id: A
+    title: DESIGN CODES
+    items:
+      - {kind: num, text: "LOAD: ACTIONS ON STRUCTURE - {codes.actions}."}
+      - {kind: num, text: "CONCRETE STRUCTURE: DESIGN OF CONCRETE STRUCTURES - {codes.concrete}."}
+      - {kind: num, text: "{codes.national_annex_note}"}
+  - id: B
+    title: CONCRETE
+    items:
+      - {kind: num, text: "MINIMUM CHARACTERISTIC COMPRESSIVE STRENGTH OF THE DESIGN MIX (fck) IN ACCORDANCE WITH THE BUILDING (CONSTRUCTION) REGULATIONS."}
+      - kind: table
+        widths: [45, 85, 40]
+        rows:
+          - ["TIME", "CONCRETE COMPRESSIVE STRENGTH", "NOMINAL AGGREGATE"]
+          - ["AT STRESSING", "fck,cube(t0) = {concrete.fck_cube_transfer_mpa} MPa", "{concrete.max_aggregate_mm} mm"]
+          - ["AT 28 DAYS", "{concrete.class_28d}: fck = {concrete.fck_mpa} MPa, fck,cube = {concrete.fck_cube_28d_mpa} MPa", ""]
+      - {kind: num, text: "CONSOLIDATE BY VIBRATION AND CURE ALL CONCRETE SURFACES AS DIRECTED IN THE SPECIFICATION."}
+  - id: C
+    title: REINFORCEMENT
+    items:
+      - {kind: dash, text: "DIA >= 10 - DEFORMED RE-BARS fyk = {reinforcement.main.fyk_mpa} MPa - MARK {reinforcement.main.mark}"}
+      - {kind: dash, text: "DIA < 10 - ROUND RE-BARS fyk = {reinforcement.secondary.fyk_mpa} MPa - MARK {reinforcement.secondary.mark}"}
+      - {kind: dash, text: "CLEAR COVER {reinforcement.cover_mm} mm"}
+  - id: D
+    title: STRAND PROPERTIES
+    items:
+      - {kind: plain, text: "POST-TENSIONING SYSTEM SHALL BE BONDED."}
+      - {kind: plain, text: "ALL STRAND SHALL COMPLY WITH {strand.standard}, LOW-RELAXATION, FOR PRESTRESSED CONCRETE."}
+      - kind: table
+        widths: [75, 55]
+        rows:
+          - ["STRAND TYPE", ": {strand.type}"]
+          - ["DIAMETER", ": {strand.diameter_mm} mm"]
+          - ["AREA OF CROSS SECTION, Ap", ": {strand.area_mm2} mm2"]
+          - ["MIN. BREAKING LOAD, Fpk", ": {strand.min_breaking_load_kn} kN"]
+          - ["YIELD STRENGTH", ": {strand.yield_mpa} MPa"]
+          - ["TENSILE STRENGTH, fpk", ": {strand.fpk_mpa} MPa"]
+          - ["MODULUS OF ELASTICITY, Ep", ": {strand.ep_mpa} MPa"]
+          - ["MINIMUM ELONGATION, Agt", ": {strand.min_elongation_pct} %"]
+          - ["STRESSING DESIGN (JACKING FORCE / STRAND)", ": {strand.jacking_force_kn} kN"]
+  - id: E
+    title: TENDON DESIGN PARAMETERS
+    items:
+      - {kind: num, text: "THE FRICTION PARAMETERS ASSUMED FOR DESIGN:"}
+      - {kind: dash, text: "FRICTION COEFFICIENT : mu = {tendon.mu}"}
+      - {kind: dash, text: "WOBBLE FACTOR : k = {tendon.k}"}
+      - {kind: dash, text: "WEDGE DRAW-IN : l = {tendon.draw_in_mm} mm"}
+      - {kind: num, text: "LOADING:"}
+      - {kind: dash, text: "UNIFORM LIVE LOAD : {loads.live}"}
+      - {kind: dash, text: "UNIFORM DEAD LOAD : {loads.dead}"}
+      - {kind: dash, text: "WALL LOAD : {loads.wall}"}
+  - id: F
+    title: REBAR ARRANGEMENT
+    items:
+      - {kind: plain, text: "BOTTOM BARS: 1ST LAYER (B1), 2ND LAYER (B2). TOP BARS: 3RD LAYER (T1), 4TH LAYER (T2). BAR DIRECTIONS AS SHOWN ON THE PLANS."}
+  - id: G
+    title: SLAB STEP TYPICAL DETAILS
+    items:
+      - {kind: plain, text: "SLAB STEP NOT BEYOND {slab_step.max_slope} AND STEP <= {slab_step.max_step_mm} mm. SLAB THICKNESS e1 AND e2 EITHER SIDE OF THE STEP; REBAR LAYERS B1, B2, T1, T2 CONTINUE ACROSS THE STEP AS SHOWN."}
+  - id: H
+    title: DENOTE FOR TENDON SYMBOL - HIGH POINT / LOW POINT
+    items:
+      - {kind: plain, text: "HIGH POINT (AT COLUMN STRIP) AND LOW POINT (AT MIDDLE STRIP): DUCT SHOWN WITH BARCHAIR HEIGHT MEASURED FROM SLAB BOTTOM / FORMWORK SOFFIT."}
+      - {kind: plain, text: "DUCT: H = {system.duct_height_mm} mm; W = {system.duct_width_mm} mm (VARIES BASED ON TENDON TYPE)."}
+  - id: I
+    title: DENOTE FOR TENDON SYMBOL - STRESSING ENDS AND STRANDS
+    items:
+      - {kind: dash, text: "ONE STRESSING END - ARROW AT STRESSING END ONLY."}
+      - {kind: dash, text: "BOTH STRESSING END - ARROW AT BOTH ENDS."}
+      - {kind: dash, text: "1 STRAND / TENDON - {symbols.s1}"}
+      - {kind: dash, text: "2 STRANDS / TENDON - {symbols.s2}"}
+      - {kind: dash, text: "3 STRANDS / TENDON - {symbols.s3}"}
+      - {kind: dash, text: "4 STRANDS / TENDON - {symbols.s4}"}
+      - {kind: dash, text: "5 STRANDS / TENDON - {symbols.s5}"}
+      - {kind: dash, text: "N STRANDS / TENDON (N > 5) - {symbols.sn}"}
+  - id: J
+    title: TENDON SYMBOL DETAILS
+    items:
+      - {kind: plain, text: "TENDON LABEL: TENDON ID - SYMBOL FOR NUMBER OF STRANDS - TYPE OF TENDON PROFILE - (X,Y LENGTH OF TENDON, m), E.G. 01 - SYMBOL - (X,Y 10.00m)."}

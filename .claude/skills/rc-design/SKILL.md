@@ -5,19 +5,19 @@ description: Entry point for discipline 3, reinforced concrete works (slabs, bea
 
 # Reinforced concrete design (discipline 3)
 
-Read first: `disciplines/rc-works/README.md` and `disciplines/rc-works/knowledge/rc-design-workflow.md`, plus the repo `CLAUDE.md` / `AGENTS.md` rules.
+Read first: `02_disciplines/rc-works/README.md` and `02_disciplines/rc-works/knowledge/rc-design-workflow.md`, plus the repo `CLAUDE.md` / `AGENTS.md` rules.
 
 ## State
-EARLY. Only the anchorage/lap check is built (`calc_lib/rc/ec2_anchorage.py`). Member checks, bar-schedule format and registry values are missing (gap G28).
+EARLY. Only the anchorage/lap check is built (`04_tools/calc_lib/rc/ec2_anchorage.py`). Member checks, bar-schedule format and registry values are missing (gap G28).
 
 ## Route the request
 | Request | Do this |
 |---|---|
-| Design approach / what to check | Follow `disciplines/rc-works/knowledge/rc-design-workflow.md` |
-| Anchorage and lap lengths | `calc_lib/rc/ec2_anchorage.py`; run script `calc_lib/runs/anchorage_check.py`; workbook `tools/xlsxgen/build_anchorage_workbook.py` |
-| General notes (concrete, reinforcement) | Skill `structural-drawing`; notes library `Structural-Drawing-Standards/04_General-Notes-and-Details/04-02_Eurocode_General_Notes_Library.yaml` |
-| Member checks (flexure, shear, punching, columns) | No module yet. Engineer-supplied calculation, or build one in `calc_lib/rc/` with hand-value tests |
-| Analysis results | `tools/etabs/` via skill `structural-calculation-report` |
+| Design approach / what to check | Follow `02_disciplines/rc-works/knowledge/rc-design-workflow.md` |
+| Anchorage and lap lengths | `04_tools/calc_lib/rc/ec2_anchorage.py`; run script `04_tools/calc_lib/runs/anchorage_check.py`; workbook `04_tools/xlsxgen/build_anchorage_workbook.py` |
+| General notes (concrete, reinforcement) | Skill `structural-drawing`; notes library `01_standards/04-general-notes/04-02-eurocode-notes-library.yaml` |
+| Member checks (flexure, shear, punching, columns) | No module yet. Engineer-supplied calculation, or build one in `04_tools/calc_lib/rc/` with hand-value tests |
+| Analysis results | `04_tools/etabs/` via skill `structural-calculation-report` |
 | Concrete / reinforcement specification | Skill `structural-specification` |
 | Package check | Skill `structural-document-qa` |
 
