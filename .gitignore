@@ -19,7 +19,7 @@ probe_result.json
 webapp/
 
 # Generated NotebookLM knowledge pack (rebuild with 04_tools/knowledge/build_knowledge_pack.py)
-06_knowledge-pack/
+
 knowledge-pack/
 
 # Linter / type-checker caches
