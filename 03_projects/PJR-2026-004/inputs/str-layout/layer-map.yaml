@@ -14,7 +14,7 @@ elements:
   drop_panel:   {layers: ["Cam-PT Drop Panel"], entity: closed polyline}      # 17 found
   band_beam:    {layers: ["Cam-PT Band beam"], entity: closed polyline}       # 15 found
   beam:         {layers: ["Cam-PT Beam"], entity: closed polyline}            # 10 found
-  pour_strip:   {layers: ["Cam-PT Pour Strip"], entity: closed polyline}      # 2 real strips 2.0 m wide at x 52.46-54.46 m (OI-06); the 3rd is a legend sample
+  pour_strip:   {layers: ["Cam-PT Pour Strip"], entity: closed polyline}      # 2 real strips 2.0 m wide at x 52.46-54.46 m; closed at 28 days, analysed as continuous slab (OI-06); the 3rd is a legend sample
   cast_later:   {block: "SLAB CAST LATER", layers: ["Cam-PT Slab Bounday"], entity: closed polyline}  # 18 slab-edge pieces ~0.5 m supporting a decorative block wall, cast later; model as cast-later slab (OI-05)
   sleeve:       {layers: ["Cam-PT Sleeve"], entity: circle or arc}            # found only inside the legend frame so far
   grid:         {block: "HTBT G2", entity: line with labelled bubble}         # 11 grids: 1-4, A-G
