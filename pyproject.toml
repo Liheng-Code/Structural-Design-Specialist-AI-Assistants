@@ -1,7 +1,7 @@
 # Tool configuration only (the repo is not packaged). See 05_docs/adr/ADR-011-quality-gates.md.
 # Type and lint checks cover the engineering core; existing tools are brought in as they are touched.
 #   python -m mypy
-#   python -m ruff check 04_tools/calc_lib/core tests/test_core.py
+#   python -m ruff check 04_tools/calc_lib/core 04_tools/model_builder tests/test_core.py tests/test_model_builder.py
 
 [tool.mypy]
 files = ["04_tools/calc_lib/core"]

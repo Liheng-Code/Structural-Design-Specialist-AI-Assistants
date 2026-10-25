@@ -32,7 +32,7 @@ from pydantic import (
 from calc_lib.core import units
 from calc_lib.core.status import CheckStatus
 
-SCHEMA_VERSION = "0.1.0"
+SCHEMA_VERSION = "0.2.0"   # 0.2.0 (M1): beams, pour strips, sleeves, cast-later slab, geometry issues
 
 _QTY_JSON = {"type": "object", "properties": {"value": {"type": "number"}, "unit": {"type": "string"}},
              "required": ["value", "unit"]}
@@ -154,9 +154,12 @@ class Wall(_Element):
         return _polyline(v, 2, "wall path")
 
 
+# Sizes read from a drawing may be missing until the engineer supplies them; None means "not found", never a default.
+# GeometryModel refuses CONFIRMED review while any of them is None.
 class SlabRegion(_Element):
     outline: list[Point2D]
-    thickness: Length
+    thickness: Optional[Length] = None
+    cast_later: bool = False            # poured after the main slab (e.g. edge pieces under a block wall)
 
     @field_validator("outline")
     @classmethod
@@ -167,12 +170,42 @@ class SlabRegion(_Element):
 class BandBeam(_Element):
     centreline: list[Point2D]
     width: Length
-    depth: Length                       # overall depth including slab
+    depth: Optional[Length] = None      # overall depth including slab
+    label: Optional[str] = None         # e.g. "BB2 (900x350)" as written on the drawing
+    outline: Optional[list[Point2D]] = None
 
     @field_validator("centreline")
     @classmethod
     def _cl(cls, v: list[Point2D]) -> list[Point2D]:
         return _polyline(v, 2, "band beam centreline")
+
+
+class Beam(_Element):
+    centreline: list[Point2D]
+    width: Length
+    depth: Optional[Length] = None      # overall depth including slab
+    label: Optional[str] = None
+    outline: Optional[list[Point2D]] = None
+
+    @field_validator("centreline")
+    @classmethod
+    def _cl(cls, v: list[Point2D]) -> list[Point2D]:
+        return _polyline(v, 2, "beam centreline")
+
+
+class PourStrip(_Element):
+    outline: list[Point2D]
+    thickness: Optional[Length] = None
+
+    @field_validator("outline")
+    @classmethod
+    def _outline(cls, v: list[Point2D]) -> list[Point2D]:
+        return _polyline(v, 3, "pour strip outline")
+
+
+class Sleeve(_Element):
+    centre: Point2D
+    diameter: Optional[Length] = None
 
 
 class Opening(_Element):
@@ -186,7 +219,8 @@ class Opening(_Element):
 
 class DropPanel(_Element):
     outline: list[Point2D]
-    depth: Length                       # overall depth including slab
+    depth: Optional[Length] = None      # overall depth including slab
+    label: Optional[str] = None
 
     @field_validator("outline")
     @classmethod
@@ -206,6 +240,15 @@ class GeometryReview(_Model):
         return self
 
 
+class GeometryIssue(_Model):
+    """Something the reader could not resolve or found suspicious; listed for the engineer, never silently fixed."""
+    severity: Literal["ERROR", "WARNING", "INFO"]
+    code: str
+    message: str
+    cad_handle: Optional[str] = None
+    element_id: Optional[str] = None
+
+
 class GeometryModel(_Model):
     schema_version: str = SCHEMA_VERSION
     project_code: str
@@ -217,14 +260,18 @@ class GeometryModel(_Model):
     walls: list[Wall] = Field(default_factory=list)
     slabs: list[SlabRegion] = Field(default_factory=list)
     band_beams: list[BandBeam] = Field(default_factory=list)
+    beams: list[Beam] = Field(default_factory=list)
     openings: list[Opening] = Field(default_factory=list)
     drop_panels: list[DropPanel] = Field(default_factory=list)
+    pour_strips: list[PourStrip] = Field(default_factory=list)
+    sleeves: list[Sleeve] = Field(default_factory=list)
+    issues: list[GeometryIssue] = Field(default_factory=list)
     review: GeometryReview = Field(default_factory=GeometryReview)
 
     @model_validator(mode="after")
     def _unique(self) -> GeometryModel:
-        ids = [e.id for group in (self.columns, self.walls, self.slabs, self.band_beams, self.openings,
-                                  self.drop_panels) for e in group]
+        ids = [e.id for group in (self.columns, self.walls, self.slabs, self.band_beams, self.beams, self.openings,
+                                  self.drop_panels, self.pour_strips, self.sleeves) for e in group]
         dup = sorted({i for i in ids if ids.count(i) > 1})
         if dup:
             raise ValueError(f"duplicate element ids: {dup}")
@@ -232,6 +279,22 @@ class GeometryModel(_Model):
         dup = sorted({g for g in labels if labels.count(g) > 1})
         if dup:
             raise ValueError(f"duplicate grid labels: {dup}")
+        return self
+
+    @model_validator(mode="after")
+    def _complete_when_confirmed(self) -> GeometryModel:
+        if self.review.state != "CONFIRMED":
+            return self
+        missing = [e.id for e in self.slabs if e.thickness is None]
+        missing += [e.id for e in self.pour_strips if e.thickness is None]
+        missing += [e.id for e in self.band_beams if e.depth is None]
+        missing += [e.id for e in self.beams if e.depth is None]
+        missing += [e.id for e in self.drop_panels if e.depth is None]
+        if missing:
+            raise ValueError(f"CONFIRMED geometry has elements without thickness or depth: {missing}")
+        errors = [i.code for i in self.issues if i.severity == "ERROR"]
+        if errors:
+            raise ValueError(f"CONFIRMED geometry still has ERROR issues: {errors}")
         return self
 
 

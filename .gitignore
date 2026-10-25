@@ -29,3 +29,5 @@ knowledge-pack/
 # Client drawings for PJR-2026-004 stay on this PC (the GitHub repo is public)
 03_projects/PJR-2026-004/inputs/**/*.dxf
 03_projects/PJR-2026-004/inputs/**/*.dwg
+03_projects/PJR-2026-004/model/*/*
+!03_projects/PJR-2026-004/model/*/.gitkeep
