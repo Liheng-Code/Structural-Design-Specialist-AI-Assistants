@@ -1,7 +1,35 @@
 {
   "files.exclude": {
     "**/.mypy_cache": true,
-    "**/.ruff_cache": true
-    
-    }
+    "**/.ruff_cache": true,
+    "**/__pycache__": true
+  },
+
+  // Python: ruff formats, fixes lint and sorts imports on save (rules come from pyproject.toml)
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    },
+    "editor.rulers": [120]
+  },
+
+  // Pylance resolves imports from 04_tools the same way mypy does (mypy_path = "04_tools")
+  "python.analysis.extraPaths": ["04_tools"],
+
+  // mypy from the selected interpreter, so the pydantic.mypy plugin in pyproject.toml loads
+  "mypy-type-checker.importStrategy": "fromEnvironment",
+
+  // Testing panel: same as `python -m unittest discover -s tests`
+  "python.testing.unittestEnabled": true,
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestArgs": ["-v", "-s", "./tests", "-p", "test*.py"],
+
+  // Engineering terms the spell checker should not flag
+  "cSpell.words": [
+    "ADAPT", "anchorage", "cadgen", "docgen", "xlsxgen", "ETABS", "ezdxf", "Eurocode",
+    "LibreOffice", "NotebookLM", "openpyxl", "pydantic", "soffice", "tendon", "tendons"
+  ]
 }

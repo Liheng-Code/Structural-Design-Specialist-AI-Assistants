@@ -1,0 +1,28 @@
+{
+  // Recommended extensions for this repo. VS Code offers to install them when the folder is opened
+  // (Extensions view > "Recommended").
+  "recommendations": [
+    // Python: calc_lib, cadgen, docgen, xlsxgen, tests
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "charliermarsh.ruff",
+    "ms-python.mypy-type-checker",
+    "usernamehw.errorlens",
+
+    // Design basis, registers, config
+    "redhat.vscode-yaml",
+    "mechatroner.rainbow-csv",
+    "tamasfe.even-better-toml",
+
+    // Calculation notes, specifications, docs
+    "yzhang.markdown-all-in-one",
+    "DavidAnson.vscode-markdownlint",
+    "bierner.markdown-mermaid",
+    "cweijan.vscode-office",
+    "streetsidesoftware.code-spell-checker",
+
+    // Git history
+    "eamodio.gitlens",
+    "mhutchie.git-graph"
+  ]
+}
