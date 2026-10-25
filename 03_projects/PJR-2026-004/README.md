@@ -26,7 +26,7 @@ Rule for the `model/` folders: the system writes there and never edits `inputs/`
 ## Status (25-OCT-2026)
 
 - Building: 22 floors and a top roof; this layout is the 3F floor (user, 25-OCT-2026).
-- `inputs/str-layout/3F Floor.dxf` received and read (units mm): 22 columns, 11 walls (incl. one core wall drawn as two nested rectangles, ~350 mm), 2 pour strips 2.0 m wide, 18 cast-later squares on the slab edge, grid 1-4 / A-G. The legend holds sample shapes on the structural layers, so raw layer counts overstate beams, band beams, drop panels, openings and slab edges; exact counts come from the M1 reader. Layer map drafted. The DXF is ignored by git (public repo).
+- `inputs/str-layout/3F Floor.dxf` received and read (units mm): 22 columns, 11 walls (incl. one core wall drawn as two nested rectangles, ~350 mm), 2 pour strips 2.0 m wide, 18 cast-later slab-edge pieces (~0.5 m, support a decorative block wall), grid 1-4 / A-G. Scope: this floor only. The legend holds sample shapes on the structural layers, so raw layer counts overstate beams, band beams, drop panels, openings and slab edges; exact counts come from the M1 reader. Layer map drafted. The DXF is ignored by git (public repo).
 - `design-basis.yaml`: project code only; validator reports 8 missing required fields (NOT READY), expected at this stage.
 - `pt-basis.yaml`: project code and floor only.
-- Open items OI-01 to OI-07 are listed in `design-basis.yaml` (OI-04 closed).
+- Open items OI-01 to OI-08 are listed in `design-basis.yaml` (OI-04, OI-05, OI-07 closed).

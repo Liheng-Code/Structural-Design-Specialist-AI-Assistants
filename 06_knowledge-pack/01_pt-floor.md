@@ -1,6 +1,6 @@
 # Discipline 1 - Post-tensioned floors (PT slabs and band beams; bonded default, unbonded allowed)
 
-Knowledge pack generated 2026-10-25 from commit `5748d00`.
+Knowledge pack generated 2026-10-25 from commit `a15cfa3`.
 
 > Generated from the project repository. This is reference material for search and recall, not an approved standard or a calculation result. Each section names its source file; check that file's status header (APPROVED / PROPOSED / DRAFT / SKELETON). Nothing here is engineer-approved unless the source file says so. NotebookLM answers are AI summaries of this text (gap G29).
 
@@ -4381,7 +4381,8 @@ Old to new numbering, for documents written before 25-OCT-2026 (ADR-001 to ADR-0
 
 ##### M1 - Structural layout DXF to reviewed geometry (user step 1)
 - Generalise `03_projects/PJR-2F-PT/redraft/convert_plan_to_pt_data.py` into a DXF reader in `04_tools/model_builder/` (Architecture v2 diagram 2). Layer names differ per drawing, so a per-project layer map (YAML, e.g. `03_projects/PJR-2026-004/inputs/str-layout/layer-map.yaml`) says which layers and blocks hold columns, walls, slab edge, openings, drop panels, band beams, beams, pour strips, sleeves and grids.
-- Output: `GeometryModel` (M0 schema): grids, columns, walls, slab regions, openings, drop panels, band beams; units from the DXF header, checked. Sizes and names are attached from the drawing's labels (e.g. "BB2 (900x350)", "THK: 200mm"); a label that cannot be matched to one element is listed, not guessed.
+- Output: `GeometryModel` (M0 schema): grids, columns, walls, slab regions, openings, drop panels, band beams; units from the DXF header, checked. Sizes and names are attached from the drawing's labels (e.g. "BB2 (900x350)", "THK: 200mm"); a label that cannot be matched to one element is listed, not guessed. The M0 schema needs extending for this: ordinary beams, pour strips, cast-later slab areas and sleeves have no place in `GeometryModel` yet, and a wall drawn as a closed outline (e.g. a core drawn as two nested rectangles) must be converted to path and thickness.
+- Legend and title areas: drawings can hold sample shapes on the structural layers inside the legend frame (seen in `3F Floor.dxf`); the layer map names exclusion regions and the reader skips everything inside them.
 - Preflight checks: closed slab boundary, duplicate or overlapping elements, columns outside the slab, unsupported entities, unit sanity (a 6 m span read as 6 mm).
 - Review output for the engineer: an overlay preview (PDF/DXF) with every recognised element labelled, a list of what was not recognised, and a `GeometryReview` record. Corrections are saved as a checksummed snapshot.
 - Benchmarks: `03_projects/PJR-2026-004/inputs/str-layout/3F Floor.dxf` (mock-up project) and the 2F PT layout (PJR-2F-PT).
