@@ -1,6 +1,6 @@
 # Platform core (shared by all disciplines)
 
-Knowledge pack generated 2026-10-24 from commit `536be67`.
+Knowledge pack generated 2026-10-25 from commit `34f2fa6`.
 
 > Generated from the project repository. This is reference material for search and recall, not an approved standard or a calculation result. Each section names its source file; check that file's status header (APPROVED / PROPOSED / DRAFT / SKELETON). Nothing here is engineer-approved unless the source file says so. NotebookLM answers are AI summaries of this text (gap G29).
 
@@ -1230,7 +1230,7 @@ Status values: PROPOSED, ACCEPTED (who, date), OPEN (not decided), SUPERSEDED (b
 | [004](ADR-004-design-code-registry.md) | Versioned design-code registry with verification status | ACCEPTED (user, 16-OCT-2026) |
 | [005](ADR-005-api-fastapi.md) | FastAPI for the server API | ACCEPTED (user, 16-OCT-2026) |
 | [006](ADR-006-job-queue-redis-rq.md) | Redis + RQ for background jobs | ACCEPTED (user, 16-OCT-2026) |
-| [007](ADR-007-units-pint.md) | pint for unit handling | ACCEPTED (user, 16-OCT-2026); internal base units OPEN |
+| [007](ADR-007-units-pint.md) | pint for unit handling | ACCEPTED (user, 16-OCT-2026); internal base units N, mm, MPa with kN in/out (user, 25-OCT-2026) |
 | [008](ADR-008-hosting-and-data.md) | Supabase for database, files and auth; Vercel for the front end | ACCEPTED (user, 16-OCT-2026); container host OPEN |
 | [009](ADR-009-front-end.md) | Next.js + TypeScript + Tailwind front end | ACCEPTED (user, 16-OCT-2026); viewer and chart libraries PROPOSED |
 | [010](ADR-010-claude-tool-layer.md) | AI (Claude or local Ollama models) through a server-side, schema-validated tool layer | ACCEPTED (user, 16-OCT-2026); amendment 1 adds local models |

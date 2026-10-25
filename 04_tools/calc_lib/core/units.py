@@ -4,8 +4,8 @@ Every quantity that crosses a module boundary is a pint Quantity. A module conve
 (`to_internal`) and does plain-float arithmetic only after that. A dimension mismatch raises `DimensionError`; it is
 never coerced. Bare numbers are rejected wherever a quantity is expected.
 
-INTERNAL_UNITS is PROVISIONAL: ADR-007 leaves the core's base units OPEN. The recommendation (N, mm, MPa) is used here
-so M0 can be built and tested; changing it means changing this table only.
+INTERNAL_UNITS: N, mm, MPa, decided by the user 25-OCT-2026 (ADR-007). Forces and moments are entered and reported in
+kN and kN*m; they are converted here, never stored internally in kN (kN with mm and MPa is not a consistent set).
 """
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ import pint
 ureg: pint.UnitRegistry = pint.UnitRegistry()
 Quantity = ureg.Quantity
 
-# PROVISIONAL (ADR-007 open sub-decision). Quantity kind -> internal unit. The unit also fixes the kind's dimension.
+# Decided 25-OCT-2026 (ADR-007). Quantity kind -> internal unit. The unit also fixes the kind's dimension.
 INTERNAL_UNITS: Mapping[str, str] = {
     "dimensionless": "dimensionless",
     "strain": "dimensionless",

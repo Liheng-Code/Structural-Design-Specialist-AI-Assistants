@@ -1,6 +1,6 @@
 # Discipline 1 - Post-tensioned floors (PT slabs and band beams; bonded default, unbonded allowed)
 
-Knowledge pack generated 2026-10-24 from commit `536be67`.
+Knowledge pack generated 2026-10-25 from commit `34f2fa6`.
 
 > Generated from the project repository. This is reference material for search and recall, not an approved standard or a calculation result. Each section names its source file; check that file's status header (APPROVED / PROPOSED / DRAFT / SKELETON). Nothing here is engineer-approved unless the source file says so. NotebookLM answers are AI summaries of this text (gap G29).
 
@@ -46,7 +46,7 @@ Scope: post-tensioned concrete slabs and band beams to EN 1992-1-1. **Bonded is 
 | Full PT slab package skill (10 sheets from a draft layout) | `.claude/skills/pt-slab-package/` | Instruction level; its numeric defaults are not design-basis values (gap G30) |
 | PT basis template and validator | `03_projects/_template/pt-basis.yaml`, `04_tools/cadgen/validate_pt_basis.py` | Built |
 | PT screening checks (stress, balanced load, strip solver) | `04_tools/calc_lib/pt/ec2_pt_screen.py`, tests in `tests/test_ec2_pt_screen.py` | Indicative screening only, not a design |
-| PT designer roadmap | `05_docs/development-plan-v2.md`, `05_docs/architecture-v2.md`, `05_docs/adr/` | M0 built, awaiting engineer review gate |
+| PT designer roadmap | `05_docs/development-plan-v2.md`, `05_docs/architecture-v2.md`, `05_docs/adr/` | M0 gate closed by the user 25-OCT-2026; M1 next |
 | Design knowledge | `knowledge/` | See [knowledge/README.md](knowledge/README.md) |
 | Worked example: 2F PT slab | `03_projects/PJR-2F-PT/` (PT basis, plan/profile data, `redraft/`, `runs/`, `verification/`) | Redraft + screening; gaps G24-G26 open |
 
@@ -4339,7 +4339,7 @@ Recorded in [05_docs/adr/](adr/README.md). The full records take precedence over
 | [004](adr/ADR-004-design-code-registry.md) | Versioned registry in `04_tools/code_registry/`; `UNVERIFIED` values give NOT EVALUATED; references only, no clause text | NA decision (§6 input 2) |
 | [005](adr/ADR-005-api-fastapi.md) | FastAPI; Pydantic models shared with Claude tool schemas; OpenAPI generates the front-end types | - |
 | [006](adr/ADR-006-job-queue-redis-rq.md) | Redis + RQ background jobs, run in a Linux container | - |
-| [007](adr/ADR-007-units-pint.md) | pint at every module boundary | Internal base units (recommended N, mm, MPa) |
+| [007](adr/ADR-007-units-pint.md) | pint at every module boundary; internal N, mm, MPa, kN in/out (25-OCT-2026) | - |
 | [008](adr/ADR-008-hosting-and-data.md) | Supabase Postgres, Storage and Auth with row-level security; Vercel for the front end; API and workers on a container host | Container host provider (§6 input 6) |
 | [009](adr/ADR-009-front-end.md) | Next.js + strict TypeScript + Tailwind; no calculation logic in the browser | dxf-viewer and Plotly.js to be evaluated |
 | [010](adr/ADR-010-claude-tool-layer.md) | Claude server-side only, through schema-validated tools; read-only on check results; no approval or issue tools | - |
@@ -4357,6 +4357,7 @@ Each milestone ends at a **review gate**: tests pass, benchmark results are tabl
 - Add mypy and ruff configuration for the core (ADR-011).
 - **Gate:** schemas reviewed; existing test suite still passes.
 - **Status (16-OCT-2026):** built, awaiting the gate. `04_tools/calc_lib/core/` (units, status, registry, schemas), `04_tools/code_registry/` (skeleton: EN 1992-1-1:2004 CEN parameter IDs, all values empty and UNVERIFIED), `tests/test_core.py` (34 tests), `pyproject.toml` (mypy strict, ruff). Full suite: 202 tests, 1 failure that predates M0 (`test_pt.Notes`, PT notes sheet 1.3 mm past the border). Open: ADR-007 base units (N, mm, MPa used provisionally).
+- **Gate closed 25-OCT-2026 by the user** ("close the M0"): base units N, mm, MPa inside, kN and kN·m for input and output (ADR-007); schemas accepted as built. Full suite at closure: 233 tests OK, 1 skipped (real `GDT_CleanV3.db` not in the repo); mypy strict and ruff clean. This is the user's acceptance of the software foundations, not an engineering approval. Next: M1.
 
 ##### M1 - Real analysis input (unblocks everything else)
 - Get one real SAFE (or ETABS) PT-slab export from the user's software version. *The user must supply this.*
@@ -4434,7 +4435,7 @@ v1 Part 22 applies, with step 6 read as "import or run a validated structural an
 | 4 | M2 | Hand calculations or verified reference results for benchmarks (or approval of agent-prepared ones after an engineer's check) |
 | 5 | M5 | Whether an ODA File Converter or AutoCAD batch route is available on the production PC |
 | 6 | M6 | Container host provider for the API and workers (Supabase and Vercel are decided in ADR-008) |
-| 7 | M0 | Internal base units for the core (ADR-007; recommended N, mm, MPa) |
+| 7 | M0 | Internal base units for the core (ADR-007): DONE 25-OCT-2026, N, mm, MPa inside, kN in/out |
 
 #### 7. Instruction for an implementing agent
 

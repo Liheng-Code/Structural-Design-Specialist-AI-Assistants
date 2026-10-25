@@ -81,10 +81,10 @@ def build(out_dir: pathlib.Path) -> list[pathlib.Path]:
     written, rows = [], []
     for name, title, files in packs:
         path = out_dir / name
-        path.write_text(render(title, files, date, commit), encoding="utf-8")
+        path.write_bytes(render(title, files, date, commit).encode("utf-8"))   # bytes: LF on Windows too
         written.append(path)
         rows.append(f"| `{name}` | {title} ({len(files)} source files, {path.stat().st_size // 1024} KB) |")
-    (out_dir / "README.md").write_text(README.format(date=date, commit=commit, rows="\n".join(rows)), encoding="utf-8")
+    (out_dir / "README.md").write_bytes(README.format(date=date, commit=commit, rows="\n".join(rows)).encode("utf-8"))
     return written
 
 
