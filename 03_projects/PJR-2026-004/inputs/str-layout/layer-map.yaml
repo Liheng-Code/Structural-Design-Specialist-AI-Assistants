@@ -1,0 +1,34 @@
+# Layer map for 3F Floor.dxf: which DXF layer holds which structural element (Development Plan v2, M1).
+# STATUS: DRAFT. Written 25-OCT-2026 from a read of the file; the user confirms or corrects it at Gate A.
+# Layer and block names are copied exactly as spelled in the DXF (typos included: "Bounday", "Drrop").
+# Format is provisional until the M1 reader is built; it may change then.
+layer_map_version: 1
+source_file: 3F Floor.dxf
+units: mm                       # DXF $INSUNITS = 4
+
+elements:
+  column:       {layers: ["CAM-PT Column"], entity: closed polyline}          # 22 found
+  wall:         {layers: ["Cam-PT Wall"], entity: closed polyline}            # 11 found; see open item OI-04
+  slab_edge:    {layers: ["Cam-PT Slab Bounday"], entity: closed polyline}    # 6 found in model space
+  opening:      {layers: ["Cam-PT Opening"], entity: closed polyline}         # 20 found; the 40 2-point lines are the X marks inside them
+  drop_panel:   {layers: ["Cam-PT Drop Panel"], entity: closed polyline}      # 17 found
+  band_beam:    {layers: ["Cam-PT Band beam"], entity: closed polyline}       # 15 found
+  beam:         {layers: ["Cam-PT Beam"], entity: closed polyline}            # 10 found
+  pour_strip:   {layers: ["Cam-PT Pour Strip"], entity: closed polyline}      # 3 found
+  sleeve:       {layers: ["Cam-PT Sleeve"], entity: circle or arc}            # 1 group found
+  grid:         {block: "HTBT G2", entity: line with labelled bubble}         # 11 grids: 1-4, A-G
+
+labels:                         # text read to attach sizes and names to the elements above
+  layers: ["Cam-PT Label Text", "Cam-PT Opening"]
+  examples: ["BB2 (900x350)", "DROP PANEL 1", "THK: 200mm", "450mm THK", "OPEN"]
+
+ignore:                         # not structural input
+  layers: ["Cam-PT Dimension", "Cam-PT Hatch", "Cam-PT Drop level", "Cam-PT Text", "Cam-PT Title Text",
+           "Cam-PT Tendon X", "Defpoints", "3F PIPE CLEAN_dwg"]
+  notes:
+    - "Cam-PT Tendon X holds one empty text 90 m below the plan; it inflates the drawing extents."
+    - "3F PIPE CLEAN_dwg is a bound pipe drawing nested in a block; it makes up most of the 33 MB."
+
+open:                           # decided by the user before Gate A
+  - "Block SLAB CAST LATER (layer Cam-PT Glass) holds 18 outlines on Cam-PT Slab Bounday: slab, later pour, or ignore? (OI-05)"
+  - "Two nested rectangles on Cam-PT Wall: one core wall about 350 mm thick? (OI-04)"

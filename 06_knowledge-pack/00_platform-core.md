@@ -1,6 +1,6 @@
 # Platform core (shared by all disciplines)
 
-Knowledge pack generated 2026-10-25 from commit `546703d`.
+Knowledge pack generated 2026-10-25 from commit `5748d00`.
 
 > Generated from the project repository. This is reference material for search and recall, not an approved standard or a calculation result. Each section names its source file; check that file's status header (APPROVED / PROPOSED / DRAFT / SKELETON). Nothing here is engineer-approved unless the source file says so. NotebookLM answers are AI summaries of this text (gap G29).
 
@@ -1235,4 +1235,4 @@ Status values: PROPOSED, ACCEPTED (who, date), OPEN (not decided), SUPERSEDED (b
 | [009](ADR-009-front-end.md) | Next.js + TypeScript + Tailwind front end | ACCEPTED (user, 16-OCT-2026); viewer and chart libraries PROPOSED |
 | [010](ADR-010-claude-tool-layer.md) | AI (Claude or local Ollama models) through a server-side, schema-validated tool layer | ACCEPTED (user, 16-OCT-2026); amendment 1 adds local models |
 | [011](ADR-011-quality-gates.md) | unittest + benchmark register + mypy + ruff; CI when a remote exists | ACCEPTED (user, 16-OCT-2026) |
-| [012](ADR-012-safe-api-model-build.md) | System builds and runs the SAFE 22 model from the architect DXF through the local CSI API | ACCEPTED (user, 25-OCT-2026) |
+| [012](ADR-012-safe-api-model-build.md) | System builds and runs the SAFE 22 model from the structural layout DXF through the local CSI API | ACCEPTED (user, 25-OCT-2026) |

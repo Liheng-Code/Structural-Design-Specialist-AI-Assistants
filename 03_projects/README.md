@@ -15,4 +15,5 @@ One folder per project, named by its project code (as recorded in its design bas
 |---|---|---|
 | [_template/](_template/) | - | Blank `design-basis.yaml` and `pt-basis.yaml` to copy |
 | [PJR-2F-PT/](PJR-2F-PT/) | 1 PT floor | 2F PT slab: redraft, screening runs, verification reports (gaps G24-G26) |
+| [PJR-2026-004/](PJR-2026-004/README.md) | 1 PT floor | Mock-up project for the structural-layout DXF to SAFE 22 workflow (M1-M4): 3F floor layout, layer map, `model/01-geometry` ... `model/04-safe` folders, one per gate |
 | [PJR-2026-003/](PJR-2026-003/) | Steel + RC | Warehouse drawing set WH-STR-SD R00: design basis transcribed from drawings, restandardised DXF, calc report, spec, workbook. Issued R00 drawings still show `PRJ-2026-003` (gap G07) |

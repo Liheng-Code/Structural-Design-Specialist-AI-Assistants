@@ -3,7 +3,7 @@
 Status: ACCEPTED (user, 25-OCT-2026). Amends ADR-002.
 
 ## Context
-ADR-002 made SAFE/ETABS the analysis engine and started from tables exported from a model the engineer built by hand. It left local automation through the CSI API as "a separate decision". On 25-OCT-2026 the user set a different workflow: the engineer sends the architect drawing (DXF) and the system proposes element sizes, loading, load cases, load patterns, load combinations, support lines, strips and tendons, then builds the model for analysis. SAFE 22 is installed on the user's PC (probe 14-OCT-2026, gap G20); its API has not been tried. The user chose SAFE 22 over ADAPT-Builder INP export.
+ADR-002 made SAFE/ETABS the analysis engine and started from tables exported from a model the engineer built by hand. It left local automation through the CSI API as "a separate decision". On 25-OCT-2026 the user set a different workflow: the engineer sends a structural layout DXF (columns and walls placed and sized by the engineer; changed from an architect plan the same day, because vertical elements cannot be estimated reliably from an architect plan) and the system proposes element sizes, loading, load cases, load patterns, load combinations, support lines, strips and tendons, then builds the model for analysis. SAFE 22 is installed on the user's PC (probe 14-OCT-2026, gap G20); its API has not been tried. The user chose SAFE 22 over ADAPT-Builder INP export.
 
 ## Decision
 - The system builds the SAFE 22 model from the reviewed data of gates A-C (Development Plan v2, M1-M3) through the CSI OAPI on the engineer's PC, runs the analysis and reads the results back into `AnalysisResults`.

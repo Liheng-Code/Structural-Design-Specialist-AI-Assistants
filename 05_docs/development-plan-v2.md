@@ -5,7 +5,7 @@ Supersedes the *structure and sequencing* of Development Plan v1 (file removed 2
 Architecture: [Architecture v2.md](architecture-v2.md).
 
 
-Sequence update 25-OCT-2026 (user decision): milestones M1-M7 re-sequenced to the user's workflow - architect DXF, then the system proposes sizing, loading, load cases, patterns, combinations, support lines, strips and tendons, then builds and runs the model in SAFE 22 (§4, ADR-012).
+Sequence update 25-OCT-2026 (user decision): milestones M1-M7 re-sequenced to the user's workflow - structural layout DXF (vertical elements placed by the engineer), then the system proposes sizing, loading, load cases, patterns, combinations, support lines, strips and tendons, then builds and runs the model in SAFE 22 (§4, ADR-012).
 
 Scope update 24-OCT-2026 (user decision): unbonded PT is also supported; bonded stays the default. Where this plan says "bonded", read "bonded (default) or unbonded" unless a step is specific to bonded tendons (e.g. ULS tendon stress, gap G32).
 ---
@@ -47,7 +47,7 @@ Recorded in [05_docs/adr/](adr/README.md). The full records take precedence over
 |---|---|---|
 | [001](adr/ADR-001-python-engineering-core.md) | Python engineering core (pure, typed, mypy-checked); TypeScript only in the front end. Replaces v1 Part 21 rule 3 | - |
 | [002](adr/ADR-002-analysis-adapter-safe-etabs.md) | Analysis through an adapter; SAFE/ETABS import first; in-house FE solver is an optional research track | Amended by ADR-012 |
-| [012](adr/ADR-012-safe-api-model-build.md) | System builds and runs the SAFE 22 model from the architect DXF through the local CSI API (25-OCT-2026) | SAFE 22 API probe (M4) |
+| [012](adr/ADR-012-safe-api-model-build.md) | System builds and runs the SAFE 22 model from the structural layout DXF through the local CSI API (25-OCT-2026) | SAFE 22 API probe (M4) |
 | [003](adr/ADR-003-yaml-design-basis-source.md) | YAML design basis + PT basis are the source of truth until M6; the database round-trips the same schema | - |
 | [004](adr/ADR-004-design-code-registry.md) | Versioned registry in `04_tools/code_registry/`; `UNVERIFIED` values give NOT EVALUATED; references only, no clause text | NA decision (§6 input 2) |
 | [005](adr/ADR-005-api-fastapi.md) | FastAPI; Pydantic models shared with Claude tool schemas; OpenAPI generates the front-end types | - |
@@ -73,7 +73,7 @@ Each milestone ends at a **review gate**: tests pass, benchmark results are tabl
 - **Gate closed 25-OCT-2026 by the user** ("close the M0"): base units N, mm, MPa inside, kN and kN·m for input and output (ADR-007); schemas accepted as built. Full suite at closure: 233 tests OK, 1 skipped (real `GDT_CleanV3.db` not in the repo); mypy strict and ruff clean. This is the user's acceptance of the software foundations, not an engineering approval. Next: M1.
 
 ### Re-sequenced 25-OCT-2026 (user decision)
-The user set the workflow: the engineer sends the architect drawing, and the system proposes the model step by step - element sizing, loading, load cases, load patterns, load combinations, support lines, strips, tendons - then builds and runs it in SAFE 22 (ADR-012). Decided with it: input is DXF; analysis is SAFE 22 driven locally through the CSI API; the system stops for the engineer at three gates (A geometry, B sizing and loads, C strips and tendons) and runs automatically between them.
+The user set the workflow: the engineer sends a structural layout DXF, and the system proposes the model step by step - element sizing (a check of the sizes drawn), loading, load cases, load patterns, load combinations, support lines, strips, tendons - then builds and runs it in SAFE 22 (ADR-012). Decided with it: input is a structural layout DXF - a concrete body layout in which the engineer has placed and sized the columns, walls, drop panels and band beams - not an architect plan, because vertical elements cannot be estimated reliably from an architect plan (user, 25-OCT-2026; example `03_projects/PJR-2026-004/inputs/str-layout/3F Floor.dxf`); analysis is SAFE 22 driven locally through the CSI API; the system stops for the engineer at three gates (A geometry, B sizing and loads, C strips and tendons) and runs automatically between them.
 
 This replaces the earlier order, which started from a SAFE model built by the engineer (old M1) and imported CAD last (old M5). Importing an engineer-built SAFE model stays available as a second route (M4) for checking existing designs.
 
@@ -83,22 +83,22 @@ Old to new numbering, for documents written before 25-OCT-2026 (ADR-001 to ADR-0
 
 | User step | Milestone | Gate |
 |---|---|---|
-| 1 Architect drawing (engineer) | M1 | A |
+| 1 Structural layout DXF (engineer) | M1 | A |
 | 2 Element sizing, 3 Loading, 4 Load cases, 5 Load patterns, 6 Load combinations | M2 | B |
 | 7 Support lines, 8 Strips, 9 Tendons | M3 | C |
 | Build, run and read back in SAFE 22 | M4 | D |
 | Design checks, reinforcement, deliverables, web app | M5-M7 | - |
 
-### M1 - Architect DXF to reviewed geometry (user step 1)
-- Generalise `03_projects/PJR-2F-PT/redraft/convert_plan_to_pt_data.py` into a DXF reader in `04_tools/model_builder/` (Architecture v2 diagram 2). Architect layer names differ per office, so a per-project layer map (YAML) says which layers hold columns, walls, slab edge, openings, grids and levels.
-- Output: `GeometryModel` (M0 schema): grids, columns, walls, slab regions, openings, drop panels, band-beam lines; units from the DXF header, checked.
+### M1 - Structural layout DXF to reviewed geometry (user step 1)
+- Generalise `03_projects/PJR-2F-PT/redraft/convert_plan_to_pt_data.py` into a DXF reader in `04_tools/model_builder/` (Architecture v2 diagram 2). Layer names differ per drawing, so a per-project layer map (YAML, e.g. `03_projects/PJR-2026-004/inputs/str-layout/layer-map.yaml`) says which layers and blocks hold columns, walls, slab edge, openings, drop panels, band beams, beams, pour strips, sleeves and grids.
+- Output: `GeometryModel` (M0 schema): grids, columns, walls, slab regions, openings, drop panels, band beams; units from the DXF header, checked. Sizes and names are attached from the drawing's labels (e.g. "BB2 (900x350)", "THK: 200mm"); a label that cannot be matched to one element is listed, not guessed.
 - Preflight checks: closed slab boundary, duplicate or overlapping elements, columns outside the slab, unsupported entities, unit sanity (a 6 m span read as 6 mm).
 - Review output for the engineer: an overlay preview (PDF/DXF) with every recognised element labelled, a list of what was not recognised, and a `GeometryReview` record. Corrections are saved as a checksummed snapshot.
-- Benchmarks: the 2F PT layout (PJR-2F-PT) and one more real architect DXF.
+- Benchmarks: `03_projects/PJR-2026-004/inputs/str-layout/3F Floor.dxf` (mock-up project) and the 2F PT layout (PJR-2F-PT).
 - **Gate A:** the engineer confirms the geometry of both drawings; all fatal errors are caught; re-running gives the same snapshot.
 
 ### M2 - Proposed sizing and loading (user steps 2-6)
-- Step 2, sizing: slab thickness, band beam or drop panel depth and width, with a column-size flag, proposed from span-to-depth rules. Only rules marked ACCEPTED in `02_disciplines/pt-floor/knowledge/pt-master-ruleset.yaml` are used (gap G33: all are UNVERIFIED today).
+- Step 2, sizing: the sizes come from the structural layout (M1); the system checks slab thickness, band beam and drop panel depth and width, and column size against span-to-depth rules, flags any that fail, and proposes a size only where the drawing gives none. Only rules marked ACCEPTED in `02_disciplines/pt-floor/knowledge/pt-master-ruleset.yaml` are used (gap G33: all are UNVERIFIED today).
 - Step 3, loading: self-weight from geometry and concrete density; superimposed dead load, live load per area, and line loads (facade, partitions) from the design basis. The system assigns them to regions; it does not choose their values.
 - Step 4, load cases: dead, superimposed dead, live, prestress (placeholder until M3), and others the design basis lists.
 - Step 5, load patterns: live-load patterning as the design basis records it (rule and pattern set stated, never assumed).
@@ -170,7 +170,7 @@ v1 Part 22 applies, with step 1 read as "DXF" and step 6 as "build and run the m
 
 | # | Needed for | Item |
 |---|---|---|
-| 1 | M1 | Two real architect floor plans as DXF (one can be the 2F PT layout), and the layer names the architect used |
+| 1 | M1 | Structural layout DXF with columns and walls placed and sized: RECEIVED 25-OCT-2026 (`PJR-2026-004/inputs/str-layout/3F Floor.dxf`); answers to its open items OI-04, OI-05 |
 | 2 | M0, M2 | National Annex decision per project, or confirmation that CEN recommended values apply (CEN confirmed 14-OCT-2026, gap G09) |
 | 3 | M3 | Approved PT system data sheet / ETA (mu, k, draw-in, relaxation class, anchorage data) |
 | 4 | M3, M5 | Hand calculations or verified reference results for benchmarks (or approval of agent-prepared ones after an engineer's check) |

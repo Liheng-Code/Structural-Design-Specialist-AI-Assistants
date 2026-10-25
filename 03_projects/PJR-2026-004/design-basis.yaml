@@ -1,0 +1,41 @@
+# Design basis for PJR-2026-004 (mock-up project for the structural-layout DXF -> SAFE 22 workflow).
+# Leave unknowns as null - never guess. Validate:  python 04_tools/design_basis/validate_design_basis.py <file>
+project:
+  code: PJR-2026-004 # AAA-YYYY-NNN
+  name:
+  description: Mock-up project for the structural-layout DXF to SAFE 22 workflow (Development Plan v2, M1-M4); 3F PT floor
+  stage:              # e.g. FOR APPROVAL / SHOP DRAWING / PRELIMINARY PT DESIGN
+  client:
+  drawing_prefix:     # XX-STR  e.g. WH-STR
+  revision:           # R00 / P01 / C01
+  issue_date:         # DD-MMM-YYYY
+  structure_types: [pt]   # steel | rc | pt | composite | timber | masonry | foundations | seismic (drawing labels 'PT SLAB', 'PT BEAM')
+approval:
+  status: DRAFT       # DRAFT | FOR_REVIEW | APPROVED
+  prepared_by:
+  checked_by:
+  approved_by:        # authorised engineer (PE/RE) - required for APPROVED
+  approved_date:
+standards:            # one entry per Eurocode part actually used
+  - {id: EN 1990, generation: null, edition: null, used_for: Basis of design}
+national_annex:
+  mode: UNRESOLVED    # NA | CEN_RECOMMENDED | UNRESOLVED
+  country:
+  references: []      # exact NA document references when mode = NA
+  basis_note:         # required when mode = CEN_RECOMMENDED
+regulatory: []
+# mixed_generation_justification:   # required if 1st and 2nd generation parts are mixed
+design_assumptions:
+  design_working_life_years:
+  consequence_class:
+  units: {length: m, section: mm, force: kN, stress: MPa, pressure: kN/m2}
+materials: []         # {id, element, spec, status: confirmed|assumed|to_confirm, source}
+loads: []             # {id, description, value, unit, status, source}
+combinations: []      # {id, description, status, source}
+analysis_provenance:  # software, version, model_file, model_hash, run_date, export_files[]
+open_items:           # {id, status: open|closed, description}
+  - {id: OI-01, status: open, description: "Project name, client, stage, drawing prefix, revision and issue date not given"}
+  - {id: OI-02, status: open, description: "National Annex mode for this project (company-wide CEN recommended values confirmed 14-OCT-2026, gap G09; confirm it applies here)"}
+  - {id: OI-03, status: open, description: "Materials, loads and combinations not given; needed for M2 (steps 3-6)"}
+  - {id: OI-04, status: open, description: "3F Floor.dxf: two nested rectangles on Cam-PT Wall (16.15 x 11.65 m and 16.85 x 12.35 m) - one core wall about 350 mm thick, or something else?"}
+  - {id: OI-05, status: open, description: "3F Floor.dxf: 18 outlines in block SLAB CAST LATER - slab, later pour, or ignore?"}
