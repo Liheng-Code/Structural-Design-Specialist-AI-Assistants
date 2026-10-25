@@ -3,7 +3,7 @@
 project:
   code: PJR-2026-004 # AAA-YYYY-NNN
   name:
-  description: Mock-up project for the structural-layout DXF to SAFE 22 workflow (Development Plan v2, M1-M4); 3F PT floor
+  description: Mock-up project for the structural-layout DXF to SAFE 22 workflow (Development Plan v2, M1-M4); 3F PT floor of a 22-floor building with a top roof (user, 25-OCT-2026)
   stage:              # e.g. FOR APPROVAL / SHOP DRAWING / PRELIMINARY PT DESIGN
   client:
   drawing_prefix:     # XX-STR  e.g. WH-STR
@@ -37,5 +37,7 @@ open_items:           # {id, status: open|closed, description}
   - {id: OI-01, status: open, description: "Project name, client, stage, drawing prefix, revision and issue date not given"}
   - {id: OI-02, status: open, description: "National Annex mode for this project (company-wide CEN recommended values confirmed 14-OCT-2026, gap G09; confirm it applies here)"}
   - {id: OI-03, status: open, description: "Materials, loads and combinations not given; needed for M2 (steps 3-6)"}
-  - {id: OI-04, status: open, description: "3F Floor.dxf: two nested rectangles on Cam-PT Wall (16.15 x 11.65 m and 16.85 x 12.35 m) - one core wall about 350 mm thick, or something else?"}
-  - {id: OI-05, status: open, description: "3F Floor.dxf: 18 outlines in block SLAB CAST LATER - slab, later pour, or ignore?"}
+  - {id: OI-04, status: closed, description: "3F Floor.dxf: the two nested rectangles on Cam-PT Wall (16.15 x 11.65 m inside 16.85 x 12.35 m) are one core wall, about 350 mm thick (user, 25-OCT-2026: 22 floors and a top roof)"}
+  - {id: OI-05, status: open, description: "3F Floor.dxf: block SLAB CAST LATER holds 18 squares of about 0.5 x 0.5 m on the slab edge (beside perimeter columns), not pour strips. User said 25-OCT-2026 it is the pour-strip legend item and must be considered; confirm what the squares are (e.g. cast-later pockets at tendon stressing ends) and how to model them"}
+  - {id: OI-06, status: open, description: "3F Floor.dxf: pour strips to consider (user, 25-OCT-2026): two strips 2.0 m wide on Cam-PT Pour Strip at x 52.46-54.46 m (y 17.34-28.81 and 37.11-48.93). Pour-strip width, closing time and how the analysis treats them (before and after closure) to be stated"}
+  - {id: OI-07, status: open, description: "Is the 3F layout typical for the other floors, or does each floor need its own layout DXF?"}

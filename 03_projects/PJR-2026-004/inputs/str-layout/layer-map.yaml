@@ -8,15 +8,22 @@ units: mm                       # DXF $INSUNITS = 4
 
 elements:
   column:       {layers: ["CAM-PT Column"], entity: closed polyline}          # 22 found
-  wall:         {layers: ["Cam-PT Wall"], entity: closed polyline}            # 11 found; see open item OI-04
+  wall:         {layers: ["Cam-PT Wall"], entity: closed polyline}            # 11 found; two nested rectangles = one core wall ~350 mm (OI-04, closed)
   slab_edge:    {layers: ["Cam-PT Slab Bounday"], entity: closed polyline}    # 6 found in model space
   opening:      {layers: ["Cam-PT Opening"], entity: closed polyline}         # 20 found; the 40 2-point lines are the X marks inside them
   drop_panel:   {layers: ["Cam-PT Drop Panel"], entity: closed polyline}      # 17 found
   band_beam:    {layers: ["Cam-PT Band beam"], entity: closed polyline}       # 15 found
   beam:         {layers: ["Cam-PT Beam"], entity: closed polyline}            # 10 found
-  pour_strip:   {layers: ["Cam-PT Pour Strip"], entity: closed polyline}      # 3 found
-  sleeve:       {layers: ["Cam-PT Sleeve"], entity: circle or arc}            # 1 group found
+  pour_strip:   {layers: ["Cam-PT Pour Strip"], entity: closed polyline}      # 2 real strips 2.0 m wide at x 52.46-54.46 m (OI-06); the 3rd is a legend sample
+  cast_later:   {block: "SLAB CAST LATER", layers: ["Cam-PT Slab Bounday"], entity: closed polyline}  # 18 squares ~0.5 m on the slab edge; meaning to confirm (OI-05)
+  sleeve:       {layers: ["Cam-PT Sleeve"], entity: circle or arc}            # found only inside the legend frame so far
   grid:         {block: "HTBT G2", entity: line with labelled bubble}         # 11 grids: 1-4, A-G
+
+# The legend shows sample shapes drawn ON the structural layers (3 band beams, 2 beams, 1 drop panel, 3 openings,
+# 1 pour strip, 2 slab edges, the sleeve, 20 labels). Everything inside the legend frame is excluded.
+exclude_regions:
+  - name: legend
+    frame: {layer: "Cam-PT Text", entity: closed polyline, near_text: "LEGEND"}   # x 5.54-19.54 m, y 43.41-56.91 m
 
 labels:                         # text read to attach sizes and names to the elements above
   layers: ["Cam-PT Label Text", "Cam-PT Opening"]
@@ -30,5 +37,4 @@ ignore:                         # not structural input
     - "3F PIPE CLEAN_dwg is a bound pipe drawing nested in a block; it makes up most of the 33 MB."
 
 open:                           # decided by the user before Gate A
-  - "Block SLAB CAST LATER (layer Cam-PT Glass) holds 18 outlines on Cam-PT Slab Bounday: slab, later pour, or ignore? (OI-05)"
-  - "Two nested rectangles on Cam-PT Wall: one core wall about 350 mm thick? (OI-04)"
+  - "Block SLAB CAST LATER: 18 squares ~0.5 x 0.5 m on the slab edge; user says they must be considered - what are they and how are they modelled? (OI-05)"
