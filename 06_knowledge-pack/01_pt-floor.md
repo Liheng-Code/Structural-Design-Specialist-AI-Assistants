@@ -1,6 +1,6 @@
 # Discipline 1 - Post-tensioned floors (PT slabs and band beams; bonded default, unbonded allowed)
 
-Knowledge pack generated 2026-10-25 from commit `34f2fa6`.
+Knowledge pack generated 2026-10-25 from commit `546703d`.
 
 > Generated from the project repository. This is reference material for search and recall, not an approved standard or a calculation result. Each section names its source file; check that file's status header (APPROVED / PROPOSED / DRAFT / SKELETON). Nothing here is engineer-approved unless the source file says so. NotebookLM answers are AI summaries of this text (gap G29).
 
@@ -46,12 +46,12 @@ Scope: post-tensioned concrete slabs and band beams to EN 1992-1-1. **Bonded is 
 | Full PT slab package skill (10 sheets from a draft layout) | `.claude/skills/pt-slab-package/` | Instruction level; its numeric defaults are not design-basis values (gap G30) |
 | PT basis template and validator | `03_projects/_template/pt-basis.yaml`, `04_tools/cadgen/validate_pt_basis.py` | Built |
 | PT screening checks (stress, balanced load, strip solver) | `04_tools/calc_lib/pt/ec2_pt_screen.py`, tests in `tests/test_ec2_pt_screen.py` | Indicative screening only, not a design |
-| PT designer roadmap | `05_docs/development-plan-v2.md`, `05_docs/architecture-v2.md`, `05_docs/adr/` | M0 gate closed by the user 25-OCT-2026; M1 next |
+| PT designer roadmap | `05_docs/development-plan-v2.md`, `05_docs/architecture-v2.md`, `05_docs/adr/` | M0 gate closed by the user 25-OCT-2026; M1 next (architect DXF to reviewed geometry; re-sequenced, ADR-012) |
 | Design knowledge | `knowledge/` | See [knowledge/README.md](knowledge/README.md) |
 | Worked example: 2F PT slab | `03_projects/PJR-2F-PT/` (PT basis, plan/profile data, `redraft/`, `runs/`, `verification/`) | Redraft + screening; gaps G24-G26 open |
 
 #### What is missing
-- Loss calculation, ULS flexure, punching shear and deflection modules (Development Plan v2, M2 onward).
+- Loss calculation, ULS flexure, punching shear and deflection modules (Development Plan v2, M3 and M5).
 - Anchorage, band-beam section and summary sheets.
 - Real SAFE/ETABS export to validate the importer (ADR-002).
 
@@ -4295,6 +4295,8 @@ Supersedes the *structure and sequencing* of Development Plan v1 (file removed 2
 Architecture: [Architecture v2.md](architecture-v2.md).
 
 
+Sequence update 25-OCT-2026 (user decision): milestones M1-M7 re-sequenced to the user's workflow - architect DXF, then the system proposes sizing, loading, load cases, patterns, combinations, support lines, strips and tendons, then builds and runs the model in SAFE 22 (§4, ADR-012).
+
 Scope update 24-OCT-2026 (user decision): unbonded PT is also supported; bonded stays the default. Where this plan says "bonded", read "bonded (default) or unbonded" unless a step is specific to bonded tendons (e.g. ULS tendon stress, gap G32).
 ---
 
@@ -4334,7 +4336,8 @@ Recorded in [05_docs/adr/](adr/README.md). The full records take precedence over
 | ADR | Decision | Open items |
 |---|---|---|
 | [001](adr/ADR-001-python-engineering-core.md) | Python engineering core (pure, typed, mypy-checked); TypeScript only in the front end. Replaces v1 Part 21 rule 3 | - |
-| [002](adr/ADR-002-analysis-adapter-safe-etabs.md) | Analysis through an adapter; SAFE/ETABS import first; in-house FE solver is an optional research track | Real SAFE export (§6 input 1) |
+| [002](adr/ADR-002-analysis-adapter-safe-etabs.md) | Analysis through an adapter; SAFE/ETABS import first; in-house FE solver is an optional research track | Amended by ADR-012 |
+| [012](adr/ADR-012-safe-api-model-build.md) | System builds and runs the SAFE 22 model from the architect DXF through the local CSI API (25-OCT-2026) | SAFE 22 API probe (M4) |
 | [003](adr/ADR-003-yaml-design-basis-source.md) | YAML design basis + PT basis are the source of truth until M6; the database round-trips the same schema | - |
 | [004](adr/ADR-004-design-code-registry.md) | Versioned registry in `04_tools/code_registry/`; `UNVERIFIED` values give NOT EVALUATED; references only, no clause text | NA decision (§6 input 2) |
 | [005](adr/ADR-005-api-fastapi.md) | FastAPI; Pydantic models shared with Claude tool schemas; OpenAPI generates the front-end types | - |
@@ -4359,62 +4362,90 @@ Each milestone ends at a **review gate**: tests pass, benchmark results are tabl
 - **Status (16-OCT-2026):** built, awaiting the gate. `04_tools/calc_lib/core/` (units, status, registry, schemas), `04_tools/code_registry/` (skeleton: EN 1992-1-1:2004 CEN parameter IDs, all values empty and UNVERIFIED), `tests/test_core.py` (34 tests), `pyproject.toml` (mypy strict, ruff). Full suite: 202 tests, 1 failure that predates M0 (`test_pt.Notes`, PT notes sheet 1.3 mm past the border). Open: ADR-007 base units (N, mm, MPa used provisionally).
 - **Gate closed 25-OCT-2026 by the user** ("close the M0"): base units N, mm, MPa inside, kN and kN·m for input and output (ADR-007); schemas accepted as built. Full suite at closure: 233 tests OK, 1 skipped (real `GDT_CleanV3.db` not in the repo); mypy strict and ruff clean. This is the user's acceptance of the software foundations, not an engineering approval. Next: M1.
 
-##### M1 - Real analysis input (unblocks everything else)
-- Get one real SAFE (or ETABS) PT-slab export from the user's software version. *The user must supply this.*
-- Verify `04_tools/etabs/` against it; fix the format assumptions; extend it to strip/section forces and design-strip results if SAFE provides them.
-- Map the results to `AnalysisResults` through the adapter, keeping SHA-256 provenance and the input snapshot.
-- Checks: completeness, load-case mapping, global equilibrium against hand totals, units.
-- **Gate:** import of the real model reproduces SAFE's own reaction totals within stated tolerances.
+##### Re-sequenced 25-OCT-2026 (user decision)
+The user set the workflow: the engineer sends the architect drawing, and the system proposes the model step by step - element sizing, loading, load cases, load patterns, load combinations, support lines, strips, tendons - then builds and runs it in SAFE 22 (ADR-012). Decided with it: input is DXF; analysis is SAFE 22 driven locally through the CSI API; the system stops for the engineer at three gates (A geometry, B sizing and loads, C strips and tendons) and runs automatically between them.
 
-##### M2 - PT calculation library (core engineering value)
-Implement each as a separate module in `04_tools/calc_lib/pt/`, each with hand-calculated benchmarks in `tests/` (v1 Part 9 fields: reference, units, assumptions, tolerance, owner, status):
+This replaces the earlier order, which started from a SAFE model built by the engineer (old M1) and imported CAD last (old M5). Importing an engineer-built SAFE model stays available as a second route (M4) for checking existing designs.
 
-1. Tendon geometry: parabolic profiles, high/low points, inflection points, cover, curvature, angle change.
-2. Friction and wobble loss along the tendon (EN 1992-1-1:2004 5.10.5.2 form; mu and k from approved system data).
-3. Anchorage draw-in and the affected length.
-4. Elastic shortening (where stressing sequence makes it relevant).
-5. Time-dependent losses: creep, shrinkage, relaxation (EN 1992-1-1:2004 5.10.6 and Annex B).
-6. Equivalent prestress actions from profile and force, for export back to the analysis model.
-7. Stress limits at stressing and at service.
-8. SLS concrete stresses at transfer and service; decompression/crack checks as the design basis requires.
-9. Deflection: short and long term, with the method and its limits stated.
-10. ULS flexure with bonded tendon stress.
-11. ULS shear (beam) and punching shear including the prestress contribution.
-12. Anchorage-zone bursting and spalling (reuse and extend `04_tools/calc_lib/rc/ec2_anchorage.py`).
+Old to new numbering, for documents written before 25-OCT-2026 (ADR-001 to ADR-011, the code registry README and comments): old M1 (SAFE import) is now the second route in M4; old M2 (PT calc library) is split between M3 (modules 1-6) and M5 (modules 7-12); old M3 (design loop, reinforcement) is M5; old M4 (deliverables) is M6; old M5 (CAD import) is M1; old M6 (web app, database) is M7. "From M6" or "until M6" in an ADR means the web-app milestone, now M7.
 
-Clause references above are to EN 1992-1-1:2004. Confirm them against the edition recorded in the design basis and the code registry; the 2nd-generation EN 1992-1-1:2023 numbering differs.
+"The system proposes" means: every number comes from the design basis, the PT basis, approved supplier data, the code registry or an ACCEPTED ruleset rule, and is shown to the engineer with its source at the next gate. A missing or UNVERIFIED value stops the step with `NOT EVALUATED`; it is never filled with a default.
 
-Rules: every parameter comes from the design basis, the PT basis, approved system data or the code registry; nothing is hard-coded. A missing input gives `NOT EVALUATED`, never a default.
-- **Gate:** every module matches its benchmarks; the engineer signs off the benchmark table.
+| User step | Milestone | Gate |
+|---|---|---|
+| 1 Architect drawing (engineer) | M1 | A |
+| 2 Element sizing, 3 Loading, 4 Load cases, 5 Load patterns, 6 Load combinations | M2 | B |
+| 7 Support lines, 8 Strips, 9 Tendons | M3 | C |
+| Build, run and read back in SAFE 22 | M4 | D |
+| Design checks, reinforcement, deliverables, web app | M5-M7 | - |
 
-##### M3 - Design loop and reinforcement
-- Design-strip workflow following Architecture v2 diagram 3: trial sizing, tendon arrangement, losses, equivalent loads, re-analysis (export the load cases to SAFE, import the results), SLS, ULS.
-- Iteration record, iteration limit, and a design-failed report (v1 Part 10.7).
+##### M1 - Architect DXF to reviewed geometry (user step 1)
+- Generalise `03_projects/PJR-2F-PT/redraft/convert_plan_to_pt_data.py` into a DXF reader in `04_tools/model_builder/` (Architecture v2 diagram 2). Architect layer names differ per office, so a per-project layer map (YAML) says which layers hold columns, walls, slab edge, openings, grids and levels.
+- Output: `GeometryModel` (M0 schema): grids, columns, walls, slab regions, openings, drop panels, band-beam lines; units from the DXF header, checked.
+- Preflight checks: closed slab boundary, duplicate or overlapping elements, columns outside the slab, unsupported entities, unit sanity (a 6 m span read as 6 mm).
+- Review output for the engineer: an overlay preview (PDF/DXF) with every recognised element labelled, a list of what was not recognised, and a `GeometryReview` record. Corrections are saved as a checksummed snapshot.
+- Benchmarks: the 2F PT layout (PJR-2F-PT) and one more real architect DXF.
+- **Gate A:** the engineer confirms the geometry of both drawings; all fatal errors are caught; re-running gives the same snapshot.
+
+##### M2 - Proposed sizing and loading (user steps 2-6)
+- Step 2, sizing: slab thickness, band beam or drop panel depth and width, with a column-size flag, proposed from span-to-depth rules. Only rules marked ACCEPTED in `02_disciplines/pt-floor/knowledge/pt-master-ruleset.yaml` are used (gap G33: all are UNVERIFIED today).
+- Step 3, loading: self-weight from geometry and concrete density; superimposed dead load, live load per area, and line loads (facade, partitions) from the design basis. The system assigns them to regions; it does not choose their values.
+- Step 4, load cases: dead, superimposed dead, live, prestress (placeholder until M3), and others the design basis lists.
+- Step 5, load patterns: live-load patterning as the design basis records it (rule and pattern set stated, never assumed).
+- Step 6, load combinations: EN 1990 ULS and SLS (characteristic, frequent, quasi-permanent) with partial and psi factors from the code registry. Needs a new `04_tools/code_registry/EN1990_2002_CEN.yaml`, values entered by the engineer.
+- Output: a model-definition file (sizes, load assignments, `LoadCase`, `Combination`), each value carrying its source.
+- **Gate B:** the engineer reviews the sizing and loading summary and accepts or edits it.
+
+##### M3 - Support lines, strips and tendons (user steps 7-9)
+- Step 7, support lines: generated from column and wall lines in both directions; the engineer can move or merge them at the gate.
+- Step 8, design strips: column and middle strip widths from the support lines, by the method the design basis states.
+- Step 9, tendons: layout type (banded or distributed) and arrangement from ACCEPTED rules (G33, G34); profiles from cover and support geometry; tendon force from a load-balancing target the design basis states.
+- PT calculation modules needed for step 9, each a separate module in `04_tools/calc_lib/pt/` with hand-calculated benchmarks in `tests/` (v1 Part 9 fields: reference, units, assumptions, tolerance, owner, status):
+  1. Tendon geometry: parabolic profiles, high/low points, inflection points, cover, curvature, angle change.
+  2. Friction and wobble loss along the tendon (EN 1992-1-1:2004 5.10.5.2 form; mu and k from approved system data).
+  3. Anchorage draw-in and the affected length.
+  4. Elastic shortening (where stressing sequence makes it relevant).
+  5. Time-dependent losses: creep, shrinkage, relaxation (EN 1992-1-1:2004 5.10.6 and Annex B).
+  6. Equivalent prestress actions from profile and force.
+- Module 1 needs no supplier data and can start first; modules 2-5 need the PT system ETA (section 6, input 3).
+- **Gate C:** the engineer reviews support lines, strips and the tendon layout, profiles and forces; modules 1-6 match their benchmarks.
+
+##### M4 - Build, run and read back in SAFE 22 (ADR-012)
+- Probe the SAFE 22 API on the user's PC (CSI OAPI through `comtypes`): version, licence, a one-panel test model. Nothing else starts until this works.
+- Build the model from the Gate A-C data: materials, slab areas and band beams, columns and walls as supports, mesh settings, loads, load cases, patterns, combinations, tendon objects (path, profile, strands, jacking force), support lines and strips.
+- Save as a new SAFE file; record every API call and the SAFE object IDs (audit trail, input snapshot, SHA-256).
+- Run the analysis; read errors and warnings; extract reactions, strip forces and deflections into `AnalysisResults` (reuse `04_tools/etabs/etabs_db_import.py` concepts and its provenance checks).
+- Second route: import an engineer-built SAFE model's results (`.db` export) for checking existing designs; this replaces the old M1 and still needs one real export with results (gap G16).
+- **Gate D:** SAFE reaction totals equal the applied load totals within stated tolerances; the engineer opens the generated model in SAFE and confirms it matches the reviewed data.
+
+##### M5 - Design checks and reinforcement
+- Remaining PT modules in `04_tools/calc_lib/pt/`, with benchmarks as in M3:
+  7. Stress limits at stressing and at service.
+  8. SLS concrete stresses at transfer and service; decompression/crack checks as the design basis requires.
+  9. Deflection: short and long term, with the method and its limits stated.
+  10. ULS flexure with bonded tendon stress (unbonded: gap G32).
+  11. ULS shear (beam) and punching shear including the prestress contribution.
+  12. Anchorage-zone bursting and spalling (reuse and extend `04_tools/calc_lib/rc/ec2_anchorage.py`).
+- Design loop (Architecture v2 diagram 3): change the tendons, rebuild and re-run in SAFE (M4), re-check; iteration record, iteration limit and a design-failed report (v1 Part 10.7).
 - Conventional reinforcement (v1 Part 11): required areas, minimums, spacing, cover, laps, curtailment, punching reinforcement, trimming at openings.
 - Clash checks: tendon against tendon, tendon against openings, tendon against bars and anchorages.
-- **Gate:** one benchmark floor (PJR-2F-PT recommended) runs end to end, with every check result recorded.
+- Clause references are to EN 1992-1-1:2004; confirm them against the edition in the design basis and the code registry (EN 1992-1-1:2023 numbering differs).
+- **Gate:** the benchmark floor (PJR-2F-PT recommended) runs end to end with every check result recorded; the engineer signs off the benchmark table.
 
-##### M4 - Deliverables wired to the design data
-- Feed `pt_plan.py`, `pt_profiles.py`, `build_sheets.py` and the reinforcement sheets from M2/M3 outputs instead of hand-made JSON.
+##### M6 - Deliverables wired to the design data
+- Feed `pt_plan.py`, `pt_profiles.py`, `build_sheets.py` and the reinforcement sheets from M3-M5 outputs instead of hand-made JSON.
 - Calc report sections (v1 Part 13) generated from `CheckResult` records; workbooks for each new check; tendon/anchorage and bar schedules from the same objects as the drawings.
 - Specification sections for PT materials, stressing and grouting from the approved templates (v1 Part 14); supplier requirements only from supplied documents.
 - Extend `04_tools/qa/package_qa.py`: drawing values against calc values against schedules.
 - Everything is generated as DRAFT. Sheet numbers come from the standards and the register.
 - **Gate:** package QA passes on the benchmark floor; the engineer reviews the draft package.
 
-##### M5 - CAD import and geometry review
-- Generalise `03_projects/PJR-2F-PT/redraft/convert_plan_to_pt_data.py` into a DXF importer following Architecture v2 diagram 2.
-- DWG: support it only once a converter is installed and tested on the user's PC (see `probe_result.json` and the `convert_*_dwg.bat` scripts); otherwise ask for a DXF.
-- Geometry validation (v1 Part 5, Module B); review/correction output saved as a checksummed snapshot.
-- Output: a `GeometryModel` that can produce the SAFE model input or check it against the imported SAFE geometry.
-- **Gate:** two real layouts import with all fatal errors caught and the corrected geometry reproducible.
-
-##### M6 - Web application, database, roles, approval workflow
+##### M7 - Web application, database, roles, approval workflow
 - **Early slice built 16-OCT-2026 at the user's request** (`webapp/`, local mockup): landing page, AI connection (key + model + test), projects, file import (DXF read, DWG converted with AutoCAD 2023 console, PDF view, DWF/DWFX stored), project assistant. Local SQLite/files instead of Supabase; no sign-in or roles yet. Mockup removed from the repo 24-OCT-2026 (recover from git history, commit 98caf82, `webapp/`).
 - v1 Parts 16-18 on top of the proven core: project dashboard, workspace tabs, CAD review, results and checks screens, review and issue.
 - Database schema from v1 Part 17, plus stale-result tracking and immutable input snapshots.
 - Roles enforced on the server; approval is recorded only from a signed-in engineer with the Approver role.
-- Claude orchestration (v1 Part 15) server-side, exposing only the implemented tools; uploaded CAD text is treated as untrusted.
+- Claude orchestration (v1 Part 15) server-side, exposing only the implemented tools; uploaded CAD text is treated as untrusted. SAFE stays on the engineer's PC (ADR-012).
 - **Gate:** security review; end-to-end run of the benchmark floor through the UI matches the CLI results exactly.
 
 ##### Research track (optional, not blocking v1) - In-house FE solver
@@ -4423,19 +4454,22 @@ Rules: every parameter comes from the design basis, the PT basis, approved syste
 
 #### 5. Definition of done for v1 (controlled engineering beta)
 
-v1 Part 22 applies, with step 6 read as "import or run a validated structural analysis through the adapter" and step 1 as "DXF, or DWG only where conversion has been tested".
+v1 Part 22 applies, with step 1 read as "DXF" and step 6 as "build and run the model in SAFE 22 through the API (ADR-012), or import an engineer-built SAFE model's results, through the adapter".
 
 #### 6. Inputs needed from the user
 
 | # | Needed for | Item |
 |---|---|---|
-| 1 | M1 | One real SAFE/ETABS PT model plus its exported tables (and the software version) |
-| 2 | M0, M2 | National Annex decision per project, or confirmation that CEN recommended values apply |
-| 3 | M2 | Approved PT system data sheet / ETA (mu, k, draw-in, relaxation class, anchorage data) |
-| 4 | M2 | Hand calculations or verified reference results for benchmarks (or approval of agent-prepared ones after an engineer's check) |
-| 5 | M5 | Whether an ODA File Converter or AutoCAD batch route is available on the production PC |
-| 6 | M6 | Container host provider for the API and workers (Supabase and Vercel are decided in ADR-008) |
-| 7 | M0 | Internal base units for the core (ADR-007): DONE 25-OCT-2026, N, mm, MPa inside, kN in/out |
+| 1 | M1 | Two real architect floor plans as DXF (one can be the 2F PT layout), and the layer names the architect used |
+| 2 | M0, M2 | National Annex decision per project, or confirmation that CEN recommended values apply (CEN confirmed 14-OCT-2026, gap G09) |
+| 3 | M3 | Approved PT system data sheet / ETA (mu, k, draw-in, relaxation class, anchorage data) |
+| 4 | M3, M5 | Hand calculations or verified reference results for benchmarks (or approval of agent-prepared ones after an engineer's check) |
+| 5 | M2, M3 | Engineer review of the PT rulesets (G33, G34): sizing and tendon-layout rules must be ACCEPTED before the system uses them |
+| 6 | M2 | EN 1990 partial and psi factors entered in the code registry by the engineer; loads, live-load patterning rule and strip method in the design basis |
+| 7 | M4 | SAFE 22 licence available for API use on the PC that runs the system |
+| 8 | M4 (second route) | One real SAFE/ETABS `.db` export with results included, and the software version (gap G16) |
+| 9 | M7 | Container host provider for the API and workers (Supabase and Vercel are decided in ADR-008) |
+| 10 | M0 | Internal base units for the core (ADR-007): DONE 25-OCT-2026, N, mm, MPa inside, kN in/out |
 
 #### 7. Instruction for an implementing agent
 

@@ -1,6 +1,6 @@
 # ADR-002 - Analysis through an adapter; SAFE/ETABS import first
 
-Status: ACCEPTED (user, 16-OCT-2026)
+Status: ACCEPTED (user, 16-OCT-2026). Amended by [ADR-012](ADR-012-safe-api-model-build.md) (25-OCT-2026): the system now builds and runs the SAFE 22 model through the local CSI API; importing an engineer-built model stays as a second route.
 
 ## Context
 v1 milestone M4 asked for an in-house, verified plate/shell FE solver with prestress, staged construction and long-term effects. That is a specialist product in its own right. The repo already has a SAFE/ETABS table importer (`04_tools/etabs/`) with unit normalisation, equilibrium checks and SHA-256 provenance, tested only on a synthetic export.
